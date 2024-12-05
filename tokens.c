@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 22:22:29 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/05 22:29:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,24 @@ t_tokens *ft_create_token(t_first *f, int len, int flag, char *str)
     return (new);
 }
 
-void	add_back_token(t_tokens *lst, t_tokens *new)
+void	add_back_token(t_tokens **lst, t_tokens *new)
 {
     static int i = 1;
 	t_tokens	*last;
 
-    if (lst == NULL)
+    if (*lst == NULL)
     {
-        lst = new;
+        *lst = new;
         return ;
     }
-	last = ft_lstlastt(lst);
+	last = ft_lstlastt(*lst);
     printf("time num %d\n", i);
     printf("last %s\n", last->data);
     i++;
 	last->next = new;
     printf("new %s\n", new->data);
 }
+
 
 t_tokens *operators_token(char *str, t_first *f , int len)  // handel ||   |   &&   >> << > <
 {
@@ -204,13 +205,13 @@ void tokens(t_first *f, char *str)
             printf("what did you give : |%c|?\n", str[f->i]);
         }
         printf("string #%s#  len #%d#   flag #%c#\n", current_token->data, current_token->len, current_token->type);
-        add_back_token(f->token_list, current_token);
+        add_back_token(&f->token_list, current_token);
     }
     printf("the list\n");
     t_tokens *tmp = f->token_list;
     while(tmp)
     {
-        printf("s: %s", tmp->data);
+        printf("s: %s\n", tmp->data);
         tmp = tmp->next;
     }
 } // echo $_ handel this later
