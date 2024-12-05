@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 22:29:58 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/05 22:32:32 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,8 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
         return ;
     }
 	last = ft_lstlastt(*lst);
-    printf("time num %d\n", i);
-    printf("last %s\n", last->data);
     i++;
 	last->next = new;
-    printf("new %s\n", new->data);
 }
 
 
@@ -145,7 +142,6 @@ t_tokens *dollar_token(char *str, t_first *f , int len)  // this can be shorter 
         if (flag == 'e')
             f->i++;
     }
-    printf("flag: %c\n", flag);
     len = f->i - len;
     return (ft_create_token(f, len, flag, str));
 }
@@ -189,7 +185,6 @@ void tokens(t_first *f, char *str)
     while (str[f->i])
     {   
         len = f->i;
-        printf("current char: %c\n", str[f->i]);
         if (str[f->i] == '$')                                // handel $      $()     $(())    //  handel $(())  not handled $(((())))
             current_token = dollar_token(str, f, len);
         else if (ft_isquote(str[f->i]) == 1)                 // handel () "" ''   // handel ("") // not handled (())
