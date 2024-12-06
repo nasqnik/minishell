@@ -2,6 +2,12 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 LIBFT = libft/libft.a
+
+RLFLAGS		=	-lreadline -lhistory
+RLDIR		=	-L/opt/vagrant/embedded/lib
+RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
+
+
 SRC = minishell.c tokens.c token_types.c token_utils.c\
 	linked_list.c print.c 
  
@@ -11,7 +17,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(RLDIR) $(RLINC) $(OBJ) $(LIBFT) $(RLFLAGS) -o $(NAME)
 
 $(LIBFT):
 	make all -C libft

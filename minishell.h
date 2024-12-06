@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 16:30:53 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:01:12 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,12 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h> 
 
-// enum
-// {
-//     COMMAND,
-//     OP,
-//     FLAG,
-//     ARG,
-//     WORD,
-//     DEL,
-// };
+extern int sig;
 
 typedef enum e_token_type
 {
@@ -39,7 +32,7 @@ typedef enum e_token_type
     REDIRECT_APPEND, // >>
     HEREDOC,         // <<
     ENV_VAR,         // $VARIABLE
-    SPACE,           // Whitespace
+    WSPACE,           // Whitespace
     D_QUOTES,       // " " (we will need to expand the variables)
     S_QUOTES,          // ' ' (no need to expand)
     LOGIC_AND,       // &&  
@@ -54,20 +47,17 @@ typedef struct s_tokens
 {
     char *data;
     int len;
-    // int flag;
     int type;
     struct s_tokens *next;    
 }           t_tokens;
 
 typedef struct s_first
 {
-    
     char    *buffer;
-    char    **input;
     t_tokens *token_list;
+    t_list  *envp_list;
+    // int     error_signal;
     int     i;
-    int     j;
-    char    flag;
 }           t_first;
 
 void open_the_shell(t_first *f);
@@ -91,6 +81,7 @@ t_tokens *space_token(char *str, t_first *f);
 t_tokens *ft_lstlast_token(t_tokens *lst);
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str);
 void	add_back_token(t_tokens **lst, t_tokens *new);
+void	ft_clear_tokens(t_tokens **lst);
 
 // token_utils.c
 int check_brackets(char *str, t_first *f);

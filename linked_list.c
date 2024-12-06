@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:31:03 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/06 14:03:12 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:25:46 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,7 @@ t_tokens *ft_create_token(t_first *f, int len, int type, char *str)
     new = malloc(sizeof(t_tokens));
     if (new)
     {
-        if (type != SPACE)
-            new->data = ft_substr(str, f->i - len, len);
-        else
-        {
-            new->data = malloc(2);
-            new->data = " \0";
-        }
+        new->data = ft_substr(str, f->i - len, len);
         new->len = len;
         new->type = type;
         new->next = NULL;
@@ -57,4 +51,22 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
 	last = ft_lstlast_token(*lst);
     i++;
 	last->next = new;
+}
+
+void	ft_clear_tokens(t_tokens **lst)
+{
+	t_tokens	*current;
+	t_tokens	*tmp;
+
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		tmp = current;
+		current = current->next;
+		free(tmp->data);
+		free(tmp);
+	}
+	*lst = NULL;
 }

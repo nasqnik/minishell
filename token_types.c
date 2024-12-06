@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/06 16:43:08 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:42:40 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ t_tokens *bracket_token(char *str, t_first *f , int len)
         }
     }
     if (open_B != close_B)
+    {
         handle_error(f, "hey, the brackets are not matching", 1);
+    }
     len = f->i - len;
     return (ft_create_token(f, len, type, str)); 
 }
@@ -111,7 +113,7 @@ t_tokens *space_token(char *str, t_first *f)
 {
     while (str[f->i] && ft_isspace(str[f->i]) == 1)
         f->i++;
-    return (ft_create_token(f, 1, SPACE, str));
+    return (ft_create_token(f, 1, WSPACE, str));
 }
 
 

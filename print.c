@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 14:59:04 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:36:31 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void handle_error(t_first *f, char *msg, int flag)
 {
-    (void)f;
     printf("\033[31m %s\033[00m\n", msg);
     if (flag == 1)
-        printf("\033[31mfree list\033[00m\n");
+    {
+        ft_clear_tokens(&(f->token_list));
+        free(f->buffer);
+    }
+    f->error_flag = 1;
     // i think we should use a signal here
     return ;
 }
@@ -31,7 +34,7 @@ const char *token_type_to_string(t_token_type type) {
         case REDIRECT_APPEND: return "REDIRECT_APPEND (>>)";
         case HEREDOC: return "HEREDOC (<<)";
         case ENV_VAR: return "ENV_VAR";
-        case SPACE: return "SPACE";
+        case WSPACE: return "SPACE";
         case D_QUOTES: return "D_QUOTES";
         case S_QUOTES: return "S_QUOTES";
         case LOGIC_AND: return "LOGIC_AND";
