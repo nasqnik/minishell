@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 22:02:44 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/06 15:30:15 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int main(int ac, char **av) {
         if (*f.buffer != '\0')
         {
             // check_parenthesis(&f);
-            tokens(&f, f.buffer);
-            // parsing(&f);
+            parsing(&f);
             // handle_the_input(&f);
             add_history(f.buffer);
         }
@@ -80,9 +79,4 @@ void check_parenthesis(t_first *f)
         printf("fine    \n");
     if (flag == 0)
         printf("not fine     \n");
-}
-
-void parsing(t_first *f)
-{
-    (void)f;
 }

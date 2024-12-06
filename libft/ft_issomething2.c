@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_issomething2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:34:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 21:51:14 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/06 13:54:14 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_isprint(int c)
 
 int ft_isspace(int c)
 {
-	if (c == 32)
+	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }

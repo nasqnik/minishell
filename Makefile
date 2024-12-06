@@ -2,7 +2,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 LIBFT = libft/libft.a
-SRC = minishell.c open_shell.c handle_input.c helper/do_op.c tokens.c print.c
+SRC = minishell.c tokens.c token_types.c token_utils.c\
+	linked_list.c print.c 
  
 OBJ = $(SRC:.c=.o)
 

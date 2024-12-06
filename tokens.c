@@ -3,238 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 22:32:32 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/06 15:32:05 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_tokens *dollar_token(char *str, t_first *f , int len)  // this can be shorter <now i am lazy to think>
-// {
-//     char flag;
-//     // int brackets_num;
-//     f->i++;
-//     flag = 'E'; // expansion
-//     if (str[f->i] == ' ')
-//         return (ft_create_token(f, f->i - len, 's', str));
-//     if (str[f->i] == '(')
-//     {
-//         f->i++;
-//         flag = 'e';// expansion but with ()
-//         if (str[f->i] == '(')
-//             flag = 'u'; // equation
-//     }
-//     if (flag == 'u')
-//     {
-//         while (str[f->i] && (ft_isdigit(str[f->i]) == 1 || str[f->i] == 32 || ft_isop(str[f->i]) == 1))
-//             f->i++;
-//         if (str[f->i] != ')' && str[++f->i] != ')')
-//             handle_error(f, "<<<close (( with ))>>>", 1);
-//         f->i += 2;
-//     }
-//     else
-//     {
-//         while (str[f->i] && ((str[f->i] != ')' && flag == 'e') || (str[f->i] != ' ' && flag == 'E')))
-//             f->i++;
-//         if (str[f->i] != ')' && flag == 'e')
-//             handle_error(f, "<<<close (( with ))>>>", 1);
-//         if (flag == 'e')
-//             f->i++;
-//     }
-//     len = f->i - len;
-//     return (ft_create_token(f, len, flag, str));
-// }
-
-// void tokens(t_first *f, char *str)
-// {
-//     f->i = 0;
-//     int len;
-//     char flag = 'n';
-    
-//     while (str[f->i])
-//     {   
-//         len = f->i;
-//         if (ft_isalnum(str[f->i]) == 1)
-//         {
-// 			flag = 'n';
-
-//             while (str[f->i] && ft_isspace(str[f->i]) == 0)
-//                 f->i++;
-//         }
-//         else if (str[f->i] && ft_isspace(str[f->i]) == 1)
-//         {
-//             flag = 's'; 
-//             while (str[f->i] && ft_isspace(str[f->i]) == 1)
-//                 f->i++;
-//         }
-//         if (flag == 's')
-//             len = 1;
-//         else
-//             len = f->i - len;
-        
-//     }
-// }
-// m a r i a m         a   n  a \0
-// 0 1 2 3 4 5 6 7 8 9 10 11 12  13
-
-
-t_tokens *ft_lstlastt(t_tokens *lst)
+void parsing(t_first *f)
 {
-	if (!lst)
-		return (0);
-	while (lst->next != NULL)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-t_tokens *ft_create_token(t_first *f, int len, int flag, char *str)
-{
-    t_tokens *new;
-    
-    new = malloc(sizeof(t_tokens));
-    if (new)
-    {
-        if (flag != 's')
-            new->data = ft_substr(str, f->i - len, len);
-        else
-        {
-            new->data = malloc(2);
-            new->data = " \0";
-        }
-        new->len = len;
-        new->type = flag;
-        new->next = NULL;
-    }
-    return (new);
-}
-
-void	add_back_token(t_tokens **lst, t_tokens *new)
-{
-    static int i = 1;
-	t_tokens	*last;
-
-    if (*lst == NULL)
-    {
-        *lst = new;
-        return ;
-    }
-	last = ft_lstlastt(*lst);
-    i++;
-	last->next = new;
+    lexer(f, f->buffer);
 }
 
 
-t_tokens *operators_token(char *str, t_first *f , int len)  // handel ||   |   &&   >> << > <
+void lexer(t_first *f, char *str)
 {
-    char flag = 'o';
-    char cur = str[f->i];
-    
-    f->i++;
-    if (str[f->i] == cur)
-    {
-        f->i++;
-        flag = 'O';
-    }
-    if (cur == '&' && flag != 'O') //    \ (backslash) not required so we will not handel echo \&
-        handle_error(f, "you cant use one &", 1);
-    len = f->i - len;
-    return (ft_create_token(f, len, flag, str));
-}
-
-t_tokens *dollar_token(char *str, t_first *f , int len)  // this can be shorter <now i am lazy to think>
-{
-    char flag;
-    int brackets_num = 0;
-    int close = 0;
-    (void)close;
-    f->i++;
-    flag = 'E'; // expansion
-    if (str[f->i] == ' ' || str[f->i] == '\0')
-        return (ft_create_token(f, f->i - len, 'n', str));
-    if (str[f->i] == '(')
-    {
-        while (str[f->i] == '(')
-        {
-            brackets_num++;
-            f->i++;
-        }
-        while (str[f->i] && str[f->i] != ')' && ((brackets_num > 1 && ( ft_isdigit(str[f->i]) == 1 || ft_isop(str[f->i]) == 1 )) || (brackets_num == 1)))
-            f->i++;
-        while (str[f->i] && str[f->i] == ')')
-        {
-            printf("h\n");
-            f->i++;
-            close++;
-        }
-        if (close != brackets_num)
-            handle_error(f, "<<<close (( with ))>>>", 1);
-    }
-    if (brackets_num == 1)
-        flag = 'u'; // equation
-    if (brackets_num > 1)
-        flag = 'e'; // expansion but with ()
-    len = f->i - len;
-    return (ft_create_token(f, len, flag, str));
-}    
-
-t_tokens *quote_token(char *str, t_first *f , int len)
-{
-    char close = ft_close(str[f->i]);
-    f->i++;
-    while (str[f->i] && str[f->i] != close)
-        f->i++;
-    if (str[f->i] && str[f->i] == close)
-        f->i++;
-    else
-        handle_error(f, "you did not close like this "" | '' | ()", 1);
-    len = f->i - len;
-    return (ft_create_token(f, len, 'q', str)); 
-}
-
-t_tokens *alnum_token(char *str, t_first *f , int len)
-{
-    while (str[f->i] && ft_isspace(str[f->i]) == 0)
-        f->i++;
-    len = f->i - len;
-    return (ft_create_token(f, len, 'n', str)); 
-}
-
-t_tokens *delimiter_token(char *str, t_first *f)
-{
-    while (str[f->i] && ft_isspace(str[f->i]) == 1)
-        f->i++;
-    return (ft_create_token(f, 1, 's', str));
-}
-void tokens(t_first *f, char *str)
-{
+    int len;
     t_tokens *current_token;
     f->i = 0;
-    int len;
     f->token_list = NULL;
     
+    while (str[f->i] && ft_isspace(str[f->i]) == 1)
+        f->i++;
     while (str[f->i])
     {   
         len = f->i;
-        if (str[f->i] == '$')                                // handel $  $()  $(()) //  h handled $(((())))
-            current_token = dollar_token(str, f, len);
-        else if (ft_isquote(str[f->i]) == 1)                 // handel () "" ''   // handel ("") // not handled (())
-            current_token = quote_token(str, f, len); 
-        else if (ft_isoperator(str[f->i]) == 1) // handel ||   |   &&   >> << > <
+        if (str[f->i] == '$')                              
+            current_token = variable_token(str, f, len);
+        else if (ft_isquote(str[f->i]) == 1)                 // not handled (())
+            current_token = quote_and_bracket_token(str, f, len); 
+        else if (ft_isoperator(str[f->i]) == 1)
             current_token = operators_token(str, f, len);
-        else if (ft_isalnum(str[f->i]) == 1)
-            current_token = alnum_token(str, f, len);
         else if (ft_isspace(str[f->i]) == 1)
-            current_token = delimiter_token(str, f);
+            current_token = space_token(str, f);
         else
-        {
-            printf("what did you give : |%c|?\n", str[f->i]);
-        }
-        printf("string #%s#  len #%d#   flag #%c#\n", current_token->data, current_token->len, current_token->type);
+            current_token = word_token(str, f, len);
+        printf("string :   #%s#  len :%d ", current_token->data, current_token->len);
+        printf("      type: %s\n", token_type_to_string(current_token->type));
         add_back_token(&f->token_list, current_token);
     }
     printf("the list\n");
