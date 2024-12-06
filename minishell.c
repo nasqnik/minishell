@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void handle_signal(int signal) {
-    if (signal == SIGINT) {
-        write(1, "\n", 1); // Print newline
-        exit(0);           // Exit gracefully
-    }
-}
+// void handle_signal(int signal) {
+//     if (signal == SIGINT) {
+//         write(1, "\n", 1); // Print newline
+//         exit(0);           // Exit gracefully
+//     }
+// }
 
 int main(int ac, char **av) {
     t_first f;
@@ -30,7 +30,7 @@ int main(int ac, char **av) {
         return(1);
     }
 
-    signal(SIGINT, handle_signal);
+    // signal(SIGINT, handle_signal);
     while (1) {
         f.buffer = readline("\033[92mminishell$ \033[00m");
         if (!f.buffer) {

@@ -12,6 +12,41 @@
 
 #include "minishell.h"
 
+// t_tokens *dollar_token(char *str, t_first *f , int len)  // this can be shorter <now i am lazy to think>
+// {
+//     char flag;
+//     // int brackets_num;
+//     f->i++;
+//     flag = 'E'; // expansion
+//     if (str[f->i] == ' ')
+//         return (ft_create_token(f, f->i - len, 's', str));
+//     if (str[f->i] == '(')
+//     {
+//         f->i++;
+//         flag = 'e';// expansion but with ()
+//         if (str[f->i] == '(')
+//             flag = 'u'; // equation
+//     }
+//     if (flag == 'u')
+//     {
+//         while (str[f->i] && (ft_isdigit(str[f->i]) == 1 || str[f->i] == 32 || ft_isop(str[f->i]) == 1))
+//             f->i++;
+//         if (str[f->i] != ')' && str[++f->i] != ')')
+//             handle_error(f, "<<<close (( with ))>>>", 1);
+//         f->i += 2;
+//     }
+//     else
+//     {
+//         while (str[f->i] && ((str[f->i] != ')' && flag == 'e') || (str[f->i] != ' ' && flag == 'E')))
+//             f->i++;
+//         if (str[f->i] != ')' && flag == 'e')
+//             handle_error(f, "<<<close (( with ))>>>", 1);
+//         if (flag == 'e')
+//             f->i++;
+//     }
+//     len = f->i - len;
+//     return (ft_create_token(f, len, flag, str));
+// }
 
 // void tokens(t_first *f, char *str)
 // {
@@ -114,38 +149,38 @@ t_tokens *operators_token(char *str, t_first *f , int len)  // handel ||   |   &
 t_tokens *dollar_token(char *str, t_first *f , int len)  // this can be shorter <now i am lazy to think>
 {
     char flag;
+    int brackets_num = 0;
+    int close = 0;
+    (void)close;
     f->i++;
     flag = 'E'; // expansion
-    if (str[f->i] == ' ')
-        return (ft_create_token(f, f->i - len, 's', str));
+    if (str[f->i] == ' ' || str[f->i] == '\0')
+        return (ft_create_token(f, f->i - len, 'n', str));
     if (str[f->i] == '(')
     {
-        f->i++;
-        flag = 'e';// expansion but with ()
-        if (str[f->i] == '(')
-            flag = 'u'; // equation
-    }
-    if (flag == 'u')
-    {
-        while (str[f->i] && (ft_isdigit(str[f->i]) == 1 || str[f->i] == 32 || ft_isop(str[f->i]) == 1))
+        while (str[f->i] == '(')
+        {
+            brackets_num++;
             f->i++;
-        if (str[f->i] != ')' && str[++f->i] != ')')
+        }
+        while (str[f->i] && str[f->i] != ')' && ((brackets_num > 1 && ( ft_isdigit(str[f->i]) == 1 || ft_isop(str[f->i]) == 1 )) || (brackets_num == 1)))
+            f->i++;
+        while (str[f->i] && str[f->i] == ')')
+        {
+            printf("h\n");
+            f->i++;
+            close++;
+        }
+        if (close != brackets_num)
             handle_error(f, "<<<close (( with ))>>>", 1);
-        f->i += 2;
     }
-    else
-    {
-        while (str[f->i] && ((str[f->i] != ')' && flag == 'e') || (str[f->i] != ' ' && flag == 'E')))
-            f->i++;
-        if (str[f->i] != ')' && flag == 'e')
-            handle_error(f, "<<<close (( with ))>>>", 1);
-        if (flag == 'e')
-            f->i++;
-    }
+    if (brackets_num == 1)
+        flag = 'u'; // equation
+    if (brackets_num > 1)
+        flag = 'e'; // expansion but with ()
     len = f->i - len;
     return (ft_create_token(f, len, flag, str));
-}
-    
+}    
 
 t_tokens *quote_token(char *str, t_first *f , int len)
 {
@@ -185,7 +220,7 @@ void tokens(t_first *f, char *str)
     while (str[f->i])
     {   
         len = f->i;
-        if (str[f->i] == '$')                                // handel $      $()     $(())    //  handel $(())  not handled $(((())))
+        if (str[f->i] == '$')                                // handel $  $()  $(()) //  h handled $(((())))
             current_token = dollar_token(str, f, len);
         else if (ft_isquote(str[f->i]) == 1)                 // handel () "" ''   // handel ("") // not handled (())
             current_token = quote_token(str, f, len); 
