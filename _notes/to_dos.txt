@@ -1,11 +1,26 @@
 To learn
-                            M   A
-- Signals:                  +   -
-- Binary Trees:             +   -
+                                                                M   A
+- Signals:                                                      +   -
+- AST                                                           +   -
 - Learn all of 
-the commands                +   -
+the commands                                                    +   -
 
-                            status
+
+
+
+
+                                                                status
 To do
-- Set up Git repo:          done
-- Write the timeline plan   
+- Handle exit
+- Decide on the AST
+- tab is not working as a space - check the possibilities
+- change the name of the shell and decide on the name
+- error function - match the messages and the signals?
+- make sure bout the braket handleing in subshell (   ( )  )
+
+
+
+
+Done:
+- Write the timeline plan   kinda
+- Set up Git repo           done

@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:34:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 13:54:14 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:29:59 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int ft_isspace(int c)
 
 int ft_isquote(int c)
 {
-	if (c == 39 || c == 34 || c == 40)
+	if (c == 39 || c == 34)
 		return (1);
 	return (0);
 }

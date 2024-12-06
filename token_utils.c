@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:05:51 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/06 15:01:39 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:08:05 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int check_brackets(char *str, t_first *f)
         }
         while (str[f->i] && str[f->i] != ')' 
             && ((brackets_num > 1 && (ft_isdigit(str[f->i]) == 1 
-            || ft_isop(str[f->i]) == 1 )) || (brackets_num == 1)))
+            || ft_isop(str[f->i]) == 1 || ft_isspace(str[f->i]) == 1)) || (brackets_num == 1)))
             f->i++;
         while (str[f->i] && str[f->i] == ')')
         {

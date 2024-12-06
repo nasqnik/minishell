@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 15:30:46 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:30:53 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void lexer(t_first *f, char *str);
 // token_types.c
 t_tokens *operators_token(char *str, t_first *f , int len);
 t_tokens *variable_token(char *str, t_first *f , int len);
-t_tokens *quote_and_bracket_token(char *str, t_first *f , int len);
+t_tokens *quote_token(char *str, t_first *f , int len);
+t_tokens *bracket_token(char *str, t_first *f , int len);
 t_tokens *word_token(char *str, t_first *f , int len);
 t_tokens *space_token(char *str, t_first *f);
 

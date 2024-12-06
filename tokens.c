@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 15:32:05 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:32:21 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void lexer(t_first *f, char *str)
         if (str[f->i] == '$')                              
             current_token = variable_token(str, f, len);
         else if (ft_isquote(str[f->i]) == 1)                 // not handled (())
-            current_token = quote_and_bracket_token(str, f, len); 
+            current_token = quote_token(str, f, len);
+        else if (str[f->i] == '(' || str[f->i] == ')')
+            current_token = bracket_token(str, f, len);
         else if (ft_isoperator(str[f->i]) == 1)
             current_token = operators_token(str, f, len);
         else if (ft_isspace(str[f->i]) == 1)
