@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:01:05 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:03:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ typedef struct s_tokens
 }           t_tokens;
 
 
-// typedef struct s_list{
-//     char *key;
-//     char *value;
-//     struct s_list *next;
-// }       t_list;
+typedef struct s_list
+{
+    char *key;
+    char *value;
+    struct s_list *next;
+}       t_list;
 
 typedef struct s_first
 {
@@ -61,6 +62,7 @@ typedef struct s_first
     t_tokens *token_list;
     char  **envp_array;
     t_list  *envp_list;
+    int env_size;
     int     error_flag;
     // int     error_signal;
     int     i;
@@ -88,6 +90,11 @@ t_tokens *ft_lstlast_token(t_tokens *lst);
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str);
 void	add_back_token(t_tokens **lst, t_tokens *new);
 void	ft_clear_tokens(t_tokens **lst);
+
+// env_list.c
+void env_to_list(t_first *f);
+char *search_in_env(t_first *f, char *key);
+void print_env(t_first *f, int flag);
 
 // token_utils.c
 int check_brackets(char *str, t_first *f);

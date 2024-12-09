@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:01:13 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:45:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,3 @@ void ft_clear_tokens(t_tokens **token_list)
     }
     *token_list = NULL;
 }
-
-// void array_to_linked_list(t_info *i)
-// {
-//     i->a = ft_lstnew(i->tmp.number[0]);
-//     int k = 1;
-//     while (k < i->tmp.count)
-//     {
-//         the_stack *new_node = ft_lstnew(i->tmp.number[k]);
-//         if (!new_node)
-//             return ;
-//         ft_lstadd_back(&i->a, new_node);
-//         k++;       
-//     }
-// }

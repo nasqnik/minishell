@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 18:39:02 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:43:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ const char *token_type_to_string(t_token_type type) {
         case LOGIC_AND: return "LOGIC_AND";
         case LOGIC_OR: return "LOGIC_OR";
         case BRACKET: return "BRACKET";
-        case EQUATION: return "EQUATION";
-        case SUBSHELL: return "SUBSHELL";
         default: return "UNKNOWN TOKEN";
     }
 }

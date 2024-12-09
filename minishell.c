@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 15:12:34 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:59:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void initialize(t_first *f, char **env)
     f->envp_list = NULL;
     f->i = 0;
     f->envp_array = env;
-    // env_to_list(f, env);
+    env_to_list(f);
     f->i = 0;
     signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
@@ -50,6 +50,7 @@ int main(int ac, char **av, char **env) {
     
     // for (int i = 0; f.envp_list[i] != NULL; i++)
     //     printf("[%d]  %s\n", i, f.envp_list[i]);
+    // printf("----  %s  ----\n", search_in_env(&f, "PAGER"));   <------// there is a function to search in env
     while (1) 
     {
         if (g_signalnumber != SIGINT)
