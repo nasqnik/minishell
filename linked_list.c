@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:31:03 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/06 17:25:46 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 09:51:07 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
 	last->next = new;
 }
 
-void	ft_clear_tokens(t_tokens **lst)
+void ft_clear_tokens(t_tokens **token_list)
 {
-	t_tokens	*current;
-	t_tokens	*tmp;
+    t_tokens *current = *token_list;
+    t_tokens *next;
 
-	if (!lst)
-		return ;
-	current = *lst;
-	while (current != NULL)
+    while (current)
 	{
-		tmp = current;
-		current = current->next;
-		free(tmp->data);
-		free(tmp);
-	}
-	*lst = NULL;
+        next = current->next;
+        if (current->data) {
+            free(current->data);
+            current->data = NULL;
+        }
+        free(current);
+        current = next;
+    }
+    *token_list = NULL;
 }

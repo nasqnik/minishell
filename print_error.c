@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 18:36:31 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:38:25 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void handle_error(t_first *f, char *msg, int flag)
     {
         ft_clear_tokens(&(f->token_list));
         free(f->buffer);
+        f->buffer = NULL;
+        f->error_flag = 1; 
     }
-    f->error_flag = 1;
-    // i think we should use a signal here
-    return ;
 }
 
 const char *token_type_to_string(t_token_type type) {

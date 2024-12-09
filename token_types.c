@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/09 08:14:56 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 13:39:32 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_tokens *operators_token(char *str, t_first *f , int len)  // handel ||   |   &
         flag = 'O';
     }
     if (cur == '&' && flag != 'O')
-        handle_error(f, "you cant use one &", 1);
+        return (handle_error(f, "you cant use one &", 1), NULL);
     type = check_operator_type(flag, cur);
     len = f->i - len;
     return (ft_create_token(f, len, type, str));
@@ -67,7 +67,7 @@ t_tokens *quote_token(char *str, t_first *f , int len)
     if (str[f->i] && str[f->i] == close)
         f->i++;
     else
-        handle_error(f, "you did not close like this "" | '' | ()", 1);
+        return(handle_error(f, "you did not close like this "" | '' | ()", 1), NULL);
     len = f->i - len;
     return (ft_create_token(f, len, type, str)); 
 }
@@ -101,7 +101,7 @@ t_tokens *bracket_token(char *str, t_first *f , int len)
         f->i++;
     }
     if (start == -1 || end == -1)
-        handle_error(f, "hey, the brackets are not matching", 1);
+        return (handle_error(f, "hey, the brackets are not matching", 1), NULL);
     len = f->i - len;
     printf("ft_substr, f->i-len: %d, len: %d\n", f->i - len, len);
     return (ft_create_token(f, len, type, str)); 

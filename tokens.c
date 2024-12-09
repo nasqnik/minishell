@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 16:32:21 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:39:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void lexer(t_first *f, char *str)
         len = f->i;
         if (str[f->i] == '$')                              
             current_token = variable_token(str, f, len);
-        else if (ft_isquote(str[f->i]) == 1)                 // not handled (())
+        else if (ft_isquote(str[f->i]) == 1)
             current_token = quote_token(str, f, len);
         else if (str[f->i] == '(' || str[f->i] == ')')
             current_token = bracket_token(str, f, len);
@@ -42,6 +42,8 @@ void lexer(t_first *f, char *str)
             current_token = space_token(str, f);
         else
             current_token = word_token(str, f, len);
+        if (!current_token)
+            return ;
         printf("string :   #%s#  len :%d ", current_token->data, current_token->len);
         printf("      type: %s\n", token_type_to_string(current_token->type));
         add_back_token(&f->token_list, current_token);

@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 19:01:20 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:34:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int sig = 0;
+int	g_signalnumber;
 
-void handle_signal(int sig) {
-    if (sig == SIGINT) {
-        write(1, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
+void handle_signal(int sig) 
+{
+    (void)sig;
+    g_signalnumber = SIGINT;
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay(); 
 }
 
 void initialize(t_first *f)
@@ -29,7 +30,6 @@ void initialize(t_first *f)
     f->token_list = NULL;
     f->envp_list = NULL;
     f->i = 0;
-    signal(SIGINT, handle_signal);
 }
 
 int main(int ac, char **av) {
@@ -38,13 +38,23 @@ int main(int ac, char **av) {
     (void)av;
     if (ac != 1)
     {
-        printf("Dont add another paratmer just ./minishell");
+        printf("Dont add another paratmer just ./minishell\n");
         return(1);
     }
     initialize(&f);
+        signal(SIGINT, handle_signal);
+		signal(SIGQUIT, SIG_IGN);
     while (1) 
     {
-        f.buffer = readline("\033[92mminishell$ \033[00m");
+        // if (f.error_flag) // Skip processing if an error occurred
+        // {
+        //     f.error_flag = 0; // Reset the error flag
+        //     continue;
+        // }
+        if (g_signalnumber != SIGINT)
+            f.buffer = readline("\033[92mminishell$ \033[00m");
+        else
+            f.buffer = readline(NULL);
         if (!f.buffer) {
             printf("\nExiting...\n");
             break;
