@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 13:38:39 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 19:01:05 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ extern int sig;
 
 typedef enum e_token_type
 {
+    D_QUOTES,       // " " (we will need to expand the variables)
+    S_QUOTES,          // ' ' (no need to expand)
     WORD,            // Command or argument (can be expanded)
     PIPE,            // |
     REDIRECT_IN,     // <
@@ -33,28 +35,31 @@ typedef enum e_token_type
     HEREDOC,         // <<
     ENV_VAR,         // $VARIABLE
     WSPACE,           // Whitespace
-    D_QUOTES,       // " " (we will need to expand the variables)
-    S_QUOTES,          // ' ' (no need to expand)
     LOGIC_AND,       // &&  
     LOGIC_OR,        // ||
     BRACKET,         // () //maybe we'll need left and right
-    EQUATION,        // $(())  
-    SUBSHELL         // $()
 } t_token_type;
 ;
 
 typedef struct s_tokens
 {
     char *data;
-    int len;
     int type;
     struct s_tokens *next;    
 }           t_tokens;
+
+
+// typedef struct s_list{
+//     char *key;
+//     char *value;
+//     struct s_list *next;
+// }       t_list;
 
 typedef struct s_first
 {
     char    *buffer;
     t_tokens *token_list;
+    char  **envp_array;
     t_list  *envp_list;
     int     error_flag;
     // int     error_signal;

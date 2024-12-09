@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 13:39:42 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 18:10:32 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void lexer(t_first *f, char *str)
             current_token = word_token(str, f, len);
         if (!current_token)
             return ;
-        printf("string :   #%s#  len :%d ", current_token->data, current_token->len);
+        printf("string :   #%s#  ", current_token->data);
         printf("      type: %s\n", token_type_to_string(current_token->type));
         add_back_token(&f->token_list, current_token);
     }

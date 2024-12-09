@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/09 13:39:32 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 18:58:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,16 @@ t_tokens *operators_token(char *str, t_first *f , int len)  // handel ||   |   &
 t_tokens *variable_token(char *str, t_first *f , int len)
 {
     int type;
-    int brackets_num = 0;
-    
+
     f->i++;
     type = ENV_VAR; 
     if (str[f->i] == ' ' || str[f->i] == '\0')
         return (ft_create_token(f, f->i - len, WORD, str));
-    brackets_num = check_brackets(str, f);
-    if (brackets_num == 1)
-        type = SUBSHELL; 
-    if (brackets_num > 1)
-        type = EQUATION;
     else
     {
-        while (str[f->i] && !ft_isspace(str[f->i]))
+        while (str[f->i] && str[f->i] == '$')
+            f->i++;
+        while (str[f->i] && (ft_isalnum(str[f->i]) || ft_isbrackets(str[f->i])))
             f->i++;
     }
     len = f->i - len;
@@ -110,7 +106,8 @@ t_tokens *bracket_token(char *str, t_first *f , int len)
 t_tokens *word_token(char *str, t_first *f , int len)
 {
     while (str[f->i] && ft_isspace(str[f->i]) == 0  
-        && ft_isoperator(str[f->i]) == 0 && str[f->i] != '$')
+        && ft_isoperator(str[f->i]) == 0 && str[f->i] != '$'  && str[f->i] != ')' 
+        && str[f->i] != '(' &&  ft_isquote(str[f->i]) == 0)
         f->i++;
     len = f->i - len;
     return (ft_create_token(f, len, WORD, str)); 

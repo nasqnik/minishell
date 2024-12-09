@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 13:31:03 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/09 09:51:07 by meid             ###   ########.fr       */
+/*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
+/*   Updated: 2024/12/09 19:01:13 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ t_tokens *ft_create_token(t_first *f, int len, int type, char *str)
     new = malloc(sizeof(t_tokens));
     if (new)
     {
-        new->data = ft_substr(str, f->i - len, len);
-        new->len = len;
+        if (type == D_QUOTES || type == S_QUOTES || type == BRACKET)
+            new->data = ft_substr(str, f->i - len + 1, len - 2);
+        else if (type == ENV_VAR)
+            new->data = ft_substr(str, f->i - len + 1, len - 1);
+        else
+            new->data = ft_substr(str, f->i - len, len);
         new->type = type;
         new->next = NULL;
     }
@@ -70,3 +74,17 @@ void ft_clear_tokens(t_tokens **token_list)
     }
     *token_list = NULL;
 }
+
+// void array_to_linked_list(t_info *i)
+// {
+//     i->a = ft_lstnew(i->tmp.number[0]);
+//     int k = 1;
+//     while (k < i->tmp.count)
+//     {
+//         the_stack *new_node = ft_lstnew(i->tmp.number[k]);
+//         if (!new_node)
+//             return ;
+//         ft_lstadd_back(&i->a, new_node);
+//         k++;       
+//     }
+// }
