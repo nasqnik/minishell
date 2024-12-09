@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_types.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/06 18:42:40 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 08:14:56 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,35 @@ t_tokens *quote_token(char *str, t_first *f , int len)
 t_tokens *bracket_token(char *str, t_first *f , int len)
 {
     int type = BRACKET;
-    int open_B = 0;
-    int close_B = 0;
+    int stack = 0;
+    int start = -1;
+    int end = -1;
+    // int i = 0; 
+
     while (str[f->i])
     {
-        while (str[f->i] && str[f->i] != ')')
+        if (str[f->i] == '(') 
         {
-            if (str[f->i] == '(')
-                open_B++;
-            f->i++;
+            if (stack == 0)
+                start = f->i;
+            stack++;
         }
-        while (str[f->i] && str[f->i] != '(')
+        else if (str[f->i] == ')')
         {
-            if (str[f->i] == ')')
-                close_B++;
-            f->i++;
+            stack--;
+            if (stack == 0)
+            {
+                end = f->i;
+                f->i++;
+                break;
+            }
         }
+        f->i++;
     }
-    if (open_B != close_B)
-    {
+    if (start == -1 || end == -1)
         handle_error(f, "hey, the brackets are not matching", 1);
-    }
     len = f->i - len;
+    printf("ft_substr, f->i-len: %d, len: %d\n", f->i - len, len);
     return (ft_create_token(f, len, type, str)); 
 }
 
