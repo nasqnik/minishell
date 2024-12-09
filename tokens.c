@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 20:11:03 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:53:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void parsing(t_first *f)
 {
     lexer(f, f->buffer);
 }
-
 
 void lexer(t_first *f, char *str)
 {
@@ -32,13 +31,13 @@ void lexer(t_first *f, char *str)
         len = f->i;
         if (str[f->i] == '$')                              
             current_token = variable_token(str, f, len);
-        else if (ft_isquote(str[f->i]) == 1)
+        else if (ft_is(str[f->i], "quote"))
             current_token = quote_token(str, f, len);
-        else if (str[f->i] == '(' || str[f->i] == ')')
+        else if (ft_is(str[f->i], "brackets"))
             current_token = bracket_token(str, f, len);
-        else if (ft_isoperator(str[f->i]) == 1)
+        else if (ft_is(str[f->i], "operator"))
             current_token = operators_token(str, f, len);
-        else if (ft_isspace(str[f->i]) == 1)
+        else if (ft_is(str[f->i], "space"))
             current_token = space_token(str, f);
         else
             current_token = word_token(str, f, len);

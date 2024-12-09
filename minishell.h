@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 20:03:35 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:49:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ int check_operator_type(int flag, char cur);
 // print.c
 void handle_error(t_first *f, char *msg, int flag);
 const char *token_type_to_string(t_token_type type);
+
+//utils
+int ft_is(int c, char *str);
 
 /*RIP*/
 

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/09 18:58:43 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:56:07 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_tokens *variable_token(char *str, t_first *f , int len)
     {
         while (str[f->i] && str[f->i] == '$')
             f->i++;
-        while (str[f->i] && (ft_isalnum(str[f->i]) || ft_isbrackets(str[f->i])))
+        while (str[f->i] && (ft_is(str[f->i], "alnum") || ft_is(str[f->i], "brackets")))
             f->i++;
     }
     len = f->i - len;
@@ -99,7 +99,6 @@ t_tokens *bracket_token(char *str, t_first *f , int len)
     if (start == -1 || end == -1)
         return (handle_error(f, "hey, the brackets are not matching", 1), NULL);
     len = f->i - len;
-    printf("ft_substr, f->i-len: %d, len: %d\n", f->i - len, len);
     return (ft_create_token(f, len, type, str)); 
 }
 
@@ -115,7 +114,7 @@ t_tokens *word_token(char *str, t_first *f , int len)
 
 t_tokens *space_token(char *str, t_first *f)
 {
-    while (str[f->i] && ft_isspace(str[f->i]) == 1)
+    while (str[f->i] && ft_is(str[f->i], "space") == 1)
         f->i++;
     return (ft_create_token(f, 1, WSPACE, str));
 }

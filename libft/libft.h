@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 07:57:33 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:43:12 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/09 20:28:31 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int ft_close(int c);
 int ft_isop(int c);
 int ft_isoperator(int c);
 int ft_isbrackets(int c);
+
+int ft_is(int c, char *str);
+
 int		ft_is_open_parenthesis(int c);
 int		ft_is_close_parenthesis(int c,int c2);
 void	*ft_memchr(const void *s, int c, size_t n);
