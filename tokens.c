@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 16:32:21 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:49:14 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,17 @@
 void parsing(t_first *f)
 {
     lexer(f, f->buffer);
+    // add delimiter for here_doc before expansion to not expand $ in the delimeter
+    expand_variables(f);
+    t_tokens *tmp = f->token_list;
+    printf("\nAFTER EXPANSIONS\n");
+    while(tmp)
+    {
+        printf("string :   #%s#  ", tmp->data);
+        printf("      type: %s\n", token_type_to_string(tmp->type));
+        tmp = tmp->next;
+    }
 }
-
 
 void lexer(t_first *f, char *str)
 {
@@ -32,17 +41,24 @@ void lexer(t_first *f, char *str)
         len = f->i;
         if (str[f->i] == '$')                              
             current_token = variable_token(str, f, len);
-        else if (ft_isquote(str[f->i]) == 1)                 // not handled (())
+        else if (ft_is(str[f->i], "quote"))
             current_token = quote_token(str, f, len);
-        else if (str[f->i] == '(' || str[f->i] == ')')
+        else if (ft_is(str[f->i], "brackets"))
             current_token = bracket_token(str, f, len);
-        else if (ft_isoperator(str[f->i]) == 1)
+        else if (ft_is(str[f->i], "operator"))
             current_token = operators_token(str, f, len);
-        else if (ft_isspace(str[f->i]) == 1)
+        else if (ft_is(str[f->i], "space"))
             current_token = space_token(str, f);
         else
             current_token = word_token(str, f, len);
-        printf("string :   #%s#  len :%d ", current_token->data, current_token->len);
+        if (!current_token)
+            return ;
+        else if (ft_strcmp(current_token->data, "env") == 0) // just for fun "will remove leter"
+        {
+            print_env(f, 0);
+            continue;
+        }
+        printf("string :   #%s#  ", current_token->data);
         printf("      type: %s\n", token_type_to_string(current_token->type));
         add_back_token(&f->token_list, current_token);
     }
@@ -54,3 +70,21 @@ void lexer(t_first *f, char *str)
         tmp = tmp->next;
     }
 } // echo $_ handel this later
+
+
+void expand_variables(t_first *f)
+{
+    t_tokens *cursor;
+    
+    cursor = f->token_list;
+    
+    while (cursor != NULL)
+    {
+        if (cursor->type == ENV_VAR)
+            expand_envp(cursor, f);
+        // else if (cursor->type == D_QUOTES)
+        //     expand_d_quotes(cursor, f);
+        cursor = cursor->next;
+    }
+}
+

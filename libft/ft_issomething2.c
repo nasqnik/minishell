@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_issomething2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:34:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 16:29:59 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:55:38 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,14 @@ int ft_isop(int c)
 
 int ft_isoperator(int c)
 {
-	if(c == '|' || c == '>' || c == '<' || c == '&')
+	if(c == '|' || c == '>' || c == '<' || c == '&' )
 		return (1);
 	return (0);
+}
+
+int ft_isbrackets(int c)
+{
+	return (c == '(' || c == ')');
 }
 int ft_is_open_parenthesis(int c)
 {

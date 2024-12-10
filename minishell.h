@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/06 16:30:53 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:48:59 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,17 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h> 
 
-// enum
-// {
-//     COMMAND,
-//     OP,
-//     FLAG,
-//     ARG,
-//     WORD,
-//     DEL,
-// };
+extern int sig;
 
 typedef enum e_token_type
 {
+    D_QUOTES,       // " " (we will need to expand the variables)
+    S_QUOTES,          // ' ' (no need to expand)
     WORD,            // Command or argument (can be expanded)
     PIPE,            // |
     REDIRECT_IN,     // <
@@ -39,35 +34,38 @@ typedef enum e_token_type
     REDIRECT_APPEND, // >>
     HEREDOC,         // <<
     ENV_VAR,         // $VARIABLE
-    SPACE,           // Whitespace
-    D_QUOTES,       // " " (we will need to expand the variables)
-    S_QUOTES,          // ' ' (no need to expand)
+    WSPACE,           // Whitespace
     LOGIC_AND,       // &&  
     LOGIC_OR,        // ||
     BRACKET,         // () //maybe we'll need left and right
-    EQUATION,        // $(())  
-    SUBSHELL         // $()
 } t_token_type;
 ;
 
 typedef struct s_tokens
 {
     char *data;
-    int len;
-    // int flag;
     int type;
     struct s_tokens *next;    
 }           t_tokens;
 
+
+typedef struct s_list
+{
+    char *key;
+    char *value;
+    struct s_list *next;
+}       t_list;
+
 typedef struct s_first
 {
-    
-    char    *buffer;
-    char    **input;
-    t_tokens *token_list;
+    char		*buffer;
+    t_tokens 	*token_list;
+    char		**envp_array;
+    t_list		*envp_list;
+    int			env_size;
+    int			error_flag;
+    // int     error_signal;
     int     i;
-    int     j;
-    char    flag;
 }           t_first;
 
 void open_the_shell(t_first *f);
@@ -91,6 +89,12 @@ t_tokens *space_token(char *str, t_first *f);
 t_tokens *ft_lstlast_token(t_tokens *lst);
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str);
 void	add_back_token(t_tokens **lst, t_tokens *new);
+void	ft_clear_tokens(t_tokens **lst);
+
+// env_list.c
+void env_to_list(t_first *f);
+char *search_in_env(t_first *f, char *key);
+void print_env(t_first *f, int flag);
 
 // token_utils.c
 int check_brackets(char *str, t_first *f);
@@ -100,8 +104,17 @@ int check_operator_type(int flag, char cur);
 void handle_error(t_first *f, char *msg, int flag);
 const char *token_type_to_string(t_token_type type);
 
+//utils
+int ft_is(int c, char *str);
+
 /*RIP*/
 
 int do_op(char *str, t_first *f);
+
+
+void expand_variables(t_first *f);
+void expand_envp(t_tokens *token, t_first *f);
+// void expand_d_quotes(t_tokens *token, t_first *f);
+
 
 #endif
