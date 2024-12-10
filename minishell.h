@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 15:48:59 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:10:27 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int do_op(char *str, t_first *f);
 
 void expand_variables(t_first *f);
 void expand_envp(t_tokens *token, t_first *f);
-// void expand_d_quotes(t_tokens *token, t_first *f);
+void expand_d_quotes(t_tokens *token, t_first *f);
 
 
 #endif

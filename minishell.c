@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 14:24:18 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:18:21 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int main(int ac, char **av, char **env) {
     // for (int i = 0; i < 5; i++)
     //     printf("[%d]  %s\n", i, f.envp_list[i]);
     
+    print_env(&f , 1);
     // printf("----  %s  ----\n", search_in_env(&f, "HOME"));   // <------ there is a function to search in env
     while (1) 
     {

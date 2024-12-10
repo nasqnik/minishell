@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 15:49:14 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:00:24 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void expand_variables(t_first *f)
     {
         if (cursor->type == ENV_VAR)
             expand_envp(cursor, f);
-        // else if (cursor->type == D_QUOTES)
-        //     expand_d_quotes(cursor, f);
+        else if (cursor->type == D_QUOTES)
+            expand_d_quotes(cursor, f);
         cursor = cursor->next;
     }
 }
