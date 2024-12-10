@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_types.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/09 20:56:07 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/10 16:56:48 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_tokens *variable_token(char *str, t_first *f , int len)
     {
         while (str[f->i] && str[f->i] == '$')
             f->i++;
-        while (str[f->i] && (ft_is(str[f->i], "alnum") || ft_is(str[f->i], "brackets")))
+        while (str[f->i] && (ft_is(str[f->i], "alnum") || ft_is(str[f->i], "brackets")
+            || str[f->i] == '_' || str[f->i] == '?'))
             f->i++;
     }
     len = f->i - len;

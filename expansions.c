@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/10 16:26:18 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:49:37 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,29 @@
 
 void expand_envp(t_tokens *token, t_first *f)
 {
-    // int i;
     char *env_value;
     char *new_token_data;
     
-    // i = 0;
-    // if (token->data[i] == '?' && ft_strlen(token->data) == 1) // add $?
-    // add $_?
-        
-    // else
-    env_value = search_in_env(f, token->data);
-    if (env_value)
+    env_value = NULL;
+    new_token_data = NULL;
+    if (ft_strlen(token->data) == 1)
     {
-        new_token_data = ft_substr(env_value, 0, ft_strlen(env_value)); // ft_strdup?
+        if (token->data[0] == '?') 
+            new_token_data = ft_itoa(f->exit_status);  
+        else if (token->data[0] == '_') //print the last argument to the last command
+            new_token_data = ft_strdup(f->last_arg);
+    }
+    else 
+    {
+        env_value = search_in_env(f, token->data);
+        if (env_value)
+            new_token_data = ft_strdup(env_value);
+    }
+    if (new_token_data)
+    {
         free(token->data);
         token->data = new_token_data;
-        return ;
     }
-    
 }
 
 

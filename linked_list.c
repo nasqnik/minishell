@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:45:59 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/10 17:41:50 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,24 @@ t_tokens *ft_lstlast_token(t_tokens *lst)
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str)
 {
     t_tokens *new;
+    int token_len = len;
     
     new = malloc(sizeof(t_tokens));
     if (new)
     {
         if (type == D_QUOTES || type == S_QUOTES || type == BRACKET)
-            new->data = ft_substr(str, f->i - len + 1, len - 2);
+        {
+            token_len = len - 2;
+            new->data = ft_substr(str, f->i - len + 1, token_len);
+        }
         else if (type == ENV_VAR)
-            new->data = ft_substr(str, f->i - len + 1, len - 1);
+        {
+            token_len = len - 1;
+            new->data = ft_substr(str, f->i - len + 1, token_len);
+        }
         else
-            new->data = ft_substr(str, f->i - len, len);
+            new->data = ft_substr(str, f->i - len, token_len);
+        new->len = token_len;
         new->type = type;
         new->next = NULL;
     }
