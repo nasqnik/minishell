@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 15:48:59 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:41:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h> 
+#include <dirent.h>
 
 extern int sig;
 
@@ -43,8 +44,10 @@ typedef enum e_token_type
 
 typedef struct s_tokens
 {
-    char *data;
+    void *data;
     int type;
+    int len;
+    char data_type;
     struct s_tokens *next;    
 }           t_tokens;
 
@@ -56,17 +59,29 @@ typedef struct s_list
     struct s_list *next;
 }       t_list;
 
+typedef struct s_tmp
+{
+    char *data;
+    struct s_tmp *next;
+}       t_w_tmp;
+
 typedef struct s_first
 {
     char		*buffer;
+    t_w_tmp       *tmp;
     t_tokens 	*token_list;
     char		**envp_array;
     t_list		*envp_list;
     int			env_size;
     int			error_flag;
+    int         exit_status;
+    char        *last_arg;
     // int     error_signal;
     int     i;
 }           t_first;
+
+int rl_replace_line(const char *text, int clear_undo);
+
 
 void open_the_shell(t_first *f);
 void handle_calc(t_first *f);
@@ -95,6 +110,7 @@ void	ft_clear_tokens(t_tokens **lst);
 void env_to_list(t_first *f);
 char *search_in_env(t_first *f, char *key);
 void print_env(t_first *f, int flag);
+void ft_clear_list(t_list **lst);
 
 // token_utils.c
 int check_brackets(char *str, t_first *f);
@@ -114,7 +130,11 @@ int do_op(char *str, t_first *f);
 
 void expand_variables(t_first *f);
 void expand_envp(t_tokens *token, t_first *f);
-// void expand_d_quotes(t_tokens *token, t_first *f);
+void expand_d_quotes(t_tokens *token, t_first *f);
+
+// wildcard
+void wildcard(t_first *f);
+void	ft_clear_tmp(t_w_tmp **lst);
 
 
 #endif

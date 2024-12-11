@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 14:25:06 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:25:17 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,21 @@ char *search_in_env(t_first *f, char *key)
     return (NULL);
 }
 
-// void print_env_list(t_first *f)
-// {
-//     t_list *cursor = f->envp_list;
-//     while (cursor)
-//     {
-//         printf("key: %s | value: %s\n", cursor->key, cursor->value);
-//         cursor = cursor->next;
-//     }
-// }
+void	ft_clear_list(t_list **lst)
+{
+	t_list	*current;
+	t_list	*tmp;
+
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		tmp = current;
+		current = current->next;
+		free(tmp->key);
+        free(tmp->value);
+		free(tmp);
+	}
+	*lst = NULL;
+}

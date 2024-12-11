@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:45:59 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/11 20:31:46 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,25 @@ t_tokens *ft_lstlast_token(t_tokens *lst)
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str)
 {
     t_tokens *new;
+    int token_len = len;
     
     new = malloc(sizeof(t_tokens));
     if (new)
     {
         if (type == D_QUOTES || type == S_QUOTES || type == BRACKET)
-            new->data = ft_substr(str, f->i - len + 1, len - 2);
+        {
+            token_len = len - 2;
+            new->data = ft_substr(str, f->i - len + 1, token_len);
+        }
         else if (type == ENV_VAR)
-            new->data = ft_substr(str, f->i - len + 1, len - 1);
+        {
+            token_len = len - 1;
+            new->data = ft_substr(str, f->i - len + 1, token_len);
+        }
         else
-            new->data = ft_substr(str, f->i - len, len);
+            new->data = ft_substr(str, f->i - len, token_len);
+        new->data_type = 's';
+        new->len = token_len;
         new->type = type;
         new->next = NULL;
     }
@@ -57,19 +66,39 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
 	last->next = new;
 }
 
+void ft_clear_node(t_tokens *node)
+{
+    if (!node)
+        return;
+
+    if (node->data)
+    {
+        if (node->data_type == 'l')
+            ft_clear_tmp(node->data);
+        // printf("I am L\n");
+        else if (node->data_type == 's')
+        {
+            free(node->data);
+            node->data = NULL;
+            free(node);
+            
+        }
+    }
+}
+
 void ft_clear_tokens(t_tokens **token_list)
 {
-    t_tokens *current = *token_list;
+    t_tokens *current;
     t_tokens *next;
 
+    if (!token_list || !*token_list)
+        return;
+
+    current = *token_list;
     while (current)
-	{
+    {
         next = current->next;
-        if (current->data) {
-            free(current->data);
-            current->data = NULL;
-        }
-        free(current);
+        ft_clear_node(current);
         current = next;
     }
     *token_list = NULL;

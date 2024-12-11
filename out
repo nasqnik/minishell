@@ -1,0 +1,455 @@
+==1156== Memcheck, a memory error detector
+==1156== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1156== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==1156== Command: ./minishell
+==1156== 
+==1156== Invalid read of size 1
+==1156==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x4917D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid read of size 1
+==1156==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x4917D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018c is 188 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid read of size 1
+==1156==    at 0x492E70C: _IO_new_file_xsputn (fileops.c:1219)
+==1156==    by 0x492E70C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b00192 is 194 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid read of size 1
+==1156==    at 0x48436E0: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x492E631: _IO_new_file_xsputn (fileops.c:1236)
+==1156==    by 0x492E631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid read of size 1
+==1156==    at 0x48436EE: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x492E631: _IO_new_file_xsputn (fileops.c:1236)
+==1156==    by 0x492E631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018d is 189 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid read of size 8
+==1156==    at 0x10AE81: ft_clear_tmp (wildcard.c:26)
+==1156==    by 0x10A40E: ft_clear_node (linked_list.c:77)
+==1156==    by 0x10A483: ft_clear_tokens (linked_list.c:101)
+==1156==    by 0x1094E7: main (minishell.c:73)
+==1156==  Address 0x4b00193 is 195 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== Invalid free() / delete / delete[] / realloc()
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10AE94: ft_clear_tmp (wildcard.c:29)
+==1156==    by 0x10A40E: ft_clear_node (linked_list.c:77)
+==1156==    by 0x10A483: ft_clear_tokens (linked_list.c:101)
+==1156==    by 0x1094E7: main (minishell.c:73)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== Process terminating with default action of signal 11 (SIGSEGV)
+==1156==  General Protection Fault
+==1156==    at 0x10AE81: ft_clear_tmp (wildcard.c:26)
+==1156==    by 0x10A40E: ft_clear_node (linked_list.c:77)
+==1156==    by 0x10A483: ft_clear_tokens (linked_list.c:101)
+==1156==    by 0x1094E7: main (minishell.c:73)
+==1156== 
+==1156== FILE DESCRIPTORS: 3 open at exit.
+==1156== Open file descriptor 2: /home/vscode/src/out
+==1156==    <inherited from parent>
+==1156== 
+==1156== Open file descriptor 1: /dev/pts/0
+==1156==    <inherited from parent>
+==1156== 
+==1156== Open file descriptor 0: /dev/pts/0
+==1156==    <inherited from parent>
+==1156== 
+==1156== 
+==1156== HEAP SUMMARY:
+==1156==     in use at exit: 207,569 bytes in 306 blocks
+==1156==   total heap usage: 521 allocs, 216 frees, 255,974 bytes allocated
+==1156== 
+==1156== 9 bytes in 1 blocks are still reachable in loss record 7 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10BB7F: ft_substr (in /home/vscode/src/minishell)
+==1156==    by 0x10A665: ft_lstnew (env_list.c:26)
+==1156==    by 0x10A77C: env_to_list (env_list.c:61)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== 16 bytes in 1 blocks are still reachable in loss record 12 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10AECD: ft_lstnew (wildcard.c:39)
+==1156==    by 0x10B4D8: deep_copy_tmp (wildcard.c:180)
+==1156==    by 0x10B66A: wildcard (wildcard.c:227)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 24 bytes in 1 blocks are still reachable in loss record 17 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10A5F0: ft_lstnew (env_list.c:19)
+==1156==    by 0x10A77C: env_to_list (env_list.c:61)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== 32 bytes in 1 blocks are still reachable in loss record 19 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10A28D: ft_create_token (linked_list.c:31)
+==1156==    by 0x109F83: word_token (token_types.c:113)
+==1156==    by 0x109828: lexer (tokens.c:69)
+==1156==    by 0x10954C: parsing (tokens.c:17)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 37 bytes in 1 blocks are still reachable in loss record 20 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10BB7F: ft_substr (in /home/vscode/src/minishell)
+==1156==    by 0x10A633: ft_lstnew (env_list.c:25)
+==1156==    by 0x10A77C: env_to_list (env_list.c:61)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== 174 bytes in 19 blocks are still reachable in loss record 28 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10BB7F: ft_substr (in /home/vscode/src/minishell)
+==1156==    by 0x10A633: ft_lstnew (env_list.c:25)
+==1156==    by 0x10A7AD: env_to_list (env_list.c:65)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== 400 bytes in 25 blocks are still reachable in loss record 31 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10AECD: ft_lstnew (wildcard.c:39)
+==1156==    by 0x10B4F9: deep_copy_tmp (wildcard.c:184)
+==1156==    by 0x10B66A: wildcard (wildcard.c:227)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 456 bytes in 19 blocks are still reachable in loss record 32 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10A5F0: ft_lstnew (env_list.c:19)
+==1156==    by 0x10A7AD: env_to_list (env_list.c:65)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== 1,872 bytes in 19 blocks are still reachable in loss record 44 of 71
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10BB7F: ft_substr (in /home/vscode/src/minishell)
+==1156==    by 0x10A665: ft_lstnew (env_list.c:26)
+==1156==    by 0x10A7AD: env_to_list (env_list.c:65)
+==1156==    by 0x1093CF: initialize (minishell.c:34)
+==1156==    by 0x10946C: main (minishell.c:51)
+==1156== 
+==1156== LEAK SUMMARY:
+==1156==    definitely lost: 0 bytes in 0 blocks
+==1156==    indirectly lost: 0 bytes in 0 blocks
+==1156==      possibly lost: 0 bytes in 0 blocks
+==1156==    still reachable: 3,020 bytes in 87 blocks
+==1156==         suppressed: 204,549 bytes in 219 blocks
+==1156== 
+==1156== ERROR SUMMARY: 857 errors from 7 contexts (suppressed: 0 from 0)
+==1156== 
+==1156== 1 errors in context 1 of 7:
+==1156== Invalid free() / delete / delete[] / realloc()
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x10AE94: ft_clear_tmp (wildcard.c:29)
+==1156==    by 0x10A40E: ft_clear_node (linked_list.c:77)
+==1156==    by 0x10A483: ft_clear_tokens (linked_list.c:101)
+==1156==    by 0x1094E7: main (minishell.c:73)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 2 errors in context 2 of 7:
+==1156== Invalid read of size 8
+==1156==    at 0x10AE81: ft_clear_tmp (wildcard.c:26)
+==1156==    by 0x10A40E: ft_clear_node (linked_list.c:77)
+==1156==    by 0x10A483: ft_clear_tokens (linked_list.c:101)
+==1156==    by 0x1094E7: main (minishell.c:73)
+==1156==  Address 0x4b00193 is 195 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 26 errors in context 3 of 7:
+==1156== Invalid read of size 1
+==1156==    at 0x483EF46: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x4917D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 120 errors in context 4 of 7:
+==1156== Invalid read of size 1
+==1156==    at 0x48436EE: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x492E631: _IO_new_file_xsputn (fileops.c:1236)
+==1156==    by 0x492E631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018d is 189 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 156 errors in context 5 of 7:
+==1156== Invalid read of size 1
+==1156==    at 0x48436E0: mempcpy (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x492E631: _IO_new_file_xsputn (fileops.c:1236)
+==1156==    by 0x492E631: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018b is 187 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 276 errors in context 6 of 7:
+==1156== Invalid read of size 1
+==1156==    at 0x492E70C: _IO_new_file_xsputn (fileops.c:1219)
+==1156==    by 0x492E70C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1197)
+==1156==    by 0x49160FB: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b00192 is 194 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+==1156== 
+==1156== 276 errors in context 7 of 7:
+==1156== Invalid read of size 1
+==1156==    at 0x483EF54: strlen (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x4917D14: __vfprintf_internal (vfprintf-internal.c:1688)
+==1156==    by 0x4900D3E: printf (printf.c:33)
+==1156==    by 0x1095E8: parsing (tokens.c:35)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Address 0x4b0018c is 188 bytes inside a block of size 32,816 free'd
+==1156==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497D120: closedir (closedir.c:50)
+==1156==    by 0x10B42D: disply_files_dir (wildcard.c:156)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156==  Block was alloc'd at
+==1156==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1156==    by 0x497CF18: __alloc_dir (opendir.c:118)
+==1156==    by 0x497CF18: opendir_tail (opendir.c:69)
+==1156==    by 0x497CF18: opendir (opendir.c:92)
+==1156==    by 0x10B2C5: disply_files_dir (wildcard.c:125)
+==1156==    by 0x10B5BE: wildcard (wildcard.c:208)
+==1156==    by 0x109558: parsing (tokens.c:20)
+==1156==    by 0x1094CB: main (minishell.c:70)
+==1156== 
+--1156-- 
+--1156-- used_suppression:     58 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,495 bytes in 215 blocks
+--1156-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,054 bytes in 4 blocks
+==1156== 
+==1156== ERROR SUMMARY: 857 errors from 7 contexts (suppressed: 0 from 0)
