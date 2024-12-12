@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:43:36 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 18:27:17 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void handle_error(t_first *f, char *msg, int flag)
     if (flag <= 1)
     {
         ft_clear_tokens(&(f->token_list));
+        ft_clear_list(&(f->envp_list));
         free(f->buffer);
         f->buffer = NULL;
         f->error_flag = 1; 
@@ -39,6 +40,10 @@ const char *token_type_to_string(t_token_type type) {
         case LOGIC_AND: return "LOGIC_AND";
         case LOGIC_OR: return "LOGIC_OR";
         case BRACKET: return "BRACKET";
+        case COMMAND: return "COMMAND";
+        case FLAG: return "FLAG";
+        case ARGUMENT: return "ARGUMENT";
+        case FILENAME: return "FILENAME";
         default: return "UNKNOWN TOKEN";
     }
 }

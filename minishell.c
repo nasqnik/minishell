@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/09 19:59:41 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 12:54:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void initialize(t_first *f, char **env)
     f->envp_list = NULL;
     f->i = 0;
     f->envp_array = env;
-    env_to_list(f);
+    f->envp_list = NULL;
     f->i = 0;
+    f->exit_status = 0;
+    f->last_arg = "empty"; //change later
     signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -48,9 +50,11 @@ int main(int ac, char **av, char **env) {
     }
     initialize(&f, env);
     
-    // for (int i = 0; f.envp_list[i] != NULL; i++)
+    // for (int i = 0; i < 5; i++)
     //     printf("[%d]  %s\n", i, f.envp_list[i]);
-    // printf("----  %s  ----\n", search_in_env(&f, "PAGER"));   <------// there is a function to search in env
+    
+    // print_env(&f , 1);
+    // printf("----  %s  ----\n", search_in_env(&f, "HOME"));   // <------ there is a function to search in env
     while (1) 
     {
         if (g_signalnumber != SIGINT)
@@ -65,9 +69,11 @@ int main(int ac, char **av, char **env) {
         {
             parsing(&f);
             add_history(f.buffer);
+            free(f.buffer);
+            f.buffer = NULL;
         }
-        free(f.buffer);
         ft_clear_tokens(&(f.token_list));
+        ft_clear_list(&(f.envp_list));
     }
     return 0;
 }
