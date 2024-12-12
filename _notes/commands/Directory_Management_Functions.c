@@ -44,6 +44,7 @@ int main(void)
     struct dirent *entry;
     while ((entry = readdir(dir)) != NULL) {
         printf("Entry: %s\n", entry->d_name);
+        // printf("lol : %c\n", entry->d_name[0]);
     }
     closedir(dir);
 }

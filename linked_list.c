@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 17:41:50 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:00:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_tokens *ft_create_token(t_first *f, int len, int type, char *str)
         }
         else
             new->data = ft_substr(str, f->i - len, token_len);
+        new->data_type = 's';
         new->len = token_len;
         new->type = type;
         new->next = NULL;
@@ -65,19 +66,41 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
 	last->next = new;
 }
 
+void ft_clear_node(t_tokens *node)
+{
+    if (!node)
+        return;
+
+    if (node->data)
+    {
+        if (node->data_type == 'l')
+        {
+            t_w_tmp *tmp_data = (t_w_tmp *)node->data;
+            ft_clear_tmp(&tmp_data);
+        }
+        else if (node->data_type == 's')
+        {
+            free(node->data);
+            node->data = NULL;
+        }
+    }
+    free(node);
+}
+
+
 void ft_clear_tokens(t_tokens **token_list)
 {
-    t_tokens *current = *token_list;
+    t_tokens *current;
     t_tokens *next;
 
+    if (!token_list || !*token_list)
+        return;
+
+    current = *token_list;
     while (current)
-	{
+    {
         next = current->next;
-        if (current->data) {
-            free(current->data);
-            current->data = NULL;
-        }
-        free(current);
+        ft_clear_node(current);
         current = next;
     }
     *token_list = NULL;

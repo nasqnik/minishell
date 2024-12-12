@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/10 17:38:07 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:54:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void initialize(t_first *f, char **env)
     f->envp_list = NULL;
     f->i = 0;
     f->envp_array = env;
-    env_to_list(f);
+    f->envp_list = NULL;
     f->i = 0;
     f->exit_status = 0;
     f->last_arg = "empty"; //change later
@@ -69,8 +69,9 @@ int main(int ac, char **av, char **env) {
         {
             parsing(&f);
             add_history(f.buffer);
+            free(f.buffer);
+            f.buffer = NULL;
         }
-        free(f.buffer);
         ft_clear_tokens(&(f.token_list));
         ft_clear_list(&(f.envp_list));
     }
