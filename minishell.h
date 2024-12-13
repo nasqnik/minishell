@@ -41,11 +41,11 @@ typedef enum e_token_type
     LOGIC_AND,       // &&  
     LOGIC_OR,        // ||
     BRACKET,         // () //maybe we'll need left and right
-    COMMAND,
-    FLAG,
-    ARGUMENT,
-    FILENAME,
-    DELIMITER
+    COMMAND,         // echo ls
+    FLAG,            //  -l
+    ARGUMENT,        // after command or flag and it dose not have space at the en ir a flag
+    FILENAME,        // after  < > >>
+    DELIMITER        // agter << heredoc
 } t_token_type;
 ;
 
@@ -93,7 +93,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -149,6 +149,12 @@ int do_op(char *str, t_first *f);
 void expand_variables(t_first *f);
 void expand_envp(t_tokens *token, t_first *f);
 void expand_d_quotes(t_tokens *token, t_first *f);
+
+// expansions_dquotes.c
+char *handle_variable(char *data, int *i, char *result, t_list *envp_list);
+char *append_remaining_data(char *data, int start, int end, char *result);
+char *get_var(char *data, int *i, t_list *envp_list);
+char *get_var_value(char *var_name, t_list *envp_list);
 
 // wildcard
 void wildcard(t_first *f);
