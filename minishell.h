@@ -93,7 +93,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-// int rl_replace_line(const char *text, int clear_undo);
+int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -137,6 +137,8 @@ int check_operator_type(int flag, char cur);
 // print.c
 void handle_error(t_first *f, char *msg, int flag);
 const char *token_type_to_string(t_token_type type);
+void	print_after_expansions(t_first *f);
+void	print_list(t_tokens	*list);
 
 //utils
 int ft_is(int c, char *str);
@@ -149,6 +151,12 @@ int do_op(char *str, t_first *f);
 void expand_variables(t_first *f);
 void expand_envp(t_tokens *token, t_first *f);
 void expand_d_quotes(t_tokens *token, t_first *f);
+
+// expansions_dquotes.c
+char *handle_variable(char *data, int *i, char *result, t_list *envp_list);
+char *append_remaining_data(char *data, int start, int end, char *result);
+char *get_var(char *data, int *i, t_list *envp_list);
+char *get_var_value(char *var_name, t_list *envp_list);
 
 // wildcard
 void wildcard(t_first *f);

@@ -10,7 +10,7 @@ RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 SRC = minishell.c tokens.c token_types.c token_utils.c\
 	linked_list.c print_error.c env_list.c utils.c expansions.c wildcard.c \
-	join_tokens.c
+	join_tokens.c expansions_dquotes.c
  
 OBJ = $(SRC:.c=.o)
 

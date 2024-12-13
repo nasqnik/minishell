@@ -16,4 +16,6 @@ cat<<EOF
 
 tar -czvf archive.tar.gz file1 file2&&echo"Done" ||archive, file, file?
 
-    
+
+work fine
+mini shell is fun'-l'|skasfk <<ko>>$PWD psoaf
