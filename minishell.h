@@ -31,18 +31,30 @@ typedef enum e_token_type
     D_QUOTES,       // " " (we will need to expand the variables)
     S_QUOTES,          // ' ' (no need to expand)
     WORD,            // Command or argument (can be expanded)
-    PIPE,            // |
+    ENV_VAR,         // $VARIABLE
+    WSPACE,           // Whitespace
     REDIRECT_IN,     // <
     REDIRECT_OUT,    // >
     REDIRECT_APPEND, // >>
     HEREDOC,         // <<
-    ENV_VAR,         // $VARIABLE
-    WSPACE,           // Whitespace
+    PIPE,            // |
     LOGIC_AND,       // &&  
     LOGIC_OR,        // ||
     BRACKET,         // () //maybe we'll need left and right
+    COMMAND,         // echo ls
+    FLAG,            //  -l
+    ARGUMENT,        // after command or flag and it dose not have space at the en ir a flag
+    FILENAME,        // after  < > >>
+    DELIMITER        // agter << heredoc
 } t_token_type;
 ;
+
+// union s_data {
+//     int fd;
+//     char *word;
+//     char pipe;
+//     char *file_name;
+// } t_data;
 
 typedef struct s_tokens
 {
@@ -52,7 +64,6 @@ typedef struct s_tokens
     char data_type;
     struct s_tokens *next;    
 }           t_tokens;
-
 
 typedef struct s_list
 {
@@ -103,6 +114,10 @@ t_tokens *bracket_token(char *str, t_first *f , int len);
 t_tokens *word_token(char *str, t_first *f , int len);
 t_tokens *space_token(char *str, t_first *f);
 
+// join_tokens.c
+void rename_tokens(t_first *f);
+t_tokens *make_argument(t_tokens *cursor);
+
 // linked_list.c
 t_tokens *ft_lstlast_token(t_tokens *lst);
 t_tokens *ft_create_token(t_first *f, int len, int type, char *str);
@@ -139,5 +154,6 @@ void expand_d_quotes(t_tokens *token, t_first *f);
 void wildcard(t_first *f);
 void	ft_clear_tmp(t_w_tmp **lst);
 
+t_w_tmp	*ft_data_lstnew(char *con);
 
 #endif

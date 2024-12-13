@@ -1,35 +1,35 @@
-==679== Memcheck, a memory error detector
-==679== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==679== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==679== Command: ./minishell
-==679== 
-==679== 
-==679== FILE DESCRIPTORS: 3 open at exit.
-==679== Open file descriptor 2: /home/vscode/src/out
-==679==    <inherited from parent>
-==679== 
-==679== Open file descriptor 1: /dev/pts/0
-==679==    <inherited from parent>
-==679== 
-==679== Open file descriptor 0: /dev/pts/0
-==679==    <inherited from parent>
-==679== 
-==679== 
-==679== HEAP SUMMARY:
-==679==     in use at exit: 204,563 bytes in 218 blocks
-==679==   total heap usage: 482 allocs, 264 frees, 222,468 bytes allocated
-==679== 
-==679== LEAK SUMMARY:
-==679==    definitely lost: 0 bytes in 0 blocks
-==679==    indirectly lost: 0 bytes in 0 blocks
-==679==      possibly lost: 0 bytes in 0 blocks
-==679==    still reachable: 0 bytes in 0 blocks
-==679==         suppressed: 204,563 bytes in 218 blocks
-==679== 
-==679== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
---679-- 
---679-- used_suppression:     54 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,473 bytes in 211 blocks
---679-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,070 bytes in 4 blocks
---679-- used_suppression:      3 rl _notes/ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
-==679== 
-==679== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==672== Memcheck, a memory error detector
+==672== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==672== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==672== Command: ./minishell
+==672== 
+==672== 
+==672== FILE DESCRIPTORS: 3 open at exit.
+==672== Open file descriptor 2: /home/vscode/src/out
+==672==    <inherited from parent>
+==672== 
+==672== Open file descriptor 1: /dev/pts/0
+==672==    <inherited from parent>
+==672== 
+==672== Open file descriptor 0: /dev/pts/0
+==672==    <inherited from parent>
+==672== 
+==672== 
+==672== HEAP SUMMARY:
+==672==     in use at exit: 204,675 bytes in 221 blocks
+==672==   total heap usage: 560 allocs, 339 frees, 225,656 bytes allocated
+==672== 
+==672== LEAK SUMMARY:
+==672==    definitely lost: 0 bytes in 0 blocks
+==672==    indirectly lost: 0 bytes in 0 blocks
+==672==      possibly lost: 0 bytes in 0 blocks
+==672==    still reachable: 0 bytes in 0 blocks
+==672==         suppressed: 204,675 bytes in 221 blocks
+==672== 
+==672== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--672-- 
+--672-- used_suppression:     54 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,525 bytes in 211 blocks
+--672-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,130 bytes in 7 blocks
+--672-- used_suppression:      3 rl _notes/ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
+==672== 
+==672== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

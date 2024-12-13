@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/12 12:57:44 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 15:24:07 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void parsing(t_first *f)
     lexer(f, f->buffer);
     here_doc_env_check(f);
     expand_variables(f);
-    wildcard(f);
+    //wildcard(f); - put the check for ls
+    rename_tokens(f);
     
     t_tokens *tmp = f->token_list;
     printf("\nAFTER EXPANSIONS\n");
@@ -113,21 +114,24 @@ void here_doc_env_check(t_first *f)
 {
     t_tokens *tmp;
     
+    printf("1");
     tmp = f->token_list;
     char *tmpo;
     while (tmp != NULL)
     {
         if (tmp->type == HEREDOC)
         {
-            if ((tmp->next->type && tmp->next->next->type) && tmp->next->type == WSPACE)
+            tmp = tmp->next;
+            if (tmp && tmp->type == WSPACE)
                 tmp = tmp->next;
-            if (tmp->next->type && tmp->next->type == ENV_VAR)
+            if (tmp && tmp->type == ENV_VAR)
             {
-                tmpo = ft_strjoin("$", tmp->next->data);
-                free(tmp->next->data);
-                tmp->next->data = tmpo;
-                tmp->next->type = WORD;
+                printf("lol\n");
+                tmpo = ft_strjoin("$", tmp->data);
+                free(tmp->data);
+                tmp->data = tmpo;
             }
+            tmp->type = DELIMITER;
         }
         tmp = tmp->next;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:49:49 by meid              #+#    #+#             */
-/*   Updated: 2024/12/12 13:03:41 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 18:28:17 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_clear_tmp(t_w_tmp **lst)
 	*lst = NULL;
 }
 
-static t_w_tmp	*ft_lstnew(char *con)
+t_w_tmp	*ft_data_lstnew(char *con)
 {
 	t_w_tmp	*new;
  
@@ -94,14 +94,14 @@ void search_for_pattern(t_first *f, int flag, char *sub_str)
     {
         if ((flag == 1 && ft_end_with(entry->d_name, sub_str) == 1) || (flag == 2 && ft_strat_with(entry->d_name, sub_str) == 1))
         {
-            f->tmp = ft_lstnew(entry->d_name);
+            f->tmp = ft_data_lstnew(entry->d_name);
             j = 2;
         }
     }
     while ((entry = readdir(dir)) != NULL) {
         if ((flag == 1 && ft_end_with(entry->d_name, sub_str) == 1) || (flag == 2 && ft_strat_with(entry->d_name, sub_str) == 1))
         {
-            t_w_tmp *new_node = ft_lstnew(entry->d_name);
+            t_w_tmp *new_node = ft_data_lstnew(entry->d_name);
             if (!new_node)
                 return ;
             ft_lstadd_back(&f->tmp, new_node);   
@@ -125,14 +125,14 @@ void disply_files_dir(t_first *f)
     {
         if (entry->d_name[0] != '.')
         {
-            f->tmp = ft_lstnew(entry->d_name);
+            f->tmp = ft_data_lstnew(entry->d_name);
             j = 2;
         }
     }
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_name[0] != '.')
         {
-            t_w_tmp *new_node = ft_lstnew(entry->d_name);
+            t_w_tmp *new_node = ft_data_lstnew(entry->d_name);
             if (!new_node)
                 return ;
             ft_lstadd_back(&f->tmp, new_node);   
@@ -160,11 +160,11 @@ void *deep_copy_tmp(t_first *f, void *data)
     tmp1= f->tmp;
     
     if (tmp1)
-        copy = ft_lstnew(tmp1->data);
+        copy = ft_data_lstnew(tmp1->data);
     tmp1 = tmp1->next;
     while (tmp1)
     {
-        t_w_tmp *cur = ft_lstnew(tmp1->data);
+        t_w_tmp *cur = ft_data_lstnew(tmp1->data);
         if (!cur)
             return (NULL);
         ft_lstadd_back(&copy, cur);
