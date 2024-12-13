@@ -1,0 +1,195 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   join_tokens.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 14:28:33 by anikitin          #+#    #+#             */
+/*   Updated: 2024/12/13 15:54:35 by meid             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+//  in -k mo -k error 
+
+void rename_tokens(t_first *f)
+{
+    t_tokens *cursor;
+    cursor = f->token_list;
+    int i = 0;
+        
+    while (cursor)
+    {
+        sleep(1);
+        if (cursor->next && cursor->type == WSPACE)    
+            cursor = cursor->next;
+        if (!(cursor->type >= PIPE && cursor->type <= LOGIC_OR))
+        {
+            if (cursor && cursor->type == WORD && i == 0)
+            {
+                printf("COMMAND\n");
+                cursor->type = COMMAND;
+            }
+            else if (cursor && (cursor->type >= D_QUOTES && cursor->type <= WORD) 
+                && ((char *)(cursor->data))[0] == '-' && i != 0) // could be a d_quotes
+            {
+                printf("FLAG\n");
+                cursor->type = FLAG;
+            }
+            else if (cursor && (cursor->type >= REDIRECT_IN && cursor->type <= REDIRECT_APPEND) 
+                && cursor->next)
+            {
+                printf("REDIRECTION\n");
+                cursor = cursor->next;
+                if (cursor && cursor->type == WSPACE && cursor->next)
+                {
+                    printf("WSPACE 2\n");
+                    cursor = cursor->next;
+                }
+                if (cursor && cursor->type == WORD)
+                {
+                    printf("FILENAME\n");
+                    cursor->type = FILENAME;
+                }
+            }
+            else if (cursor && cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)
+            {
+                printf("ARGUMENT\n");
+                printf("cursor->type: %s\n", token_type_to_string(cursor->type));
+                cursor = make_argument(cursor);
+                 printf("5 here before segfault\n");
+                 printf("current %s\n", (char *)cursor->data);
+            }
+            i++;
+        }
+        if (cursor && cursor->type >= PIPE && cursor->type <= LOGIC_OR)
+        {
+            printf("6 here before segfault\n");
+            printf("PIPE\n");
+            i = 0;
+        }
+        printf("7 here before segfault\n");
+        if (cursor && !((cursor->type >= D_QUOTES && cursor->type <= WORD)))
+        {
+            printf("i am in next\n");
+            printf("2: data : %s , cursor->type: %s\n", (char *)cursor->data,token_type_to_string(cursor->type));
+            cursor = cursor->next;
+            // printf("2: data : %s , cursor->type: %s\n", (char *)cursor->data,token_type_to_string(cursor->type));
+        }
+        printf("8 here before segfault\n");
+        // printf("data: %s\n", (char *)cursor->data);
+    }
+}
+
+void clear_extra_tokens(t_tokens *start, t_tokens *end)
+{
+    t_tokens *cursor = start->next;
+    t_tokens *tmp;
+    
+    printf("CLEAR EXTRA TOKENS\n");
+    //printf("start->data: %s\nend->data: %s\n", start->data, end->data);
+    if (!start)
+        return ;
+    while (cursor && cursor != end)
+    {
+        printf("CLEAR EXTRA TOKENS LOOP\n");
+        tmp = cursor;
+        cursor = cursor->next;
+
+        if (tmp->data)
+            free(tmp->data);
+        free(tmp);
+        printf("2 here before segfault\n");
+    }
+    printf("3 here before segfault\n");
+    if (cursor)
+        start->next = cursor;
+    else
+        start->next = NULL;
+    printf("4 here before segfault\n");
+}
+
+t_tokens *make_argument(t_tokens *cursor)
+{
+    t_tokens *tmp_token;
+    char *tmp;
+    int i = 0;
+    
+    tmp_token = cursor;
+    tmp_token->type = ARGUMENT;
+    tmp = tmp_token->data;
+    // free(tmp_token->data);
+    
+    if (!cursor->next)
+        return (tmp_token);
+    cursor = cursor->next;
+    while (cursor && (cursor->type >= D_QUOTES && cursor->type <= WSPACE)) // D_QUOTES,S_QUOTES,WORD, ENV_VAR, WSPACE
+    {
+        if (cursor->next && cursor->type == WSPACE && ((!(cursor->next->type >= D_QUOTES && cursor->next->type <= ENV_VAR)) || ((cursor->next->type >= D_QUOTES && cursor->next->type <= WORD) && ((char *)(cursor->next->data))[0] == '-')))
+        {
+            printf("break 1\n");
+            break ;
+        }
+        if (cursor && (cursor->type >= D_QUOTES && cursor->type <= WORD) && ((char *)(cursor->data))[0] == '-')
+        {
+            printf("break 2\n");
+            break ;
+        }
+        tmp_token->data = ft_strjoin(tmp, cursor->data);
+        free(tmp);
+        if (cursor->next)
+            tmp = tmp_token->data;
+        // free(tmp_token->data);
+        cursor = cursor->next;
+        i++;
+        printf("process\n");
+    }
+    printf("1 here before segfault\n");
+    clear_extra_tokens(tmp_token, cursor);
+    return (tmp_token);
+}
+
+// could be a d_quotes
+
+// t_tokens *make_argument(t_tokens *cursor)
+// {
+//     char *tmp_join;
+//     char *joined;
+
+//     tmp_join = cursor->data;
+//     if (cursor->next)
+//         cursor = cursor->next;
+//     while (cursor && (cursor->type >= D_QUOTES && cursor->type <= WSPACE))
+//     {
+//         joined = ft_strjoin(tmp_join, cursor->data);
+//         free (tmp_join);
+//         if (cursor->next)
+        
+//     }
+// }
+    
+    // t_tokens *tmp_token;
+    // char *tmp;
+    // int i = 0;
+    
+    // tmp_token = cursor;
+    // tmp_token->type = ARGUMENT;
+    // tmp = tmp_token->data;
+    // // free(tmp_token->data);
+    
+    // if (cursor->next)
+    //     cursor = cursor->next;
+    // while (cursor && (cursor->type >= D_QUOTES && cursor->type <= WSPACE)) // D_QUOTES,S_QUOTES,WORD, ENV_VAR, WSPACE
+    // {
+    //     tmp_token->data = ft_strjoin(tmp, cursor->data);
+    //     free(tmp);
+    //     if (cursor->next)
+    //         tmp = cursor->next->data;
+    //     cursor = cursor->next;
+    //     i++;
+    // }
+    // //clear_extra_tokens(tmp_token);
+    // return (cursor);
+// }

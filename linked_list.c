@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 17:31:13 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 20:31:46 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 13:00:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,19 @@ void ft_clear_node(t_tokens *node)
     if (node->data)
     {
         if (node->data_type == 'l')
-            ft_clear_tmp(node->data);
-        // printf("I am L\n");
+        {
+            t_w_tmp *tmp_data = (t_w_tmp *)node->data;
+            ft_clear_tmp(&tmp_data);
+        }
         else if (node->data_type == 's')
         {
             free(node->data);
             node->data = NULL;
-            free(node);
-            
         }
     }
+    free(node);
 }
+
 
 void ft_clear_tokens(t_tokens **token_list)
 {

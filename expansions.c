@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/11 18:16:31 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 14:38:25 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,16 @@ void expand_envp(t_tokens *token, t_first *f)
     }
 }
 
-
 void expand_d_quotes(t_tokens *token, t_first *f)
 {
     char *data;
     char *result;
-    
     char *before_var;
     char *tmp;
     char *tmp2;
-
     t_list *list_cursor;
-    
     int i;
     int start;
-    
     int var_start;
     char *var_name;
     char *var_value;
@@ -69,34 +64,50 @@ void expand_d_quotes(t_tokens *token, t_first *f)
     {
         if (data[i] == '$')
         {
+            // Get the part before the variable
             before_var = ft_substr(data, start, i - start);
-            i++;
 
-            var_start = i;
-            while (data[i] && (ft_isalnum(data[i]) || data[i] == '_'))
+            // Check if there's a character after '$'
+            if (data[i + 1])
                 i++;
+
+            // Start of the variable name
+            var_start = i;
+
+            // Traverse the variable name
+            while (data[i] && (ft_is(data[i], "alnum") || data[i] == '_'))
+                i++;
+
+            // Check if a valid variable name exists
             if (i > var_start)
             {
                 var_name = ft_substr(data, var_start, i - var_start);
                 var_value = NULL;
-                
+
+                // Search for the variable in the environment list
                 list_cursor = f->envp_list;
-            
                 while (list_cursor)
                 {
-                    if (!ft_strncmp(var_name, list_cursor->key, ft_strlen(var_name)))
+                    if (!ft_strncmp(var_name, list_cursor->key, ft_strlen(var_name)) &&
+                        ft_strlen(var_name) == ft_strlen(list_cursor->key))
                     {
                         var_value = ft_strdup(list_cursor->value);
-                        break ;
+                        break;
                     }
                     list_cursor = list_cursor->next;
                 }
                 free(var_name);
+
+                // Use an empty string if the variable is not found
                 if (!var_value)
                     var_value = ft_strdup("");
             }
-            else
+            else // No valid variable name, treat as literal '$'
+            {
                 var_value = ft_strdup("$");
+            }
+
+            // Concatenate result with the part before the variable and the variable value
             tmp = ft_strjoin(result, before_var);
             free(result);
             result = ft_strjoin(tmp, var_value);
@@ -104,10 +115,16 @@ void expand_d_quotes(t_tokens *token, t_first *f)
             free(before_var);
             free(var_value);
 
+            // Update the start position
             start = i;
         }
-        i++;
+        else
+        {
+            i++;
+        }
     }
+
+    // Append any remaining part of the string
     if (start < i)
     {
         tmp = ft_substr(data, start, i - start);
@@ -116,6 +133,8 @@ void expand_d_quotes(t_tokens *token, t_first *f)
         result = tmp2;
         free(tmp);
     }
+
+    // Replace the old data with the new expanded string
     free(token->data);
     token->data = result;
 }

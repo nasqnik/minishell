@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:25:43 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 17:17:04 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 12:54:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void initialize(t_first *f, char **env)
     f->envp_list = NULL;
     f->i = 0;
     f->envp_array = env;
-    env_to_list(f);
+    f->envp_list = NULL;
     f->i = 0;
     f->exit_status = 0;
     f->last_arg = "empty"; //change later
@@ -69,11 +69,11 @@ int main(int ac, char **av, char **env) {
         {
             parsing(&f);
             add_history(f.buffer);
+            free(f.buffer);
+            f.buffer = NULL;
         }
         ft_clear_tokens(&(f.token_list));
         ft_clear_list(&(f.envp_list));
-        free(f.buffer);
-        f.buffer = NULL;
     }
     return 0;
 }

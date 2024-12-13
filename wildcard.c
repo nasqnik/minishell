@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:49:49 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 20:24:21 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 18:28:17 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ void	ft_clear_tmp(t_w_tmp **lst)
 	{
 		tmp = current;
 		current = current->next;
-            // free (tmp->data);
-            // tmp->data = NULL;   
+            free (tmp->data);
+            tmp->data = NULL;   
 		free(tmp);
         tmp = NULL;
 	}
 	*lst = NULL;
 }
 
-static t_w_tmp	*ft_lstnew(char *con)
+t_w_tmp	*ft_data_lstnew(char *con)
 {
 	t_w_tmp	*new;
  
 	new = malloc((sizeof(t_w_tmp)));
 	if (new)
 	{
-        new->data = con; // ft_strdup(con)
+        new->data = ft_strdup(con);
 		new->next = NULL;
 	}
 	return (new);
@@ -90,29 +90,22 @@ void search_for_pattern(t_first *f, int flag, char *sub_str)
     DIR *dir = opendir(buf);
     struct dirent *entry;
     int j = 0;
-    printf("start from here\n");
     while ((entry = readdir(dir)) != NULL && j != 2)
     {
         if ((flag == 1 && ft_end_with(entry->d_name, sub_str) == 1) || (flag == 2 && ft_strat_with(entry->d_name, sub_str) == 1))
         {
-            f->tmp = ft_lstnew(entry->d_name);
+            f->tmp = ft_data_lstnew(entry->d_name);
             j = 2;
         }
     }
     while ((entry = readdir(dir)) != NULL) {
         if ((flag == 1 && ft_end_with(entry->d_name, sub_str) == 1) || (flag == 2 && ft_strat_with(entry->d_name, sub_str) == 1))
         {
-            t_w_tmp *new_node = ft_lstnew(entry->d_name);
+            t_w_tmp *new_node = ft_data_lstnew(entry->d_name);
             if (!new_node)
                 return ;
             ft_lstadd_back(&f->tmp, new_node);   
         }
-    }
-    t_w_tmp *lol = f->tmp;
-    while (lol)
-    {
-        printf("%s\n", lol->data);
-        lol = lol->next;
     }
     closedir(dir);
 }
@@ -121,7 +114,6 @@ void disply_files_dir(t_first *f)
 {
     char buf[1024];
     getcwd(buf, sizeof(buf));
-    printf("%s\n", buf);
     DIR *dir = opendir(buf);
     if (dir != NULL) {
         printf("Directory opened successfully.\n");
@@ -133,26 +125,19 @@ void disply_files_dir(t_first *f)
     {
         if (entry->d_name[0] != '.')
         {
-            f->tmp = ft_lstnew(entry->d_name);
+            f->tmp = ft_data_lstnew(entry->d_name);
             j = 2;
         }
     }
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_name[0] != '.')
         {
-            t_w_tmp *new_node = ft_lstnew(entry->d_name);
+            t_w_tmp *new_node = ft_data_lstnew(entry->d_name);
             if (!new_node)
                 return ;
             ft_lstadd_back(&f->tmp, new_node);   
         }
     }
-    t_w_tmp *lol = f->tmp;
-    while (lol)
-    {
-        printf("%s\n", lol->data);
-        lol = lol->next;
-    }
-    printf("1\n");
     closedir(dir);
 }
 
@@ -170,18 +155,16 @@ int ft_there_wildcard(char *str)
 
 void *deep_copy_tmp(t_first *f, void *data)
 {
-    // this function will declare t_w_tmp *copy and will take alloced copy from f->tmp that has data 
-    // then f->tocken is a void * i will make this pointer point to <copy> 
     t_w_tmp *copy;
     t_w_tmp *tmp1;
     tmp1= f->tmp;
     
     if (tmp1)
-        copy = ft_lstnew(tmp1->data);
+        copy = ft_data_lstnew(tmp1->data);
     tmp1 = tmp1->next;
     while (tmp1)
     {
-        t_w_tmp *cur = ft_lstnew(tmp1->data);
+        t_w_tmp *cur = ft_data_lstnew(tmp1->data);
         if (!cur)
             return (NULL);
         ft_lstadd_back(&copy, cur);
@@ -207,8 +190,7 @@ void wildcard(t_first *f)
                 if (tmp->len == 1)
                     disply_files_dir(f);
                 else
-                    search_for_pattern(f, 1, tmp->data + 1); // end
-                // search_from_end(tmp, t_first *f);
+                    search_for_pattern(f, 1, tmp->data + 1);
             }
             else if (wildcard_pos == tmp->len - 1)
             {

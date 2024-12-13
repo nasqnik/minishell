@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:09:21 by meid              #+#    #+#             */
-/*   Updated: 2024/12/05 20:07:50 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/12 13:53:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		}
 		i++;
 	}
-	sub[j] = 0;
+	sub[j] = '\0';
 	return (sub);
 }

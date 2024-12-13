@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 17:14:06 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 15:22:05 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,24 @@ void handle_error(t_first *f, char *msg, int flag)
 
 const char *token_type_to_string(t_token_type type) {
     switch (type) {
-        case WORD: return "WORD";
-        case PIPE: return "PIPE";
-        case REDIRECT_IN: return "REDIRECT_IN (<)";
-        case REDIRECT_OUT: return "REDIRECT_OUT (>)";
-        case REDIRECT_APPEND: return "REDIRECT_APPEND (>>)";
-        case HEREDOC: return "HEREDOC (<<)";
-        case ENV_VAR: return "ENV_VAR";
-        case WSPACE: return "SPACE";
-        case D_QUOTES: return "D_QUOTES";
-        case S_QUOTES: return "S_QUOTES";
-        case LOGIC_AND: return "LOGIC_AND";
-        case LOGIC_OR: return "LOGIC_OR";
-        case BRACKET: return "BRACKET";
-        default: return "UNKNOWN TOKEN";
+        case WORD: return ":WORD";
+        case PIPE: return ":PIPE";
+        case REDIRECT_IN: return ":REDIRECT_IN (<)";
+        case REDIRECT_OUT: return ":REDIRECT_OUT (>)";
+        case REDIRECT_APPEND: return ":REDIRECT_APPEND (>>)";
+        case HEREDOC: return ":HEREDOC (<<)";
+        case ENV_VAR: return ":ENV_VAR";
+        case WSPACE: return ":SPACE";
+        case D_QUOTES: return ":D_QUOTES";
+        case S_QUOTES: return ":S_QUOTES";
+        case LOGIC_AND: return ":LOGIC_AND";
+        case LOGIC_OR: return ":LOGIC_OR";
+        case BRACKET: return ":BRACKET";
+        case COMMAND: return ":COMMAND";
+        case FLAG: return ":FLAG";
+        case ARGUMENT: return ":ARGUMENT";
+        case FILENAME: return ":FILENAME";
+        case DELIMITER: return ":DELIMITER";
+        default: return ":UNKNOWN TOKEN";
     }
 }

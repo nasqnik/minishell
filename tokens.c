@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 19:34:51 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 15:24:07 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void parsing(t_first *f)
 {
+    env_to_list(f);
     lexer(f, f->buffer);
-    // add delimiter for here_doc before expansion to not expand $ in the delimeter
-    // expand_variables(f);
-    wildcard(f);
+    here_doc_env_check(f);
+    expand_variables(f);
+    //wildcard(f); - put the check for ls
+    rename_tokens(f);
+    
     t_tokens *tmp = f->token_list;
     printf("\nAFTER EXPANSIONS\n");
     while(tmp)
@@ -36,7 +39,6 @@ void parsing(t_first *f)
                     tmp_data = tmp_data->next;
                 }
             }
-
         }
         printf("      type: %s\n", token_type_to_string(tmp->type));
         tmp = tmp->next;
@@ -79,11 +81,15 @@ void lexer(t_first *f, char *str)
         add_back_token(&f->token_list, current_token);
     }
     printf("the list\n");
+    if (f->token_list)
+    {
     t_tokens *tmp = f->token_list;
     while(tmp)
     {
         printf("s: %s\n", (char *)tmp->data);
         tmp = tmp->next;
+    }
+        
     }
 } // echo $_ handel this later
 
@@ -104,3 +110,44 @@ void expand_variables(t_first *f)
     }
 }
 
+void here_doc_env_check(t_first *f)
+{
+    t_tokens *tmp;
+    
+    printf("1");
+    tmp = f->token_list;
+    char *tmpo;
+    while (tmp != NULL)
+    {
+        if (tmp->type == HEREDOC)
+        {
+            tmp = tmp->next;
+            if (tmp && tmp->type == WSPACE)
+                tmp = tmp->next;
+            if (tmp && tmp->type == ENV_VAR)
+            {
+                printf("lol\n");
+                tmpo = ft_strjoin("$", tmp->data);
+                free(tmp->data);
+                tmp->data = tmpo;
+            }
+            tmp->type = DELIMITER;
+        }
+        tmp = tmp->next;
+    }
+}
+
+            //     tmpo = ft_strjoin("$", tmp->next->next->data);
+            //     free(tmp->next->next->data);
+            //     tmp->next->next->data = tmpo;
+            //     free(tmpo);
+            //     tmp->next->next->type = WORD;
+            // }
+            // else if (tmp->next->type && tmp->next->type == ENV_VAR)
+            // {
+            //     tmpo = ft_strjoin("$", tmp->next->data);
+            //     free(tmp->next->data);
+            //     tmp->next->data = tmpo;
+            //     free(tmpo);
+            //     tmp->next->type = WORD;
+            // }
