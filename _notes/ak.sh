@@ -19,3 +19,33 @@ tar -czvf archive.tar.gz file1 file2&&echo"Done" ||archive, file, file?
 
 work fine
 mini shell is fun'-l'|skasfk <<ko>>$PWD psoaf
+
+minishell$ mini shell is fun'-l'|skasfk <<ko>>$PWD "ps"o'af' ((((((essgsd))))))
+
+AFTER EXPANSIONS
+string :   #mini#  
+          type: :COMMAND
+string :   # #  
+          type: :SPACE
+string :   #shell is fun#  
+          type: :ARGUMENT
+string :   #-l#  
+          type: :FLAG
+string :   #|#  
+          type: :PIPE
+string :   #skasfk#  
+          type: :COMMAND
+string :   # #  
+          type: :SPACE
+string :   #<<#  
+          type: :HEREDOC (<<)
+string :   #ko#  
+          type: :DELIMITER
+string :   #>>#  
+          type: :REDIRECT_APPEND (>>)
+string :   #/home/vscode/src#  
+          type: :ENV_VAR
+string :   # #  
+          type: :SPACE
+string :   #psoaf essgsd#  
+          type: :ARGUMENT

@@ -164,4 +164,10 @@ void	ft_clear_tmp(t_w_tmp **lst);
 
 t_w_tmp	*ft_data_lstnew(char *con);
 
+// remove_spaces
+void	remove_spaces(t_first *f);
+
+// verify_logic
+void	verify_logic(t_first *f);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 17:18:09 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 18:51:25 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	parsing(t_first *f)
 	here_doc_env_check(f);
 	expand_variables(f);
 	rename_tokens(f);
-	// remove_spaces(f);
+	remove_spaces(f);
+	verify_logic(f);
 	print_after_expansions(f);
 }
 	//wildcard(f); - put the check for ls

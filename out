@@ -1,0 +1,35 @@
+==699== Memcheck, a memory error detector
+==699== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==699== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==699== Command: ./minishell
+==699== 
+==699== 
+==699== FILE DESCRIPTORS: 3 open at exit.
+==699== Open file descriptor 2: /home/vscode/src/out
+==699==    <inherited from parent>
+==699== 
+==699== Open file descriptor 1: /dev/pts/0
+==699==    <inherited from parent>
+==699== 
+==699== Open file descriptor 0: /dev/pts/0
+==699==    <inherited from parent>
+==699== 
+==699== 
+==699== HEAP SUMMARY:
+==699==     in use at exit: 204,594 bytes in 218 blocks
+==699==   total heap usage: 508 allocs, 290 frees, 223,125 bytes allocated
+==699== 
+==699== LEAK SUMMARY:
+==699==    definitely lost: 0 bytes in 0 blocks
+==699==    indirectly lost: 0 bytes in 0 blocks
+==699==      possibly lost: 0 bytes in 0 blocks
+==699==    still reachable: 0 bytes in 0 blocks
+==699==         suppressed: 204,594 bytes in 218 blocks
+==699== 
+==699== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--699-- 
+--699-- used_suppression:     54 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,473 bytes in 211 blocks
+--699-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,101 bytes in 4 blocks
+--699-- used_suppression:      3 rl _notes/ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
+==699== 
+==699== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

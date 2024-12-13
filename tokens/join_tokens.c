@@ -6,11 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:28:33 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/13 17:16:04 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 19:02:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 //  in -k mo -k error
 

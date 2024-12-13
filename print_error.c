@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 17:20:08 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 17:56:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,26 @@ void	print_list(t_tokens	*list)
 			printf("s: %s\n", (char *)tmp->data);
 			tmp = tmp->next;
 		}
+	}
+}
+
+void	print_env(t_first *f, int flag)
+{
+	t_list	*tmp;
+	int		i;
+
+	tmp = f->envp_list;
+	i = 0;
+	while (tmp)
+	{
+		if (flag == 0)
+			printf("%s\n", f->envp_array[i]);
+		else
+		{
+			printf("key: %s\n", tmp->key);
+			printf("value: %s\n", tmp->value);
+		}
+		tmp = tmp->next;
+		i++;
 	}
 }
