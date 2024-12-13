@@ -137,6 +137,8 @@ int check_operator_type(int flag, char cur);
 // print.c
 void handle_error(t_first *f, char *msg, int flag);
 const char *token_type_to_string(t_token_type type);
+void	print_after_expansions(t_first *f);
+void	print_list(t_tokens	*list);
 
 //utils
 int ft_is(int c, char *str);
