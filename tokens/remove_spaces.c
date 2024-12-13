@@ -6,11 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:57 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 18:44:19 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 19:39:55 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	remove_spaces(t_first *f)
 {

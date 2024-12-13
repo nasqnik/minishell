@@ -6,11 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 18:07:22 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 20:12:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_is(int c, char *str)
 {

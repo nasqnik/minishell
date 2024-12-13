@@ -9,10 +9,11 @@ RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 
 SRC = minishell.c parsing.c \
-	tokens/token_types.c tokens/token_utils.c tokens/token_types02.c tokens/token_list.c tokens/join_tokens.c\
+	tokens/token_types.c tokens/token_utils.c tokens/token_types02.c tokens/token_list.c \
+	tokens/join_tokens.c tokens/remove_spaces.c \
 	expansions/expansions_dquotes.c expansions/env_list.c expansions/expansions.c \
-	remove_spaces.c verify_logic.c \
-	print_error.c utils.c wildcard.c 
+	verify_logic.c \
+	utils/print_error.c utils/utils.c wildcard/wildcard_str.c
  
 OBJ = $(SRC:.c=.o)
 

@@ -65,6 +65,26 @@ void	add_back_token(t_tokens **lst, t_tokens *new)
 	last->next = new;
 }
 
+void	ft_clear_tmp(t_w_tmp **lst)
+{
+	t_w_tmp	*current;
+	t_w_tmp	*tmp;
+
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		tmp = current;
+		current = current->next;
+            free (tmp->data);
+            tmp->data = NULL;   
+		free(tmp);
+        tmp = NULL;
+	}
+	*lst = NULL;
+}
+
 void	ft_clear_node(t_tokens *node)
 {
 	t_w_tmp	*tmp_data;

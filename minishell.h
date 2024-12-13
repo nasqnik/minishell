@@ -90,6 +90,7 @@ typedef struct s_first
     int         exit_status;
     char        *last_arg;
     // int     error_signal;
+    char        *tmp_data;
     int     i;
 }           t_first;
 
@@ -159,8 +160,9 @@ char *get_var(char *data, int *i, t_list *envp_list);
 char *get_var_value(char *var_name, t_list *envp_list);
 
 // wildcard
-void wildcard(t_first *f);
 void	ft_clear_tmp(t_w_tmp **lst);
+
+void wildcard_str(t_first *f);
 
 t_w_tmp	*ft_data_lstnew(char *con);
 

@@ -6,11 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 17:56:15 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/13 20:12:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	handle_error(t_first *f, char *msg, int flag)
 {
