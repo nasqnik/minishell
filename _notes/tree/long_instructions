@@ -1,0 +1,29 @@
+[1]   && and || as the head:
+If && or || are in the command, they will be the head of the structure. These operators control the execution flow based on the success (&&) or failure (||) of the command preceding them.
+
+[2]   If there are two && or ||:
+When there are two && or || operators in a sequence, each operator connects two sub-trees where the first operator controls the flow between its immediate left command and its immediate right command. In case of multiple && or ||, the execution will propagate based on the logic.
+
+[3]   Pipe (|) as a connecting node:
+The pipe (|) connects the output of one command to the input of another. It is always placed between two commands, creating a link between them.
+
+[4]   Commands with arguments:
+Each command in the sequence has associated arguments. These arguments are treated as parameters or children of the command node, and they define what data the command will work on.
+
+[5]   Operators can nest:
+When operators like &&, ||, and | are used together, they can create nested structures, where the execution of one command depends on the result of a previous command or pipeline.
+
+[6]   && followed by ||:
+If an && is followed by a ||, the flow will first ensure that the command on the left of && succeeds before moving to the right part, and then, if the right side fails, it will proceed with the || branch.
+
+[7]   When a pipe connects two commands:
+A pipe (|) connects two commands and ensures the output of the first command becomes the input for the second command. The output of the first command is fed directly into the second command’s input stream.
+
+[8]   Command nodes with operators in the middle:
+If an operator (&&, ||, or |) is between two commands, the operator is treated as the parent node with two child command nodes. The left child is executed first, followed by the right child, depending on the operator's logic.
+
+[9]   Chained commands with &&:
+Chaining commands with && means the second command only runs if the first one succeeds (returns a zero exit status). Multiple && operators in a sequence ensure that each command must succeed for the next to run.
+
+[10]   Chained commands with ||:
+Chaining commands with || means the second command only runs if the first one fails (returns a non-zero exit status). Multiple || operators in a sequence will allow the failure condition to propagate and run the next command if the preceding ones fail.

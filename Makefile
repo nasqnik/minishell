@@ -13,7 +13,8 @@ SRC = minishell.c parsing.c \
 	tokens/join_tokens.c tokens/remove_spaces.c \
 	expansions/expansions_dquotes.c expansions/env_list.c expansions/expansions.c \
 	verify_logic.c \
-	utils/print_error.c utils/utils.c wildcard/wildcard_str.c
+	utils/print_error.c utils/utils.c wildcard/wildcard_last.c wildcard/utils.c\
+	ast_tree/create_tree.c
  
 OBJ = $(SRC:.c=.o)
 

@@ -78,6 +78,15 @@ typedef struct s_tmp
     struct s_tmp *next;
 }       t_w_tmp;
 
+typedef struct s_tree
+{
+    char *data;
+    int type;
+    int *level;
+    struct s_tree *left;
+    struct s_tree *right;
+}           t_tree;
+
 typedef struct s_first
 {
     char		*buffer;
@@ -90,7 +99,7 @@ typedef struct s_first
     int         exit_status;
     char        *last_arg;
     // int     error_signal;
-    char        *tmp_data;
+    char        *temporary;
     int     i;
 }           t_first;
 
@@ -162,6 +171,11 @@ char *get_var_value(char *var_name, t_list *envp_list);
 // wildcard
 void	ft_clear_tmp(t_w_tmp **lst);
 
+int ft_there_wildcard(char *str);
+int who_many_wildcard(char *str);
+char *clean_wildcard(char *data);
+void prossing_files(t_first *f, struct dirent *entry);
+
 void wildcard_str(t_first *f);
 
 t_w_tmp	*ft_data_lstnew(char *con);
@@ -170,6 +184,12 @@ t_w_tmp	*ft_data_lstnew(char *con);
 void	remove_spaces(t_first *f);
 
 // verify_logic
-void	verify_logic(t_first *f);
+int verify_logic(t_first *f);
+
+// create_tree
+void	create_tree(t_first *f);
+
+
+
 
 #endif

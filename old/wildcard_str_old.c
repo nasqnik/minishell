@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_str.c                                     :+:      :+:    :+:   */
+/*   wildcard_str_old.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:56:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 21:31:57 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/14 11:31:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,33 @@ int ft_end_with(char *str, char *end)
     return (0);
 }
 
-void prossing_files(t_first *f, struct dirent *entry)
+char *prossing_files(struct dirent *entry, char *temporary)
 {
     char *tmp;
 
     tmp = NULL;
-    if (f->tmp_data == NULL)
+    if (temporary == NULL)
     {
-        f->tmp_data = ft_strdup(entry->d_name);
-        if (!f->tmp_data)
+        temporary = ft_strdup(entry->d_name);
+        if (!temporary)
             return ;
     }
     else
     {
-        tmp = ft_strjoin(f->tmp_data, " ");
+        tmp = ft_strjoin(temporary, " ");
         if (!tmp)
             return ;
-        free (f->tmp_data);
-        f->tmp_data = ft_strjoin(tmp, entry->d_name);
-        if (!f->tmp_data)
+        free (temporary);
+        temporary = ft_strjoin(tmp, entry->d_name);
+        if (!temporary)
             return ;
         free(tmp);
     }
+	return(temporary)
 }
 
-void disply_files_dir(t_first *f, int flag, char *sub_str)
+
+char *disply_files_dir(t_first *f, int flag, char *sub_str)
 {
     char buf[1024];
     DIR *dir;
@@ -66,7 +68,7 @@ void disply_files_dir(t_first *f, int flag, char *sub_str)
         if ((entry->d_name[0] != '.' && flag == 0) 
             || (flag == 1 && ft_end_with(entry->d_name, sub_str) == 1)
             || (flag == 2 && ft_strat_with(entry->d_name, sub_str) == 1))
-            prossing_files(f, entry);
+            prossing_files(f, entry, temporary);
     }
     closedir(dir);
 }
@@ -83,41 +85,77 @@ int ft_there_wildcard(char *str)
     return (-1);
 }
 
+void check_for_each_wildcard(t_first *f, t_tokens *tmp, int wildcard_pos)
+{
+	char **data = ft_split(tmp->data);
+	int index = 0;
+	char *string = NULL;
+	if (wildcard_pos == 0)
+	{
+		if (tmp->len == 1)
+	   		f->temporary[index] = disply_files_dir(f, 0, NULL);
+		else
+	    	f->temporary[index] = disply_files_dir(f, 1, tmp->data + 1);
+	}
+	else if (wildcard_pos == tmp->len - 1)
+	{
+		string = (char *)tmp->data;
+		int len = tmp->len;
+		if (len > 0)
+	    string[len - 1] = '\0';
+		f->temporary[index] = disply_files_dir(f, 2, string);
+	}
+	if (f->temporary[index])
+	{
+		index++;
+		// free(tmp->data);
+		// tmp->data = f->temporary;
+		// // free(f->temporary);
+		// f->temporary = NULL;
+	}
+	f->temporary[index] = NULL;
+}	
+
+
+char *ft_double_array_to_array(char **array)
+{
+	char *str = NULL; 
+	char *tmp = NULL; 
+	int i = 0;
+	if (array[i])
+	{
+		str = ft_strdup(array[i]);
+		i++;
+	}
+	while (array[i])
+	{
+		tmp = ft_strjoin(str, " ");
+		free(str);
+		str = ft_strjoin(tmp, array[i]);
+		free(tmp);
+		i++;
+	}
+	printf("str: %s\n", str);
+	return (str);
+}
+
 void wildcard_str(t_first *f)
 {
     (void)f;
     t_tokens *tmp = f->token_list;
-    f->tmp_data = NULL;
+	f->temporary = NULL;
     while(tmp)
     {
         int wildcard_pos = ft_there_wildcard(tmp->data);
-        if (tmp->type == COMMAND && wildcard_pos != -1)
-        {   
-            
-            if (wildcard_pos == 0)
-            {
-                if (tmp->len == 1)
-                    disply_files_dir(f, 0, NULL);
-                else
-                    disply_files_dir(f, 1, tmp->data + 1);
-            }
-            else if (wildcard_pos == tmp->len - 1)
-            {
-                char *string = (char *)tmp->data;
-                int len = tmp->len;
-                if (len > 0) {
-                    string[len - 1] = '\0';
-                }
-                disply_files_dir(f, 2, string);
-            }
-            if (f->tmp_data)
-            {
-                free(tmp->data);
-                tmp->data = f->tmp_data;
-                free(f->tmp_data);
-                f->tmp_data = NULL;
-            }
-        }
+        if (tmp->type == ARGUMENT && wildcard_pos != -1)
+            check_for_each_wildcard(f, tmp, wildcard_pos);
+		if (f->temporary)
+		{
+			free(tmp->data);
+			tmp->data = ft_double_array_to_array(f->temporary);
+			f->temporary = NULL;
+		}
         tmp = tmp->next;
+		
     }
 }

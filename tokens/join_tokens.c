@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:28:33 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/13 19:02:58 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/14 14:04:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 //  in -k mo -k error
 
+
+// "echo" df  command 
+
 t_tokens	*rename_one_part(t_tokens *cursor, int i)
 {
-	if (cursor && cursor->type == WORD && i == 0)
+	if (cursor &&  (cursor->type >= D_QUOTES && cursor->type <= WORD) && i == 0) // before only word < "echo" df>
 		cursor->type = COMMAND;
 	else if (cursor && (cursor->type >= D_QUOTES && cursor->type <= WORD)
 		&& ((char *)(cursor->data))[0] == '-' && i != 0)
@@ -27,7 +30,7 @@ t_tokens	*rename_one_part(t_tokens *cursor, int i)
 		cursor = cursor->next;
 		if (cursor && cursor->type == WSPACE && cursor->next)
 			cursor = cursor->next;
-		if (cursor && cursor->type == WORD)
+		if (cursor && (cursor->type >= D_QUOTES && cursor->type <= WORD)) // before only word < >> "dsa">   
 			cursor->type = FILENAME;
 	}
 	else if (cursor && cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)
@@ -51,7 +54,7 @@ void	rename_tokens(t_first *f)
 			cursor = rename_one_part(cursor, i);
 			i++;
 		}
-		if (cursor && cursor->type >= PIPE && cursor->type <= LOGIC_OR)
+		if (cursor && ((cursor->type >= PIPE && cursor->type <= LOGIC_OR))) // for this cace >> file command arg
 			i = 0;
 		if (cursor && !((cursor->type >= D_QUOTES && cursor->type <= WORD)))
 			cursor = cursor->next;

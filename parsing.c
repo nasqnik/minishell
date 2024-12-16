@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 20:11:18 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/16 18:34:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ void	parsing(t_first *f)
 	f->i = 0;
 	lexer(f, f->buffer);
 	here_doc_env_check(f);
+	// error_404(f);
 	expand_variables(f);
-	rename_tokens(f);
-	remove_spaces(f);
-	verify_logic(f);
-	wildcard_str(f);
+	wildcard_str(f); // it is bigger than what i thought <i will do it later>
 	print_after_expansions(f);
+	// printf("\n\n\n");
+	// rename_tokens(f);
+	// remove_spaces(f);
+	// if (verify_logic(f) == 1)
+	// 	return ;
+	// print_after_expansions(f);
+	// create_tree(f);
 }
 	//wildcard(f); - put the check for ls
 

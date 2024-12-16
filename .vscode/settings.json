@@ -7,6 +7,9 @@
         "vector": "c",
         "history.h": "c",
         "iterator": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "iosfwd": "c",
+        "chrono": "c",
+        "sstream": "c"
     }
 }
