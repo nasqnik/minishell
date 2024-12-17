@@ -12,7 +12,23 @@
 
 #include "../minishell.h"
 
-void	create_tree(t_first *f)
+int 
+
+void	create_tree(t_tokens *token)
 {
-    (void)f;
+    t_tree *ast_node;
+    t_tokens *start = token;
+
+    while (token != NULL)
+    {
+        if (token->type == LOGIC_AND || token->type == LOGIC_OR)
+        {
+            ast_node = malloc(t_tree);
+            ast_node->data = token->data;
+            ast_node->left = 
+            if (token->next)
+                ast_node->right = token->next;
+        }
+
+    }
 }

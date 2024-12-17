@@ -27,7 +27,9 @@ void	parsing(t_first *f)
 	if (verify_logic(f) == 1)
 		return ;
 	print_after_expansions(f);
-	// create_tree(f);
+
+	t_tokens *cursor = f->token_list;
+	create_tree(cursor);
 }
 	//wildcard(f); - put the check for ls
 
