@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2024/12/14 15:49:00 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/17 13:44:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int Control_Operators(t_tokens *cursor, int index)
     return (0);
 }
 
-int Redirection_Operators(t_tokens *cursor, int index)
+int Redirection_Operators(t_tokens *cursor)
 {
     if (!cursor->next
         || (cursor->next && ((cursor->type == HEREDOC && cursor->next->type != DELIMITER)
         || (cursor->next->type != FILENAME))))
         return (1);
-    if (cursor->next->next && index == 0)
-        cursor->next->next->type = COMMAND; 
+    // if (cursor->next->next && index == 0)
+    //     cursor->next->next->type = COMMAND; 
     return (0);
 }
 
@@ -45,7 +45,7 @@ int verify_logic(t_first *f)
         if (cursor->type >= PIPE && cursor->type <= LOGIC_OR)
             to_return = Control_Operators(cursor, i);
         if (cursor->type >= REDIRECT_IN && cursor->type <= REDIRECT_APPEND)
-            to_return = Redirection_Operators(cursor, i);
+            to_return = Redirection_Operators(cursor);
         if (to_return != 0)
             return(handle_error(f, "logic_error", 1), to_return);
         cursor = cursor->next;
@@ -53,18 +53,3 @@ int verify_logic(t_first *f)
     }
     return (to_return);
 }
-
-// int error_404(t_first *f)
-// {
-//     t_tokens *cursor;
-//     int i;
-
-//     i = 0;
-//     cursor = f->token_list;
-//     while (cursor)
-//     {
-//     }
-//     return (0);
-// }
-
-      

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 20:12:23 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/17 13:17:25 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	handle_error(t_first *f, char *msg, int flag)
 	{
 		ft_clear_tokens(&(f->token_list));
 		ft_clear_list(&(f->envp_list));
-		free(f->buffer);
-		f->buffer = NULL;
+		// free(f->buffer);
+		//f->buffer = NULL;
 		f->error_flag = 1;
 	}
 }
