@@ -6,12 +6,41 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 11:45:32 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 12:40:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void fill_in_args(t_tree *node, t_tokens **tokens)
+{
+    int i = 0;
+    t_tokens *tmp = (*tokens);
+    
+    while (tmp && (tmp->type == COMMAND 
+            || tmp->type == ARGUMENT || 
+                tmp->type == FLAG))
+    {
+        printf("loop : 4\n");
+        tmp = tmp->next;
+        i++;
+    }
+    printf("i: %i\n", i);
+    if (i != 0)
+    {
+        node->args = malloc(sizeof(char *) * (i + 1));
+        int j = 0;
+        while (j < i)
+        {
+            printf("loop : 5\n");
+            node->args[j] = ft_strdup((*tokens)->data);
+        
+            (*tokens) = (*tokens)->next;
+            j++;
+        }
+        node->args[j] = NULL;
+    }
+}
 // echo hi | grep "lol"
 
 t_tree *create_ast_tree(t_tokens **tokens)
@@ -89,43 +118,20 @@ t_tree *create_ast_redirections(t_tokens **tokens)
 t_tree *create_ast_command(t_tokens **tokens)
 {
     printf("create_ast_command\n");
-    t_tree *node = malloc(sizeof(t_tree));
-    node->type = COMMAND;
-    node->args = NULL;
-    int i = 0;
 
+    t_tree *node = malloc(sizeof(t_tree));
+    
+    node->type = COMMAND;
+    fill_in_args(node, tokens);
+    
     if (!*tokens)
         printf("i am lost: 4\n");
-    t_tokens *tmp = (*tokens);
-    
-    while (tmp && (tmp->type == COMMAND 
-            || tmp->type == ARGUMENT || 
-                tmp->type == FLAG))
-    {
-        printf("loop : 4\n");
-        tmp = tmp->next;
-        i++;
-    }
-    if (i != 0)
-    {
-        node->args = malloc((sizeof(char *) * i) + 1);
-        i = 0;
-        while ((*tokens) && ((*tokens)->type == COMMAND 
-            || (*tokens)->type == ARGUMENT
-            || (*tokens)->type == FLAG))
-        {
-            printf("loop : 5\n");
-            node->args[i] = ft_strdup((*tokens)->data);
         
-            (*tokens) = (*tokens)->next;
-            i++;
-        }
-        node->args[i] = NULL;
-    }
     node->left = NULL;
     node->right = NULL;
     return node;
 }
+
 
 void print_ast(t_tree *node, int depth, char *flag)
 {
