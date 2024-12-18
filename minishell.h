@@ -191,7 +191,8 @@ int verify_logic(t_first *f);
 
 // create_tree
 t_tree *create_ast_tree(t_tokens **token);
-t_tree *create_ast_logic(t_tokens **tokens);
+t_tree *create_ast_and(t_tokens **tokens);
+t_tree *create_ast_or(t_tokens **tokens);
 t_tree *create_ast_pipe(t_tokens **tokens);
 t_tree *create_ast_redirections(t_tokens **tokens);
 t_tree *create_ast_command(t_tokens **tokens);
@@ -200,5 +201,15 @@ void print_ast(t_tree *node, int depth, char *flag);
 // clear_tree
 void ft_clear_tree(t_tree *node);
 
+// execution
+void execution(t_first *f);
+
+// builtins
+char *ft_echo(char **args, int i);
+char *ft_cd(char **args, int i);
+char *ft_export(char **args, int i);
+char *ft_unset(char **args, int i);
+char *ft_env(char **args, int i);
+char *ft_exit(char **args, int i);
 
 #endif

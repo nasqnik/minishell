@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 15:17:19 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 15:32:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,43 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
 
 t_tree *create_ast_tree(t_tokens **token)
 {
-    return create_ast_logic(token);
+    return create_ast_and(token);
 }
 
-t_tree *create_ast_logic(t_tokens **tokens)
+t_tree *create_ast_and(t_tokens **tokens)
+{
+    printf("create_ast_logic\n");
+    t_tree *left = create_ast_or(tokens);
+    printf("i chaneged my place\n");
+    if (!*tokens)
+        printf("i am lost: 1\n");
+    while (*tokens && (*tokens)->type == LOGIC_AND)
+    {
+        printf("loop : 1\n");
+            printf("if : 1\n");
+            t_tree *node = malloc(sizeof(t_tree));
+            node->type = (*tokens)->type;
+            node->file = NULL;
+            node->args = NULL;
+            *tokens = (*tokens)->next;
+            
+            node->left = left;
+            node->right = create_ast_or(tokens);
+            
+
+            left = node;
+    }
+    return left;
+}
+
+t_tree *create_ast_or(t_tokens **tokens)
 {
     printf("create_ast_logic\n");
     t_tree *left = create_ast_pipe(tokens);
     printf("i chaneged my place\n");
     if (!*tokens)
         printf("i am lost: 1\n");
-    while (*tokens && ((*tokens)->type == LOGIC_AND || (*tokens)->type == LOGIC_OR))
+    while (*tokens && (*tokens)->type == LOGIC_OR)
     {
         printf("loop : 1\n");
             printf("if : 1\n");

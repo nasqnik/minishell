@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:05:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 15:05:42 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 16:02:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	initialize(t_first *f, char **env)
 	f->i = 0;
 	f->exit_status = 0;
 	f->last_arg = "empty";
+	f->ast_tree = NULL;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -64,6 +65,7 @@ int	main(int ac, char **av, char **env)
 		if (*f.buffer != '\0')
 		{
 			parsing(&f);
+			execution(&f);
 			add_history(f.buffer);
 			free(f.buffer);
 			f.buffer = NULL;
