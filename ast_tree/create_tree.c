@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 15:32:12 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 16:46:32 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
             || tmp->type == ARGUMENT || 
                 tmp->type == FLAG)
             i++;
-        printf("loop : 4\n");
         tmp = tmp->next;
     }
-    printf("i: %i\n", i);
     if (i != 0)
     {
         node->args = malloc(sizeof(char *) * (i + 1));
@@ -42,7 +40,6 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
             || tmp->type == DELIMITER) 
             || (tmp->type >= REDIRECT_IN && tmp->type <= HEREDOC)))
         {
-            printf("loop : 5\n");
             if (tmp->type == COMMAND 
             || tmp->type == ARGUMENT || 
                 tmp->type == FLAG)
@@ -55,7 +52,7 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
             node->args[i] = NULL;
     }
 }
-// echo hi | grep "lol"
+
 
 t_tree *create_ast_tree(t_tokens **token)
 {
@@ -64,89 +61,74 @@ t_tree *create_ast_tree(t_tokens **token)
 
 t_tree *create_ast_and(t_tokens **tokens)
 {
-    printf("create_ast_logic\n");
-    t_tree *left = create_ast_or(tokens);
-    printf("i chaneged my place\n");
-    if (!*tokens)
-        printf("i am lost: 1\n");
+    t_tree *left;
+    t_tree *node;
+    
+    left = create_ast_or(tokens);
     while (*tokens && (*tokens)->type == LOGIC_AND)
     {
-        printf("loop : 1\n");
-            printf("if : 1\n");
-            t_tree *node = malloc(sizeof(t_tree));
-            node->type = (*tokens)->type;
-            node->file = NULL;
-            node->args = NULL;
-            *tokens = (*tokens)->next;
-            
-            node->left = left;
-            node->right = create_ast_or(tokens);
-            
-
-            left = node;
+        node = malloc(sizeof(t_tree));
+        node->type = (*tokens)->type;
+        node->file = NULL;
+        node->args = NULL;
+        *tokens = (*tokens)->next;
+        node->left = left;
+        node->right = create_ast_or(tokens);
+        left = node;
     }
-    return left;
+    return (left);
 }
 
 t_tree *create_ast_or(t_tokens **tokens)
 {
-    printf("create_ast_logic\n");
-    t_tree *left = create_ast_pipe(tokens);
-    printf("i chaneged my place\n");
-    if (!*tokens)
-        printf("i am lost: 1\n");
+    t_tree *left;
+    t_tree *node;
+    
+    left = create_ast_pipe(tokens);
+
     while (*tokens && (*tokens)->type == LOGIC_OR)
     {
-        printf("loop : 1\n");
-            printf("if : 1\n");
-            t_tree *node = malloc(sizeof(t_tree));
-            node->type = (*tokens)->type;
-            node->file = NULL;
-            node->args = NULL;
-            *tokens = (*tokens)->next;
-            
-            node->left = left;
-            node->right = create_ast_pipe(tokens);
-            
-
-            left = node;
+        node = malloc(sizeof(t_tree));
+        node->type = (*tokens)->type;
+        node->file = NULL;
+        node->args = NULL;
+        *tokens = (*tokens)->next;
+        node->left = left;
+        node->right = create_ast_pipe(tokens);
+        left = node;
     }
-    return left;
+    return (left);
 }
 
 t_tree *create_ast_pipe(t_tokens **tokens)
 {
-    printf("create_ast_pipe\n");
-    t_tree *left = create_ast_redirections(tokens);
-    if (!*tokens)
-        printf("i am lost: 2\n");
+    t_tree *left;
+    t_tree *node;
+    
+    left = create_ast_redirections(tokens);  
     while (*tokens && (*tokens)->type == PIPE)
     {
-        printf("if : 2\n");
-        t_tree *node = malloc(sizeof(t_tree));
+        node = malloc(sizeof(t_tree));
         node->type = PIPE;
         node->file = NULL;
         node->args = NULL;
         *tokens = (*tokens)->next;
-
         node->left = left;
         node->right = create_ast_redirections(tokens);
-
         left = node; 
     }
-    return left;
+    return (left);
 }
 
 t_tree *create_ast_redirections(t_tokens **tokens)
 {
-    printf("create_ast_redirections\n");
-    t_tree *cmd = create_ast_command(tokens);
-    if (!*tokens)
-        printf("i am lost: 3\n");
+    t_tree *cmd;
+    t_tree *node;
+    
+    cmd = create_ast_command(tokens);
     while (*tokens && ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC))
     {
-        printf("loop : 3\n");
-        t_tree *node = malloc(sizeof(t_tree));
+        node = malloc(sizeof(t_tree));
         node->type = (*tokens)->type;
         node->args = NULL;
         *tokens = (*tokens)->next;
@@ -156,8 +138,6 @@ t_tree *create_ast_redirections(t_tokens **tokens)
             node->file = ft_strdup((*tokens)->data);
             *tokens = (*tokens)->next;
         }
-        if (*tokens)
-            printf("1 current token type: %d\n", (*tokens)->type);
         while ((*tokens) && ((*tokens)->type == COMMAND 
             || (*tokens)->type == ARGUMENT
             || (*tokens)->type == FLAG))
@@ -166,29 +146,25 @@ t_tree *create_ast_redirections(t_tokens **tokens)
         node->left = cmd;
         cmd = node;
     }
-    return cmd;
+    return (cmd);
 }
+
 t_tree *create_ast_command(t_tokens **tokens)
 {
-    printf("create_ast_command\n");
-
-    t_tree *node = malloc(sizeof(t_tree));
+    t_tree *node;
     
+    node = malloc(sizeof(t_tree));
     node->type = COMMAND;
     fill_in_args(node, tokens);
-    
-    if (!*tokens)
-        printf("i am lost: 4\n");
     while ((*tokens) && ((*tokens)->type == COMMAND 
             || (*tokens)->type == ARGUMENT || 
                 (*tokens)->type == FLAG))
         (*tokens) = (*tokens)->next;
-    if (*tokens)
-        printf("2 current token type: %d\n", (*tokens)->type);
     node->file = NULL;
     node->left = NULL;
     node->right = NULL;
-    return node;
+    
+    return (node);
 }
 
 

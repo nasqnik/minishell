@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 16:34:57 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 16:50:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ char *str_cmp_builtin(char *command, char **args)
     
     int i = 1;
     str = NULL;
-    if (ft_strcmp(command, "echo"))
+    if (ft_strcmp(command, "echo") == 0)
         str = ft_echo(args, i);
-    if (ft_strcmp(command, "cd"))
+    if (ft_strcmp(command, "cd") == 0)
         str = ft_cd(args, i);
-    if (ft_strcmp(command, "export"))
+    if (ft_strcmp(command, "export") == 0)
         str = ft_export(args, i);
-    if (ft_strcmp(command, "unset"))
+    if (ft_strcmp(command, "unset") == 0)
         str = ft_unset(args, i);
-    if (ft_strcmp(command, "env"))
+    if (ft_strcmp(command, "env") == 0)
         str = ft_env(args, i);
-    if (ft_strcmp(command, "exit"))
+    if (ft_strcmp(command, "exit") == 0)
         str = ft_exit(args, i);
     return (str);
 }

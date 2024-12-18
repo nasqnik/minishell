@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:28:56 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 15:11:10 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 16:39:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 void ft_clear_tree(t_tree *node)
 {
-    printf("before\n");
     if (!node)
         return;
-    printf("before2\n");
-
     if (node->left)
         ft_clear_tree(node->left);
     if (node->right)
         ft_clear_tree(node->right);
-    printf("lol\n");
     if (node->args)
     {
         int i = 0;
@@ -34,7 +30,6 @@ void ft_clear_tree(t_tree *node)
         }
         free(node->args);
     }
-
     if (node->file)
         free(node->file);
 

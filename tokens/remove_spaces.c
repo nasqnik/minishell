@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:57 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 19:39:55 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 17:19:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	remove_spaces(t_first *f)
         return;
 	while (tmp)
 	{
-		if (tmp->next && tmp->next->type == WSPACE)
+		if ((tmp->type != ARGUMENT && tmp->type != FLAG) &&tmp->next && tmp->next->type == WSPACE)
 		{
 			to_delete = tmp->next;
 			if (tmp->next->next)
@@ -32,6 +32,12 @@ void	remove_spaces(t_first *f)
 				tmp->next = NULL;
 			free(to_delete->data);
 			free(to_delete);
+		}
+		else if ((tmp->type == ARGUMENT || tmp->type == FLAG)&&tmp->next && tmp->next->type == WSPACE)
+		{
+			 tmp->next->type = ARGUMENT;
+			 tmp = tmp->next;
+			
 		}
 		else
 			tmp = tmp->next;
