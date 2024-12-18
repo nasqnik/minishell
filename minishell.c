@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:05:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 18:07:06 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 15:05:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int ac, char **av, char **env)
 			f.buffer = NULL;
 		}
 		ft_clear_tokens(&(f.token_list));
+		ft_clear_tree(f.ast_tree);
 		ft_clear_list(&(f.envp_list));
 	}
 	return (0);

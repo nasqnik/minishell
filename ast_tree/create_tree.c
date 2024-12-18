@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 12:40:15 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 15:17:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,49 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
     int i = 0;
     t_tokens *tmp = (*tokens);
     
-    while (tmp && (tmp->type == COMMAND 
-            || tmp->type == ARGUMENT || 
-                tmp->type == FLAG))
+    while (tmp && ((tmp->type == COMMAND 
+            || tmp->type == ARGUMENT
+            || tmp->type == FLAG || tmp->type == FILENAME
+            || tmp->type == DELIMITER) 
+            || (tmp->type >= REDIRECT_IN && tmp->type <= HEREDOC)))
     {
+        if (tmp->type == COMMAND 
+            || tmp->type == ARGUMENT || 
+                tmp->type == FLAG)
+            i++;
         printf("loop : 4\n");
         tmp = tmp->next;
-        i++;
     }
     printf("i: %i\n", i);
     if (i != 0)
     {
         node->args = malloc(sizeof(char *) * (i + 1));
-        int j = 0;
-        while (j < i)
+        i = 0;
+         tmp = (*tokens);
+    while (tmp && ((tmp->type == COMMAND 
+            || tmp->type == ARGUMENT
+            || tmp->type == FLAG || tmp->type == FILENAME
+            || tmp->type == DELIMITER) 
+            || (tmp->type >= REDIRECT_IN && tmp->type <= HEREDOC)))
         {
             printf("loop : 5\n");
-            node->args[j] = ft_strdup((*tokens)->data);
-        
-            (*tokens) = (*tokens)->next;
-            j++;
+            if (tmp->type == COMMAND 
+            || tmp->type == ARGUMENT || 
+                tmp->type == FLAG)
+            {
+                node->args[i] = ft_strdup(tmp->data);
+                i++;    
+            }
+            tmp = tmp->next;
         }
-        node->args[j] = NULL;
+            node->args[i] = NULL;
     }
 }
 // echo hi | grep "lol"
 
-t_tree *create_ast_tree(t_tokens **tokens)
+t_tree *create_ast_tree(t_tokens **token)
 {
-    return create_ast_logic(tokens);
+    return create_ast_logic(token);
 }
 
 t_tree *create_ast_logic(t_tokens **tokens)
@@ -61,10 +75,13 @@ t_tree *create_ast_logic(t_tokens **tokens)
             printf("if : 1\n");
             t_tree *node = malloc(sizeof(t_tree));
             node->type = (*tokens)->type;
+            node->file = NULL;
+            node->args = NULL;
             *tokens = (*tokens)->next;
             
             node->left = left;
             node->right = create_ast_pipe(tokens);
+            
 
             left = node;
     }
@@ -82,6 +99,8 @@ t_tree *create_ast_pipe(t_tokens **tokens)
         printf("if : 2\n");
         t_tree *node = malloc(sizeof(t_tree));
         node->type = PIPE;
+        node->file = NULL;
+        node->args = NULL;
         *tokens = (*tokens)->next;
 
         node->left = left;
@@ -103,6 +122,7 @@ t_tree *create_ast_redirections(t_tokens **tokens)
         printf("loop : 3\n");
         t_tree *node = malloc(sizeof(t_tree));
         node->type = (*tokens)->type;
+        node->args = NULL;
         *tokens = (*tokens)->next;
 
         if (*tokens && (*tokens)->type == FILENAME)
@@ -110,6 +130,13 @@ t_tree *create_ast_redirections(t_tokens **tokens)
             node->file = ft_strdup((*tokens)->data);
             *tokens = (*tokens)->next;
         }
+        if (*tokens)
+            printf("1 current token type: %d\n", (*tokens)->type);
+        while ((*tokens) && ((*tokens)->type == COMMAND 
+            || (*tokens)->type == ARGUMENT
+            || (*tokens)->type == FLAG))
+            *tokens = (*tokens)->next;
+        node->right = NULL;
         node->left = cmd;
         cmd = node;
     }
@@ -126,7 +153,13 @@ t_tree *create_ast_command(t_tokens **tokens)
     
     if (!*tokens)
         printf("i am lost: 4\n");
-        
+    while ((*tokens) && ((*tokens)->type == COMMAND 
+            || (*tokens)->type == ARGUMENT || 
+                (*tokens)->type == FLAG))
+        (*tokens) = (*tokens)->next;
+    if (*tokens)
+        printf("2 current token type: %d\n", (*tokens)->type);
+    node->file = NULL;
     node->left = NULL;
     node->right = NULL;
     return node;

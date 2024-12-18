@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 09:43:09 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/18 15:00:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	parsing(t_first *f)
 	if (verify_logic(f) == 1)
 		return ;
 	print_after_expansions(f);
-	f->ast_tree = create_ast_tree(&(f->token_list));
+	t_tokens *tokens = (f->token_list);
+	f->ast_tree = create_ast_tree(&(tokens));
 	// printf("\033[95m start printing \033[00m\n");
 	print_ast(f->ast_tree, 5, "head");
 }
