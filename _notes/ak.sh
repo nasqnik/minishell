@@ -49,3 +49,5 @@ string :   # #
           type: :SPACE
 string :   #psoaf essgsd#  
           type: :ARGUMENT
+
+          echo hello > file1 | cat file1 && echo done

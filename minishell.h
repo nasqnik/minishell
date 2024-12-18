@@ -80,9 +80,11 @@ typedef struct s_tmp
 
 typedef struct s_tree
 {
-    char *data;
+    // void *data; // why you did close this one
     int type;
-    int *level;
+    //int *level;
+    char *file;
+    char **args;
     struct s_tree *left;
     struct s_tree *right;
 }           t_tree;
@@ -92,6 +94,7 @@ typedef struct s_first
     char		*buffer;
     t_w_tmp       *tmp;
     t_tokens 	*token_list;
+    t_tree      *ast_tree;
     char		**envp_array;
     t_list		*envp_list;
     int			env_size;
@@ -187,9 +190,12 @@ void	remove_spaces(t_first *f);
 int verify_logic(t_first *f);
 
 // create_tree
-void	create_tree(t_first *f);
-
-
+t_tree *create_ast_tree(t_tokens **tokens);
+t_tree *create_ast_logic(t_tokens **tokens);
+t_tree *create_ast_pipe(t_tokens **tokens);
+t_tree *create_ast_redirections(t_tokens **tokens);
+t_tree *create_ast_command(t_tokens **tokens);
+void print_ast(t_tree *node, int depth, char *flag);
 
 
 #endif

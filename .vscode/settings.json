@@ -10,7 +10,8 @@
     "__locale": "c",
     "iosfwd": "c",
     "chrono": "c",
-    "sstream": "c"
+    "sstream": "c",
+    "__node_handle": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",

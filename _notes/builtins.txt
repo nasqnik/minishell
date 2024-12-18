@@ -7,3 +7,9 @@
 ◦ unset with no options
 ◦ env with no options or arguments
 ◦ exit with no options
+
+echo will collect all of the arg and print them out exsept flags "flag -n"
+removes the new line , any other flags will be as a string for echo
+
+
+
