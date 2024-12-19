@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 14:23:41 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 14:54:08 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void str_cmp_builtin(t_first *f, char *command, char **args)
     if (ft_strcmp(command, "echo") == 0) // done
         ft_echo(args, i);
     if (ft_strcmp(command, "cd") == 0)
-        ft_cd(args, i);
+        ft_cd(f, args, i);
     if (ft_strcmp(command, "pwd") == 0) // done
         ft_pwd(args, i);
     if (ft_strcmp(command, "export") == 0) // connect with the real env list
@@ -29,7 +29,9 @@ void str_cmp_builtin(t_first *f, char *command, char **args)
     if (ft_strcmp(command, "env") == 0) // connect with the real env list
         ft_env(f, args, i);
     if (ft_strcmp(command, "exit") == 0)
-        ft_exit(args, i);
+        ft_exit(f, args, i);
+    if (ft_strcmp(command, "meow") == 0)
+        ft_meow(args, i);
 }
 void execute_command(t_first *f, t_tree *tree)
 {

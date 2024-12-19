@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 14:27:24 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 15:14:39 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,38 @@ void ft_echo(char **args, int i)
         ft_putstr_fd("\n", fd);
 }
 
-void ft_cd(char **args, int i)
+void ft_cd(t_first *f, char **args, int i)
 {
     int fd = 1;
+    if (!(args[i]))
+        return ;
     if (chdir(args[i]))
     {
         ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
         ft_putstr_fd(args[i], fd);
-        ft_putchar_fd('\n', fd);        
+        ft_putchar_fd('\n', fd);
+        return ;      
     }
     i++;
     if (args[i])
     {
         ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
         ft_putstr_fd(args[i - 1], fd);
-        ft_putchar_fd('\n', fd);        
+        ft_putchar_fd('\n', fd);
+        return ;
+    }
+    char buf[1024];
+    if (getcwd(buf, sizeof(buf)) == NULL)
+        return ;
+    t_list *tmp = f->envp_list; 
+    while (tmp)
+    {
+        if (ft_strcmp(tmp->key, "PWD") == 0)
+        {
+            free(tmp->value);
+            tmp->value = ft_strdup(buf);
+        }
+        tmp = tmp->next;
     }
 }
 
@@ -161,7 +178,7 @@ void ft_env(t_first *f,char **args, int i)
     }
 }
 
-void ft_exit(char **args, int i)
+void ft_exit(t_first *f, char **args, int i)
 {
     (void)args;
     // cd: no such file or directory:;
@@ -194,6 +211,9 @@ void ft_exit(char **args, int i)
         exit_code = ft_atoi(args[i]);
         i++;
     }
+    ft_clear_tokens(&(f->token_list));
+	ft_clear_tree(f->ast_tree);
+    ft_clear_list(&(f->envp_list));
     exit(exit_code);
 }
 
@@ -208,4 +228,40 @@ void ft_pwd(char **args, int i)
         return ;
     ft_putstr_fd(buf , fd);
     ft_putchar_fd('\n', fd);
+}
+
+void ft_meow(char **args, int i)
+{
+    int fd = 1;
+    int j = 0;
+    int count = 1;
+    while (args[i])
+    {
+        if (i > 1)
+        {
+            ft_putstr_fd("minishell: meow: ", fd);
+            ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
+            ft_putchar_fd('\n', fd);
+            return ;
+        }
+        while (args[i][j])
+        {
+            if (!(args[i][j] >= '0' && args[i][j] <= '9'))
+                {
+                    ft_putstr_fd("minishell: meow: ", fd);
+                    ft_putstr_fd(args[1], fd);
+                    ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+                    ft_putchar_fd('\n', fd);
+                    return ;
+                }
+            j++;
+        }
+        count = ft_atoi(args[i]);
+        i++;
+    }
+    while (count > 0)
+    {
+        ft_putstr_fd("meow 😺\n", fd);
+        count--;
+    }
 }

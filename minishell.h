@@ -207,12 +207,13 @@ void execution(t_first *f);
 
 // builtins
 void ft_echo(char **args, int i);
-void ft_cd(char **args, int i);
+void ft_cd(t_first *f, char **args, int i);
 void ft_export(t_first *f, char **args, int i);
 void ft_unset(t_first *f, char **args, int i);
 void ft_env(t_first *f, char **args, int i);
-void ft_exit(char **args, int i);
+void ft_exit(t_first *f, char **args, int i);
 void ft_pwd(char **args, int i);
+void ft_meow(char **args, int i);
 
 t_list	*env_lstlast(t_list *lst);
 void	env_lstadd_back(t_list **lst, t_list *new);

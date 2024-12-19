@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:05:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 13:38:47 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 14:55:25 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		if (g_signalnumber != SIGINT)
-			f.buffer = readline("\033[92mminishell$ \033[00m");
+			f.buffer = readline("\033[92mmini_cat😺$ \033[00m");
 		else
 			f.buffer = readline(NULL);
 		if (!f.buffer)
