@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 15:14:39 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:48:42 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,29 @@ void ft_echo(char **args, int i)
 void ft_cd(t_first *f, char **args, int i)
 {
     int fd = 1;
+    char *str = NULL;
+    char *sub = NULL;
     if (!(args[i]))
         return ;
-    if (chdir(args[i]))
+    if (args[i][0] == '~')
+    {
+        
+        char *home = search_in_env(f, "HOME");
+        sub = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
+        str = ft_strjoin(home ,sub);
+        free(sub);
+    }
+    else
+        str = args[i];
+    i++;
+    if (chdir(str))
     {
         ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
-        ft_putstr_fd(args[i], fd);
+        ft_putstr_fd(str, fd);
         ft_putchar_fd('\n', fd);
         return ;      
     }
-    i++;
+    free(str);
     if (args[i])
     {
         ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
