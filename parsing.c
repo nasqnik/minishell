@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 13:33:26 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 14:28:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ void	parsing(t_first *f)
 	here_doc_env_check(f);
 	expand_variables(f);
 	wildcard_str(f); // it is bigger than what i thought <i will do it later>
-	print_after_expansions(f);
-	printf("\n\n\n");
+	// print_after_expansions(f);
 	rename_tokens(f);
 	remove_spaces(f);
 	if (verify_logic(f) == 1)
 		return ;
-	print_after_expansions(f);
+	// print_after_expansions(f);
 	t_tokens *tokens = (f->token_list);
 	f->ast_tree = create_ast_tree(&(tokens));
 	// printf("\033[95m start printing \033[00m\n");

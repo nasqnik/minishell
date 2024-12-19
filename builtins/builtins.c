@@ -6,13 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 14:19:57 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 14:27:24 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *ft_echo(char **args, int i)
+void ft_echo(char **args, int i)
 {
     int line_flag = 0;
     int fd = 1;
@@ -30,10 +30,9 @@ char *ft_echo(char **args, int i)
     }
     if (line_flag == 0)
         ft_putstr_fd("\n", fd);
-    return ("printed successfully\n");
 }
 
-char *ft_cd(char **args, int i)
+void ft_cd(char **args, int i)
 {
     int fd = 1;
     if (chdir(args[i]))
@@ -49,10 +48,9 @@ char *ft_cd(char **args, int i)
         ft_putstr_fd(args[i - 1], fd);
         ft_putchar_fd('\n', fd);        
     }
-    return (NULL);
 }
 
-char *ft_export(t_first *f, char **args, int i)
+void ft_export(t_first *f, char **args, int i)
 {
     int fd = 1;
     char *search_for = NULL;
@@ -65,14 +63,10 @@ char *ft_export(t_first *f, char **args, int i)
     int flag = 0;
     while(args[i])
     {   
-        printf("invalid_identifier(args[i]): %d\n", invalid_identifier(args[i], 1));
         if (invalid_identifier(args[i], 1))
         {
             if (invalid_identifier(args[i], 1) == 2)
-            {
-                printf("string: %s\n", args[i]);
                 ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
-            }
             else
                 ft_putstr_fd("\033[31mexport: not an identifier: \033[00m", fd);
             ft_putstr_fd(args[i], fd);
@@ -113,20 +107,15 @@ char *ft_export(t_first *f, char **args, int i)
         }
         i++;
     }
-    return (NULL);
 }
 
-char *ft_unset(t_first *f, char **args, int i)
+void ft_unset(t_first *f, char **args, int i)
 {
-    (void)f;
-    (void)args;
-    (void)i;
     t_list *tmp = NULL;
     t_list *tmp1 = NULL;
     int fd = 1;
     while(args[i])
     {   
-        printf("invalid_identifier(args[i]): %d\n", invalid_identifier(args[i], 2));
         if (invalid_identifier(args[i], 2))
         {
             ft_putstr_fd("\033[31zsh: no matches foundl: \033[00m", fd);
@@ -153,13 +142,12 @@ char *ft_unset(t_first *f, char **args, int i)
         
         i++;
     }
-    return (NULL);
 }
 
-char *ft_env(t_first *f,char **args, int i)
+void ft_env(t_first *f,char **args, int i)
 {
     if (args[i] != NULL) // we should not handell more than env alone
-        return NULL;
+        return ;
     i = 0;
     int fd = 1;
     t_list *tmp = f->envp_list;
@@ -171,10 +159,9 @@ char *ft_env(t_first *f,char **args, int i)
         ft_putchar_fd('\n', fd);
         tmp = tmp->next;
     }
-    return (NULL);
 }
 
-char *ft_exit(char **args, int i)
+void ft_exit(char **args, int i)
 {
     (void)args;
     // cd: no such file or directory:;
@@ -190,7 +177,7 @@ char *ft_exit(char **args, int i)
             ft_putstr_fd("minishell: exit: ", fd);
             ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
             ft_putchar_fd('\n', fd);
-            return NULL;
+            return ;
         }
         while (args[i][j])
         {
@@ -200,7 +187,7 @@ char *ft_exit(char **args, int i)
                     ft_putstr_fd(args[1], fd);
                     ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
                     ft_putchar_fd('\n', fd);
-                    return NULL;
+                    return ;
                 }
             j++;
         }
@@ -208,19 +195,17 @@ char *ft_exit(char **args, int i)
         i++;
     }
     exit(exit_code);
-    return (NULL);
 }
 
-char *ft_pwd(char **args, int i)
+void ft_pwd(char **args, int i)
 {
     if (args[i] != NULL) // we should not handell more than env alone
-        return NULL;
+        return ;
     i = 0;
     int fd = 1;
     char buf[1024];
     if (getcwd(buf, sizeof(buf)) == NULL)
-        return (NULL);
+        return ;
     ft_putstr_fd(buf , fd);
     ft_putchar_fd('\n', fd);
-    return (NULL);
 }
