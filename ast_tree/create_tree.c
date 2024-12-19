@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 16:46:32 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 19:01:44 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_tree *create_ast_redirections(t_tokens **tokens)
         node->args = NULL;
         *tokens = (*tokens)->next;
 
-        if (*tokens && (*tokens)->type == FILENAME)
+        if (*tokens && ((*tokens)->type == FILENAME || (*tokens)->type == DELIMITER))
         {
             node->file = ft_strdup((*tokens)->data);
             *tokens = (*tokens)->next;

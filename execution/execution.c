@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 17:55:59 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/19 18:49:59 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,22 @@ void execute_binary(t_first *f, char *command, char **args)
 // ◦ env with no options or arguments
 // ◦ exit with no options
 
+
+
+
 void execution(t_first *f)
 {
     if (!f->ast_tree)
         return ;
     t_tree *tree = f->ast_tree;
     
-    if (tree->type == COMMAND)
-        execute_command(f, tree);
+    if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
+    {
+        execute_redirections(f, tree->type);
+       
+    }
+    // else if (tree->type == COMMAND)
+    //     execute_command(f, tree);
     else
     {
         printf("now only commmands\n");

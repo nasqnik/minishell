@@ -27,7 +27,8 @@
     "tuple": "c",
     "type_traits": "c",
     "atomic": "c",
-    "locale": "c"
+    "locale": "c",
+    "ios": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",

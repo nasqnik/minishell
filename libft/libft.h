@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 07:57:33 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 09:11:34 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 18:59:42 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,14 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 // void	ft_lstclear(t_list **lst, void (*del)(void *));
 // void	ft_lstiter(t_list *lst, void (*f)(void *));
 // t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+// get_next_line
+size_t	gnl_ft_strlen(const char *s);
+char	*gnl_ft_strchr(const char *str, int c);
+char	*gnl_ft_strjoin(char *s1, char *s2);
+char	*get_next_line(int fd);
+char	*copy_next(char *s, int c);
+char	*copy_current(char *s, int c);
+char	*gnl_ft_free(char **tmp);
 
 #endif

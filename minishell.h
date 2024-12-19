@@ -23,6 +23,8 @@
 #include <readline/readline.h>
 #include <readline/history.h> 
 #include <dirent.h>
+#include <fcntl.h>
+
 
 extern int sig;
 
