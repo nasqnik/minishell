@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/meid/Desktop/mini/DES_13/utils",
-      "program": "/Users/meid/Desktop/mini/DES_13/utils/build/Debug/outDebug"
+      "cwd": "/Users/meid/Desktop/17-12/execution",
+      "program": "/Users/meid/Desktop/17-12/execution/build/Debug/outDebug"
     }
   ]
 }

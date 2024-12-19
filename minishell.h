@@ -67,6 +67,7 @@ typedef struct s_tokens
 
 typedef struct s_list
 {
+    char *env;
     char *key;
     char *value;
     struct s_list *next;
@@ -106,7 +107,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-// int rl_replace_line(const char *text, int clear_undo);
+int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -207,9 +208,16 @@ void execution(t_first *f);
 // builtins
 char *ft_echo(char **args, int i);
 char *ft_cd(char **args, int i);
-char *ft_export(char **args, int i);
-char *ft_unset(char **args, int i);
-char *ft_env(char **args, int i);
+char *ft_export(t_first *f, char **args, int i);
+char *ft_unset(t_first *f, char **args, int i);
+char *ft_env(t_first *f, char **args, int i);
 char *ft_exit(char **args, int i);
+char *ft_pwd(char **args, int i);
+
+t_list	*env_lstlast(t_list *lst);
+void	env_lstadd_back(t_list **lst, t_list *new);
+t_list	*env_lstnew(char *env_var);
+
+int invalid_identifier(char *str, int flag);
 
 #endif

@@ -6,42 +6,44 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 16:50:35 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 12:09:46 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *str_cmp_builtin(char *command, char **args)
+char *str_cmp_builtin(t_first *f, char *command, char **args)
 {
     char *str;
     
     int i = 1;
     str = NULL;
-    if (ft_strcmp(command, "echo") == 0)
+    if (ft_strcmp(command, "echo") == 0) // done
         str = ft_echo(args, i);
     if (ft_strcmp(command, "cd") == 0)
         str = ft_cd(args, i);
-    if (ft_strcmp(command, "export") == 0)
-        str = ft_export(args, i);
-    if (ft_strcmp(command, "unset") == 0)
-        str = ft_unset(args, i);
-    if (ft_strcmp(command, "env") == 0)
-        str = ft_env(args, i);
+    if (ft_strcmp(command, "pwd") == 0) // done
+        str = ft_pwd(args, i);
+    if (ft_strcmp(command, "export") == 0) // connect with the real env list
+        str = ft_export(f, args, i);
+    if (ft_strcmp(command, "unset") == 0) // connect with the real env list
+        str = ft_unset(f, args, i);
+    if (ft_strcmp(command, "env") == 0) // connect with the real env list
+        str = ft_env(f, args, i);
     if (ft_strcmp(command, "exit") == 0)
         str = ft_exit(args, i);
     return (str);
 }
 
-char *execute_command(t_tree *tree)
+char *execute_command(t_first *f, t_tree *tree)
 {
     (void)tree;
     char *str;
-    str = str_cmp_builtin(tree->args[0], tree->args);
+    str = str_cmp_builtin(f, tree->args[0], tree->args);
     if (str != NULL)
         return (str);
-    else
-        str = "it is not a builtin";
+    // else
+    //     str = "it is not a builtin";
     return (str);
 }
 
@@ -60,7 +62,7 @@ void execution(t_first *f)
     char *the_str;
     
     if (tree->type == COMMAND)
-        the_str = execute_command(tree);
+        the_str = execute_command(f, tree);
     else
     {
         printf("now only commmands\n");

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:05:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 16:02:42 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 13:38:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	initialize(t_first *f, char **env)
 	f->ast_tree = NULL;
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
+	env_to_list(f);
+	
 }
 
 int	main(int ac, char **av, char **env)
@@ -72,7 +74,7 @@ int	main(int ac, char **av, char **env)
 		}
 		ft_clear_tokens(&(f.token_list));
 		ft_clear_tree(f.ast_tree);
-		ft_clear_list(&(f.envp_list));
 	}
+	ft_clear_list(&(f.envp_list));
 	return (0);
 }

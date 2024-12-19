@@ -6,13 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 18:59:43 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 08:38:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_list	*ft_lstnew(char *env_var)
+t_list	*env_lstnew(char *env_var)
 {
 	t_list	*new;
 	int		i;
@@ -21,6 +21,7 @@ static t_list	*ft_lstnew(char *env_var)
 	if (new)
 	{
 		i = 0;
+		new->env = ft_strdup(env_var);
 		while (env_var[i] != '=')
 			i++;
 		new->key = ft_substr(env_var, 0, i);
@@ -30,7 +31,7 @@ static t_list	*ft_lstnew(char *env_var)
 	return (new);
 }
 
-static t_list	*ft_lstlast(t_list *lst)
+t_list	*env_lstlast(t_list *lst)
 {
 	if (!lst)
 		return (0);
@@ -39,7 +40,7 @@ static t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-static void	ft_lstadd_back(t_list **lst, t_list *new)
+void	env_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
@@ -50,7 +51,7 @@ static void	ft_lstadd_back(t_list **lst, t_list *new)
 		*lst = new;
 		return ;
 	}
-	last = ft_lstlast(*lst);
+	last = env_lstlast(*lst);
 	last->next = new;
 }
 
@@ -64,14 +65,14 @@ void	env_to_list(t_first *f)
 	new_node = NULL;
 	while (f->envp_array[f->env_size])
 		f->env_size++;
-	f->envp_list = ft_lstnew(f->envp_array[0]);
+	f->envp_list = env_lstnew(f->envp_array[0]);
 	k = 1;
 	while (k < f->env_size)
 	{
-		new_node = ft_lstnew(f->envp_array[k]);
+		new_node = env_lstnew(f->envp_array[k]);
 		if (!new_node)
 			return ;
-		ft_lstadd_back(&f->envp_list, new_node);
+		env_lstadd_back(&f->envp_list, new_node);
 		k++;
 	}
 }
@@ -88,6 +89,7 @@ void	ft_clear_list(t_list **lst)
 	{
 		tmp = current;
 		current = current->next;
+		free(tmp->env);
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);

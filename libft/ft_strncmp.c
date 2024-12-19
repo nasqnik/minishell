@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:06:14 by meid              #+#    #+#             */
-/*   Updated: 2024/12/11 18:11:08 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 09:19:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ int	ft_strcmp_end(char *s1, char *s2)
 		j--;
 	}
 	return (1);
+}
+
+int ft_strfind(char *str, char find)
+{
+    int i = 0;
+
+    while(str[i])
+    {
+        if (str[i] == find)
+            return (1);
+        i++;
+    }
+    return (0);
 }
