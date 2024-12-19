@@ -174,6 +174,7 @@ char *get_var_value(char *var_name, t_list *envp_list);
 
 // wildcard
 void	ft_clear_tmp(t_w_tmp **lst);
+void	free_array(char **array);
 
 int ft_there_wildcard(char *str);
 int who_many_wildcard(char *str);
@@ -204,21 +205,25 @@ void ft_clear_tree(t_tree *node);
 
 // execution
 void execution(t_first *f);
+char	*find_path(char *command, t_first *f);
+void execute_binary(t_first *f, char *command, char **args);
+void execute_command(t_first *f, t_tree *tree);
 
 // builtins
-void ft_echo(char **args, int i);
-void ft_cd(t_first *f, char **args, int i);
-void ft_export(t_first *f, char **args, int i);
-void ft_unset(t_first *f, char **args, int i);
-void ft_env(t_first *f, char **args, int i);
-void ft_exit(t_first *f, char **args, int i);
-void ft_pwd(char **args, int i);
-void ft_meow(char **args, int i);
+int ft_echo(char **args, int i);
+int ft_cd(t_first *f, char **args, int i);
+int ft_export(t_first *f, char **args, int i);
+int ft_unset(t_first *f, char **args, int i);
+int ft_env(t_first *f, char **args, int i);
+int ft_exit(t_first *f, char **args, int i);
+int ft_pwd(char **args, int i);
+int ft_meow(char **args, int i);
 
 t_list	*env_lstlast(t_list *lst);
 void	env_lstadd_back(t_list **lst, t_list *new);
 t_list	*env_lstnew(char *env_var);
 
 int invalid_identifier(char *str, int flag);
+void execute_binary(t_first *f, char *command, char **args);
 
 #endif

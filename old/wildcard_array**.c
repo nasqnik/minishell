@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_str.c                                     :+:      :+:    :+:   */
+/*   wildcard_array**.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:56:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/14 10:39:48 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/19 17:57:30 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,20 +111,7 @@ int ft_there_wildcard(char *str)
     }
     return (-1);
 }
-static void	free_array(char **array)
-{
-	int	i;
 
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
 
 void check_for_each_wildcard(t_first *f, t_tokens *tmp)
 {

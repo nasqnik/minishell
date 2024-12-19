@@ -6,13 +6,13 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 16:48:42 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:45:13 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_echo(char **args, int i)
+int ft_echo(char **args, int i)
 {
     int line_flag = 0;
     int fd = 1;
@@ -30,15 +30,16 @@ void ft_echo(char **args, int i)
     }
     if (line_flag == 0)
         ft_putstr_fd("\n", fd);
+    return (42);
 }
 
-void ft_cd(t_first *f, char **args, int i)
+int ft_cd(t_first *f, char **args, int i)
 {
     int fd = 1;
     char *str = NULL;
     char *sub = NULL;
     if (!(args[i]))
-        return ;
+        return (0);
     if (args[i][0] == '~')
     {
         
@@ -55,7 +56,7 @@ void ft_cd(t_first *f, char **args, int i)
         ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
         ft_putstr_fd(str, fd);
         ft_putchar_fd('\n', fd);
-        return ;      
+        return (0);      
     }
     free(str);
     if (args[i])
@@ -63,11 +64,11 @@ void ft_cd(t_first *f, char **args, int i)
         ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
         ft_putstr_fd(args[i - 1], fd);
         ft_putchar_fd('\n', fd);
-        return ;
+        return (0);
     }
     char buf[1024];
     if (getcwd(buf, sizeof(buf)) == NULL)
-        return ;
+        return (0);
     t_list *tmp = f->envp_list; 
     while (tmp)
     {
@@ -78,9 +79,10 @@ void ft_cd(t_first *f, char **args, int i)
         }
         tmp = tmp->next;
     }
+    return (42);
 }
 
-void ft_export(t_first *f, char **args, int i)
+int ft_export(t_first *f, char **args, int i)
 {
     int fd = 1;
     char *search_for = NULL;
@@ -137,9 +139,10 @@ void ft_export(t_first *f, char **args, int i)
         }
         i++;
     }
+    return (42);
 }
 
-void ft_unset(t_first *f, char **args, int i)
+int ft_unset(t_first *f, char **args, int i)
 {
     t_list *tmp = NULL;
     t_list *tmp1 = NULL;
@@ -164,6 +167,7 @@ void ft_unset(t_first *f, char **args, int i)
                     free (tmp->next->env);
                     free (tmp->next->value);
                     free (tmp->next->key);
+                    free(tmp->next);
                     tmp->next = tmp1;
                 }
                 tmp = tmp->next;
@@ -172,12 +176,13 @@ void ft_unset(t_first *f, char **args, int i)
         
         i++;
     }
+    return (42);
 }
 
-void ft_env(t_first *f,char **args, int i)
+int ft_env(t_first *f,char **args, int i)
 {
     if (args[i] != NULL) // we should not handell more than env alone
-        return ;
+        return (0);
     i = 0;
     int fd = 1;
     t_list *tmp = f->envp_list;
@@ -189,9 +194,10 @@ void ft_env(t_first *f,char **args, int i)
         ft_putchar_fd('\n', fd);
         tmp = tmp->next;
     }
+    return (42);
 }
 
-void ft_exit(t_first *f, char **args, int i)
+int ft_exit(t_first *f, char **args, int i)
 {
     (void)args;
     // cd: no such file or directory:;
@@ -207,7 +213,7 @@ void ft_exit(t_first *f, char **args, int i)
             ft_putstr_fd("minishell: exit: ", fd);
             ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
             ft_putchar_fd('\n', fd);
-            return ;
+            return (0);
         }
         while (args[i][j])
         {
@@ -217,7 +223,7 @@ void ft_exit(t_first *f, char **args, int i)
                     ft_putstr_fd(args[1], fd);
                     ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
                     ft_putchar_fd('\n', fd);
-                    return ;
+                    return (0);
                 }
             j++;
         }
@@ -230,20 +236,21 @@ void ft_exit(t_first *f, char **args, int i)
     exit(exit_code);
 }
 
-void ft_pwd(char **args, int i)
+int ft_pwd(char **args, int i)
 {
     if (args[i] != NULL) // we should not handell more than env alone
-        return ;
+        return (0);
     i = 0;
     int fd = 1;
     char buf[1024];
     if (getcwd(buf, sizeof(buf)) == NULL)
-        return ;
+        return (0);
     ft_putstr_fd(buf , fd);
     ft_putchar_fd('\n', fd);
+    return (42);
 }
 
-void ft_meow(char **args, int i)
+int ft_meow(char **args, int i)
 {
     int fd = 1;
     int j = 0;
@@ -255,7 +262,7 @@ void ft_meow(char **args, int i)
             ft_putstr_fd("minishell: meow: ", fd);
             ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
             ft_putchar_fd('\n', fd);
-            return ;
+            return (0);
         }
         while (args[i][j])
         {
@@ -265,7 +272,7 @@ void ft_meow(char **args, int i)
                     ft_putstr_fd(args[1], fd);
                     ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
                     ft_putchar_fd('\n', fd);
-                    return ;
+                    return (0);
                 }
             j++;
         }
@@ -277,4 +284,5 @@ void ft_meow(char **args, int i)
         ft_putstr_fd("meow 😺\n", fd);
         count--;
     }
+    return (42);
 }
