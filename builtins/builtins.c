@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 17:45:13 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/21 20:32:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int ft_echo(char **args, int i)
 {
-    int line_flag = 0;
-    int fd = 1;
+    int line_flag;
+    int fd;
+    
+    line_flag = 0;
+    fd = 1;
     if (args[i] && ft_strcmp(args[i], "-n") == 0)
     {
         line_flag = 1;
@@ -35,148 +38,31 @@ int ft_echo(char **args, int i)
 
 int ft_cd(t_first *f, char **args, int i)
 {
-    int fd = 1;
-    char *str = NULL;
-    char *sub = NULL;
+    int fd;
+    char *str;
+    char *sub;
+    
+    fd = 1;
+    str = NULL;
+    sub = NULL;
     if (!(args[i]))
         return (0);
     if (args[i][0] == '~')
-    {
-        
+    {  
         char *home = search_in_env(f, "HOME");
         sub = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
-        str = ft_strjoin(home ,sub);
+        str = ft_strjoin(home ,sub); // allocated
         free(sub);
     }
     else
         str = args[i];
     i++;
     if (chdir(str))
-    {
-        ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
-        ft_putstr_fd(str, fd);
-        ft_putchar_fd('\n', fd);
-        return (0);      
-    }
-    free(str);
+        return (print_the_error(str, 0, fd), 0); 
+    // free(str); // <i should free but thisw make problems for a reason>
     if (args[i])
-    {
-        ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
-        ft_putstr_fd(args[i - 1], fd);
-        ft_putchar_fd('\n', fd);
-        return (0);
-    }
-    char buf[1024];
-    if (getcwd(buf, sizeof(buf)) == NULL)
-        return (0);
-    t_list *tmp = f->envp_list; 
-    while (tmp)
-    {
-        if (ft_strcmp(tmp->key, "PWD") == 0)
-        {
-            free(tmp->value);
-            tmp->value = ft_strdup(buf);
-        }
-        tmp = tmp->next;
-    }
-    return (42);
-}
-
-int ft_export(t_first *f, char **args, int i)
-{
-    int fd = 1;
-    char *search_for = NULL;
-    char *value = NULL;
-    int j = 0;
-    int value_start = 0;
-    t_list *tmp = NULL;
-    char *the_str = NULL;
-    char *tmpo = NULL;
-    int flag = 0;
-    while(args[i])
-    {   
-        if (invalid_identifier(args[i], 1))
-        {
-            if (invalid_identifier(args[i], 1) == 2)
-                ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
-            else
-                ft_putstr_fd("\033[31mexport: not an identifier: \033[00m", fd);
-            ft_putstr_fd(args[i], fd);
-            ft_putchar_fd('\n', fd);
-        }
-        else if (ft_strcmp(args[i], " ") != 0 && ft_strfind(args[i], '=') == 1)
-        {
-            j = 0;
-            while(args[i][j] != '=')
-                j++;
-            value_start = j;
-            search_for = ft_substr(args[i], 0, j);
-            while (args[i][j])
-                j++;
-            value = ft_substr(args[i], value_start + 1, j - 1 - value_start);
-            tmp = f->envp_list;
-            while (tmp)
-            {
-                if (ft_strcmp(tmp->key, search_for) == 0)
-                {
-                    free(search_for);
-                    free(tmp->value);
-                    tmp->value = value;
-                    flag = 1;
-                }
-                tmp = tmp->next;
-            }
-            if (flag == 0)
-            {
-                tmpo = ft_strjoin(search_for, "=");
-                free(search_for);
-                the_str = ft_strjoin(tmpo, value);
-                free(value);
-                free(tmpo);
-                env_lstadd_back(&f->envp_list, env_lstnew(the_str));
-                free(the_str);
-            }   
-        }
-        i++;
-    }
-    return (42);
-}
-
-int ft_unset(t_first *f, char **args, int i)
-{
-    t_list *tmp = NULL;
-    t_list *tmp1 = NULL;
-    int fd = 1;
-    while(args[i])
-    {   
-        if (invalid_identifier(args[i], 2))
-        {
-            ft_putstr_fd("\033[31zsh: no matches foundl: \033[00m", fd);
-            ft_putstr_fd(args[i], fd);
-            ft_putchar_fd('\n', fd);
-        }
-        else if (ft_strcmp(args[i], " ") != 0)
-        {
-            tmp = f->envp_list;
-            while (tmp)
-            {
-                if (tmp->next && ft_strcmp(tmp->next->key, args[i]) == 0)
-                {
-                    if (tmp->next->next)
-                        tmp1 = tmp->next->next;
-                    free (tmp->next->env);
-                    free (tmp->next->value);
-                    free (tmp->next->key);
-                    free(tmp->next);
-                    tmp->next = tmp1;
-                }
-                tmp = tmp->next;
-            }
-        }
-        
-        i++;
-    }
-    return (42);
+        return (print_the_error(args[i - 1], 1, fd), 0);
+    return (change_pwd_in_env(f), 42);
 }
 
 int ft_env(t_first *f,char **args, int i)
@@ -197,34 +83,22 @@ int ft_env(t_first *f,char **args, int i)
     return (42);
 }
 
-int ft_exit(t_first *f, char **args, int i)
+int ft_exit(t_first *f, char **args, int i, int j)
 {
-    (void)args;
-    // cd: no such file or directory:;
+    int fd;
+    int exit_code;
     
-    int fd = 1;
-    int j = 0;
-    int exit_code = 0;
+    fd = 1;
+    exit_code = 0;
     ft_putstr_fd("exit\n", 1);
     while (args[i])
     {
         if (i > 1)
-        {
-            ft_putstr_fd("minishell: exit: ", fd);
-            ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
-            ft_putchar_fd('\n', fd);
-            return (0);
-        }
+            return (print_the_error(NULL, 4, fd), 0);
         while (args[i][j])
         {
             if (!(args[i][j] >= '0' && args[i][j] <= '9'))
-                {
-                    ft_putstr_fd("minishell: exit: ", fd);
-                    ft_putstr_fd(args[1], fd);
-                    ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
-                    ft_putchar_fd('\n', fd);
-                    return (0);
-                }
+                    return (print_the_error(args[1], 5, fd), 0);
             j++;
         }
         exit_code = ft_atoi(args[i]);
@@ -247,42 +121,5 @@ int ft_pwd(char **args, int i)
         return (0);
     ft_putstr_fd(buf , fd);
     ft_putchar_fd('\n', fd);
-    return (42);
-}
-
-int ft_meow(char **args, int i)
-{
-    int fd = 1;
-    int j = 0;
-    int count = 1;
-    while (args[i])
-    {
-        if (i > 1)
-        {
-            ft_putstr_fd("minishell: meow: ", fd);
-            ft_putstr_fd("\033[31mtoo many arguments\033[00m", fd);
-            ft_putchar_fd('\n', fd);
-            return (0);
-        }
-        while (args[i][j])
-        {
-            if (!(args[i][j] >= '0' && args[i][j] <= '9'))
-                {
-                    ft_putstr_fd("minishell: meow: ", fd);
-                    ft_putstr_fd(args[1], fd);
-                    ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
-                    ft_putchar_fd('\n', fd);
-                    return (0);
-                }
-            j++;
-        }
-        count = ft_atoi(args[i]);
-        i++;
-    }
-    while (count > 0)
-    {
-        ft_putstr_fd("meow 😺\n", fd);
-        count--;
-    }
     return (42);
 }

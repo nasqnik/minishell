@@ -109,7 +109,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -217,9 +217,9 @@ int ft_cd(t_first *f, char **args, int i);
 int ft_export(t_first *f, char **args, int i);
 int ft_unset(t_first *f, char **args, int i);
 int ft_env(t_first *f, char **args, int i);
-int ft_exit(t_first *f, char **args, int i);
+int ft_exit(t_first *f, char **args, int i, int j);
 int ft_pwd(char **args, int i);
-int ft_meow(char **args, int i);
+int ft_meow(char **args, int i, int j);
 
 t_list	*env_lstlast(t_list *lst);
 void	env_lstadd_back(t_list **lst, t_list *new);
@@ -227,5 +227,8 @@ t_list	*env_lstnew(char *env_var);
 
 int invalid_identifier(char *str, int flag);
 void execute_binary(t_first *f, char *command, char **args);
+
+void print_the_error(char *args, int flag, int fd);
+void change_pwd_in_env(t_first *f);
 
 #endif

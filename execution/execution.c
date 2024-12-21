@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 18:49:59 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/21 19:45:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,26 @@ int str_cmp_builtin(t_first *f, char *command, char **args)
     if (ft_strcmp(command, "env") == 0) // connect with the real env list
         return(ft_env(f, args, i));
     if (ft_strcmp(command, "exit") == 0)
-        return(ft_exit(f, args, i));
+        return(ft_exit(f, args, i, 0));
     if (ft_strcmp(command, "meow") == 0)
-        return(ft_meow(args, i));
+        return(ft_meow(args, i, 0));
     return 0;
 }
 void execute_command(t_first *f, t_tree *tree)
 {
-    int	pid;
+    str_cmp_builtin(f, tree->args[0], tree->args);
+    // int	pid;
 
-    if (!(str_cmp_builtin(f, tree->args[0], tree->args)))
-    {
-        // update the envp_array;
-        pid = fork();
-	    if (pid == -1)
-            return ;
-        else if (pid == 0)
-            execute_binary(f, tree->args[0], tree->args);
-        wait(NULL);
-    }
+    // if (!(str_cmp_builtin(f, tree->args[0], tree->args)))
+    // {
+    //     // update the envp_array;
+    //     pid = fork();
+	//     if (pid == -1)
+    //         return ;
+    //     else if (pid == 0)
+            // execute_binary(f, tree->args[0], tree->args);
+    //     wait(NULL);
+    // }
 }
 
 char	*find_path(char *command, t_first *f)
@@ -124,16 +125,16 @@ void execution(t_first *f)
         return ;
     t_tree *tree = f->ast_tree;
     
-    if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
-    {
-        execute_redirections(f, tree->type);
+    // if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
+    // {
+    //     execute_redirections(f, tree->type);
        
-    }
+    // }
     // else if (tree->type == COMMAND)
-    //     execute_command(f, tree);
-    else
-    {
-        printf("now only commmands\n");
-        return ;
-    }
+        execute_command(f, tree);
+    // else
+    // {
+    //     printf("now only commmands\n");
+    //     return ;
+    // }
 }

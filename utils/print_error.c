@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/17 13:17:25 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/21 19:37:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,28 @@ void	print_env(t_first *f, int flag)
 		tmp = tmp->next;
 		i++;
 	}
+}
+
+
+void print_the_error(char *args, int flag, int fd)
+{
+    if (flag == 0)
+        ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
+    if (flag == 1)
+        ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
+    if (flag == 2)
+        ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
+    if (flag == 3)
+        ft_putstr_fd("\033[31mexport: \033[00m", fd);
+    if (flag == 4)
+        ft_putstr_fd("\033[31mminishell: exit: too many arguments\033[00m", fd);
+    if (flag == 5)
+        ft_putstr_fd("\033[31mminishell: exit: \033[00m", fd);
+    if (args)
+        ft_putstr_fd(args, fd);
+    if (flag == 3)
+		ft_putstr_fd("\033[31not an identifier: \033[00m", fd);
+    if (flag == 5)
+        ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+    ft_putchar_fd('\n', fd);
 }
