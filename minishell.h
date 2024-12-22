@@ -24,6 +24,8 @@
 #include <readline/history.h> 
 #include <dirent.h>
 #include <fcntl.h>
+# include <sys/types.h> //waitpid flags
+# include <sys/wait.h>  //wait, waitpid
 
 
 extern int sig;
@@ -84,7 +86,7 @@ typedef struct s_tmp
 typedef struct s_tree
 {
     // void *data; // why you did close this one
-    int type;
+    t_token_type type;
     //int *level;
     char *file;
     char **args;
@@ -109,7 +111,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-// int rl_replace_line(const char *text, int clear_undo);
+int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -208,7 +210,7 @@ void ft_clear_tree(t_tree *node);
 // execution
 void execution(t_first *f);
 char	*find_path(char *command, t_first *f);
-void execute_binary(t_first *f, char *command, char **args);
+void execute_binary(t_first *f, char *command, char **args, int fd);
 void execute_command(t_first *f, t_tree *tree);
 
 // builtins
@@ -226,9 +228,15 @@ void	env_lstadd_back(t_list **lst, t_list *new);
 t_list	*env_lstnew(char *env_var);
 
 int invalid_identifier(char *str, int flag);
-void execute_binary(t_first *f, char *command, char **args);
 
 void print_the_error(char *args, int flag, int fd);
 void change_pwd_in_env(t_first *f);
+
+int execute_redirections(t_first *f, int tree_type);
+int	handle_here_doc(t_first *f);
+int	open_file(char *filepath, char mode, t_first *f);
+void	handle_dup2(int input_fd, int output_fd);
+
+int str_cmp_builtin(t_first *f, char *command, char **args);
 
 #endif

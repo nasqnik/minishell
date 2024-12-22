@@ -3,40 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 18:49:44 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/19 19:21:04 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/22 08:03:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void execute_redirections(t_first *f, int tree_type)
+void execute_the_command(t_first *f, int fd)
 {
-    int pid;
-    int fd;
+	int pid;
+	printf("pov");
+	char **args = f->ast_tree->left->args;
+	    int i = 0;
+    while (args[i])
+    {
+        printf("string: %s\n", args[i]);
+        i++;
+    }
 
     pid = fork();
-    fd = 0;
-    if (pid == -1)
+	if (pid == -1)
         return ;
-    if (tree_type == HEREDOC)
-        handle_here_doc(f);
-    else
-        handle_files();
-    
-    
-  // execute_command(f, tree->left);  
+		
+    else if (pid == 0)
+        execute_binary(f, f->ast_tree->left->args[0], f->ast_tree->left->args, fd);
+    wait(NULL);
+}
+
+void execute_redirections(t_first *f, int tree_type)
+{
+	(void)tree_type;
+        int fd = handle_here_doc(f);
+		execute_the_command(f, fd);
+			unlink(".heredoc_tmp");
 } 
 
-void	handle_here_doc(t_first *f)
+int	handle_here_doc(t_first *f)
 {
 	char	*buffer;
     char	*limiter;
 	int		file;
 
-	file = open_file(".heredoc_tmp", 'W', f);
+	file = open_file("heredoc_tmp", 'W', f);
 	limiter = ft_strjoin(f->ast_tree->file, "\n");
     while (1)
 	{
@@ -50,9 +61,10 @@ void	handle_here_doc(t_first *f)
 	free(buffer);
     free(limiter);
 	close(file);
-	file = open_file(".heredoc_tmp", 'R', f);
-	handle_dup2(file, -1);
-	unlink(".heredoc_tmp");
+	file = open_file("heredoc_tmp", 'R', f);
+	return (file);
+	// handle_dup2(file, -1);
+	// unlink(".heredoc_tmp");
 }
 
 int	open_file(char *filepath, char mode, t_first *f)
@@ -65,7 +77,7 @@ int	open_file(char *filepath, char mode, t_first *f)
         ft_putstr_fd("minishell: ", fd);
         ft_putstr_fd(f->ast_tree->file, fd);
         ft_putstr_fd("\033[31m: Permission denied\033[00m", fd);
-		return ;
+		return 0;
     }
 	if (mode == 'R')
 		fd = open(filepath, O_RDONLY);
@@ -78,7 +90,7 @@ int	open_file(char *filepath, char mode, t_first *f)
         ft_putstr_fd("minishell: ", fd);
         ft_putstr_fd(f->ast_tree->file, fd);
         ft_putstr_fd("\033[31m: No such file or directory\033[00m", fd);
-		return ;
+		return 0;
     }
 	return (fd);
 }
