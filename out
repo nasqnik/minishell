@@ -1,394 +1,115 @@
-==849== Memcheck, a memory error detector
-==849== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==849== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==849== Command: ./minishell
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD36: ft_clear_tree (clear_tree.c:19)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01398 is 24 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD43: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01398 is 24 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD36: ft_clear_tree (clear_tree.c:19)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01288 is 24 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD53: ft_clear_tree (clear_tree.c:21)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01290 is 32 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD70: ft_clear_tree (clear_tree.c:23)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01280 is 16 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDAA: ft_clear_tree (clear_tree.c:26)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01280 is 16 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDBB: ft_clear_tree (clear_tree.c:26)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b012e0 is 0 bytes inside a block of size 16 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDD2: ft_clear_tree (clear_tree.c:31)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C5F5: fill_in_args (create_tree.c:34)
-==849==    by 0x10CACF: create_ast_command (create_tree.c:158)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD86: ft_clear_tree (clear_tree.c:28)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01280 is 16 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD97: ft_clear_tree (clear_tree.c:28)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b012e0 is 0 bytes inside a block of size 16 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDD2: ft_clear_tree (clear_tree.c:31)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C5F5: fill_in_args (create_tree.c:34)
-==849==    by 0x10CACF: create_ast_command (create_tree.c:158)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid free() / delete / delete[] / realloc()
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDA1: ft_clear_tree (clear_tree.c:28)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01330 is 0 bytes inside a block of size 4 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDA1: ft_clear_tree (clear_tree.c:28)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10E7F0: ft_strdup (in /home/vscode/src/minishell)
-==849==    by 0x10C65D: fill_in_args (create_tree.c:47)
-==849==    by 0x10CACF: create_ast_command (create_tree.c:158)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDC7: ft_clear_tree (clear_tree.c:31)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01280 is 16 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid free() / delete / delete[] / realloc()
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDD2: ft_clear_tree (clear_tree.c:31)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b012e0 is 0 bytes inside a block of size 16 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDD2: ft_clear_tree (clear_tree.c:31)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C5F5: fill_in_args (create_tree.c:34)
-==849==    by 0x10CACF: create_ast_command (create_tree.c:158)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDD7: ft_clear_tree (clear_tree.c:33)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01278 is 8 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid free() / delete / delete[] / realloc()
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01270 is 0 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10CD4E: ft_clear_tree (clear_tree.c:20)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CAAE: create_ast_command (create_tree.c:156)
-==849==    by 0x10C958: create_ast_redirections (create_tree.c:128)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD53: ft_clear_tree (clear_tree.c:21)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b013a0 is 32 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CD70: ft_clear_tree (clear_tree.c:23)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01390 is 16 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDD7: ft_clear_tree (clear_tree.c:33)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01388 is 8 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid read of size 8
-==849==    at 0x10CDE4: ft_clear_tree (clear_tree.c:34)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01388 is 8 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid free() / delete / delete[] / realloc()
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDEF: ft_clear_tree (clear_tree.c:34)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b013f0 is 0 bytes inside a block of size 3 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDEF: ft_clear_tree (clear_tree.c:34)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10E7F0: ft_strdup (in /home/vscode/src/minishell)
-==849==    by 0x10C9D9: create_ast_redirections (create_tree.c:138)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==849== Invalid free() / delete / delete[] / realloc()
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Address 0x4b01380 is 0 bytes inside a block of size 40 free'd
-==849==    at 0x483CA3F: free (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10CDFB: ft_clear_tree (clear_tree.c:36)
-==849==    by 0x10969B: main (minishell.c:76)
-==849==  Block was alloc'd at
-==849==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==849==    by 0x10C96B: create_ast_redirections (create_tree.c:131)
-==849==    by 0x10C8A7: create_ast_pipe (create_tree.c:108)
-==849==    by 0x10C7F0: create_ast_or (create_tree.c:87)
-==849==    by 0x10C739: create_ast_and (create_tree.c:67)
-==849==    by 0x10C71B: create_ast_tree (create_tree.c:59)
-==849==    by 0x10975B: parsing (parsing.c:29)
-==849==    by 0x109653: main (minishell.c:69)
-==849== 
-==850== 
-==850== Process terminating with default action of signal 1 (SIGHUP)
+==927== Memcheck, a memory error detector
+==927== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==927== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==927== Command: ./minishell
+==927== 
+==928== 
+==928== FILE DESCRIPTORS: 3 open at exit.
+==928== Open file descriptor 2: /home/vscode/src/out
+==928==    <inherited from parent>
+==928== 
+==928== Open file descriptor 1:
+==928==    at 0x49ADAEB: dup2 (syscall-template.S:78)
+==928==    by 0x10D48E: send_info_to_fd (02_execution_redirections.c:45)
+==928==    by 0x10D65B: execute_redirections (02_execution_redirections.c:95)
+==928==    by 0x10D285: execution (execution.c:23)
+==928==    by 0x1096BF: main (minishell.c:70)
+==928== 
+==928== Open file descriptor 0: /dev/pts/0
+==928==    <inherited from parent>
+==928== 
+==928== 
+==928== HEAP SUMMARY:
+==928==     in use at exit: 200,509 bytes in 215 blocks
+==928==   total heap usage: 507 allocs, 292 frees, 220,899 bytes allocated
+==928== 
+==928== LEAK SUMMARY:
+==928==    definitely lost: 0 bytes in 0 blocks
+==928==    indirectly lost: 0 bytes in 0 blocks
+==928==      possibly lost: 0 bytes in 0 blocks
+==928==    still reachable: 0 bytes in 0 blocks
+==928==         suppressed: 200,509 bytes in 215 blocks
+==928== 
+==928== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--928-- 
+--928-- used_suppression:     56 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,497 bytes in 213 blocks
+--928-- used_suppression:      2 rl _notes/ignore_readline_leaks.txt:15 suppressed: 12 bytes in 2 blocks
+==928== 
+==928== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==930== Memcheck, a memory error detector
+==930== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==930== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==930== Command: /usr/bin/wc -l
+==930== 
+==930== 
+==930== FILE DESCRIPTORS: 0 open at exit.
+==930== 
+==930== HEAP SUMMARY:
+==930==     in use at exit: 0 bytes in 0 blocks
+==930==   total heap usage: 5 allocs, 5 frees, 1,268 bytes allocated
+==930== 
+==930== All heap blocks were freed -- no leaks are possible
+==930== 
+==930== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==929== 
+==929== FILE DESCRIPTORS: 3 open at exit.
+==929== Open file descriptor 2: /home/vscode/src/out
+==929==    <inherited from parent>
+==929== 
+==929== Open file descriptor 1: /dev/pts/0
+==929==    <inherited from parent>
+==929== 
+==929== Open file descriptor 0:
+==929==    at 0x49ADAEB: dup2 (syscall-template.S:78)
+==929==    by 0x10D573: execute_from_fd (02_execution_redirections.c:62)
+==929==    by 0x10D67C: execute_redirections (02_execution_redirections.c:98)
+==929==    by 0x10D285: execution (execution.c:23)
+==929==    by 0x1096BF: main (minishell.c:70)
+==929== 
+==929== 
+==929== HEAP SUMMARY:
+==929==     in use at exit: 200,509 bytes in 215 blocks
+==929==   total heap usage: 507 allocs, 292 frees, 220,899 bytes allocated
+==929== 
+==929== LEAK SUMMARY:
+==929==    definitely lost: 0 bytes in 0 blocks
+==929==    indirectly lost: 0 bytes in 0 blocks
+==929==      possibly lost: 0 bytes in 0 blocks
+==929==    still reachable: 0 bytes in 0 blocks
+==929==         suppressed: 200,509 bytes in 215 blocks
+==929== 
+==929== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--929-- 
+--929-- used_suppression:     56 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,497 bytes in 213 blocks
+--929-- used_suppression:      2 rl _notes/ignore_readline_leaks.txt:15 suppressed: 12 bytes in 2 blocks
+==929== 
+==929== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==927== 
+==927== FILE DESCRIPTORS: 3 open at exit.
+==927== Open file descriptor 2: /home/vscode/src/out
+==927==    <inherited from parent>
+==927== 
+==927== Open file descriptor 1: /dev/pts/0
+==927==    <inherited from parent>
+==927== 
+==927== Open file descriptor 0: /dev/pts/0
+==927==    <inherited from parent>
+==927== 
+==927== 
+==927== HEAP SUMMARY:
+==927==     in use at exit: 204,566 bytes in 219 blocks
+==927==   total heap usage: 521 allocs, 302 frees, 225,154 bytes allocated
+==927== 
+==927== LEAK SUMMARY:
+==927==    definitely lost: 0 bytes in 0 blocks
+==927==    indirectly lost: 0 bytes in 0 blocks
+==927==      possibly lost: 0 bytes in 0 blocks
+==927==    still reachable: 0 bytes in 0 blocks
+==927==         suppressed: 204,566 bytes in 219 blocks
+==927== 
+==927== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--927-- 
+--927-- used_suppression:     58 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,504 bytes in 215 blocks
+--927-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,062 bytes in 4 blocks
+==927== 
+==927== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -111,7 +111,7 @@ typedef struct s_first
     int     i;
 }           t_first;
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);

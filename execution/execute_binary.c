@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 09:36:17 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/22 10:47:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ char	*find_path(char *command, t_first *f);
 
 void execute_binary(t_first *f, char *command, char **args, int fd)
 {
-    
-    if (fd != 1)
-        dup2(fd, STDIN_FILENO);
+    // if (fd != 1)
+    //     dup2(fd, STDIN_FILENO);
 	char	*command_path;
 
 	if (command[0] != '/')
