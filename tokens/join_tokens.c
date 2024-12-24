@@ -6,20 +6,15 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:28:33 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/17 14:22:29 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/24 17:42:02 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//  in -k mo -k error
-
-
-// "echo" df  command 
-
-t_tokens *tokens_after_redirect(t_tokens *cursor, int i)
+t_tokens	*tokens_after_redirect(t_tokens *cursor, int i)
 {
-	int flag;
+	int	flag;
 
 	flag = 0;
 	if (i == 0)
@@ -27,27 +22,34 @@ t_tokens *tokens_after_redirect(t_tokens *cursor, int i)
 	cursor = cursor->next;
 	if (cursor && cursor->type == WSPACE && cursor->next)
 		cursor = cursor->next;
-	if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)) // before only word < >> "dsa">   
+	if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR))
 	{
 		cursor->type = FILENAME;
 		flag++;
 	}
-	cursor = cursor->next;
+	// cursor = cursor->next;
 	if (cursor && cursor->type == WSPACE && cursor->next)
 		cursor = cursor->next;
-	if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR) && flag == 2)
+	if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)
+		&& flag == 2)
 		cursor->type = COMMAND;
 	return (cursor);
 }
 
 t_tokens	*rename_one_part(t_tokens *cursor, int i)
 {
-	
-	if (cursor &&  (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR) && i == 0) // before only word < "echo" df>
+	if (cursor && cursor->type == ENV_VAR)
+		cursor->flag = 'e';
+	if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)
+		&& i == 0)
 		cursor->type = COMMAND;
 	else if (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)
 		&& ((char *)(cursor->data))[0] == '-' && i != 0)
+	{
 		cursor->type = FLAG;
+		if (((char *)(cursor->data))[1] == '$')
+			cursor->flag = 'e';
+	}
 	else if (cursor && (cursor->type >= REDIRECT_IN
 			&& cursor->type <= REDIRECT_APPEND) && cursor->next)
 		cursor = tokens_after_redirect(cursor, i);
@@ -60,7 +62,7 @@ void	rename_tokens(t_first *f)
 {
 	t_tokens	*cursor;
 	int			i;
-	
+
 	cursor = f->token_list;
 	i = 0;
 	while (cursor)
@@ -75,7 +77,7 @@ void	rename_tokens(t_first *f)
 		if (cursor && ((cursor->type >= PIPE && cursor->type <= LOGIC_OR)))
 		{
 			i = 0;
-		} // for this cace >> file command arg
+		}
 		if (cursor && !((cursor->type >= D_QUOTES && cursor->type <= WORD)))
 			cursor = cursor->next;
 	}
@@ -105,6 +107,25 @@ void	clear_extra_tokens(t_tokens *start, t_tokens *end)
 
 int	quick_checkup(t_tokens *cursor)
 {
+	int i;
+	
+	i = 0;
+	if (cursor->type == ENV_VAR)
+	{
+		cursor->type = ARGUMENT;
+		cursor->flag = 'e';
+		return (1);	
+	}
+	if (cursor->type == D_QUOTES)
+	{
+		while (((char *)(cursor->data))[i])
+		{
+			while (((char *)(cursor->data))[i] && ((char *)(cursor->data))[i] != '$')
+				i++;
+				
+			return (1);
+		}
+	}
 	if (cursor->next && cursor->type == WSPACE
 		&& ((!(cursor->next->type >= D_QUOTES && cursor->next->type <= ENV_VAR))
 			|| ((cursor->next->type >= D_QUOTES && cursor->next->type <= WORD)
@@ -129,7 +150,7 @@ t_tokens	*make_argument(t_tokens *cursor)
 	if (!cursor->next)
 		return (tmp_token);
 	cursor = cursor->next;
-	while (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR)) //  WSPACE to ENV_VAR
+	while (cursor && (cursor->type >= D_QUOTES && cursor->type <= ENV_VAR))
 	{
 		if (quick_checkup(cursor) == 1)
 			break ;

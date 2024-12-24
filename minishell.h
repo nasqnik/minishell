@@ -66,6 +66,7 @@ typedef struct s_tokens
     int type;
     int len;
     char data_type;
+    char flag;  // flag = e -> to expand
     struct s_tokens *next;    
 }           t_tokens;
 
@@ -108,10 +109,12 @@ typedef struct s_first
     char        *last_arg;
     // int     error_signal;
     char        *temporary;
+    int stdout;
+    int stdin;
     int     i;
 }           t_first;
 
-// int rl_replace_line(const char *text, int clear_undo);
+int rl_replace_line(const char *text, int clear_undo);
 
 
 void open_the_shell(t_first *f);
@@ -208,7 +211,6 @@ void print_ast(t_tree *node, int depth, char *flag);
 void ft_clear_tree(t_tree *node);
 
 // execution
-void execution(t_first *f);
 char	*find_path(char *command, t_first *f);
 void execute_binary(t_first *f, char *command, char **args, int fd);
 void execute_command(t_first *f, t_tree *tree);
@@ -231,12 +233,21 @@ int invalid_identifier(char *str, int flag);
 
 void print_the_error(char *args, int flag, int fd);
 void change_pwd_in_env(t_first *f);
-
+void execution(t_first *f, t_tree *tree);
 int execute_redirections(t_first *f, int tree_type);
 int	handle_here_doc(t_first *f);
 int	open_file(char *filepath, char mode, t_first *f);
 void	handle_dup2(int input_fd, int output_fd);
 
 int str_cmp_builtin(t_first *f, char *command, char **args);
+void	get_file(t_first *f);
+
+void execution_pipe(t_first *f, t_tree *tree);
+pid_t   handle_left_pipe(t_first *f, t_tree *tree, int pipefd[2]);
+pid_t   handle_right_pipe(t_first *f, t_tree *tree, int pipefd[2]);
+void execution_redirection(t_first *f, t_tree *tree);
+void handle_redirect_in(t_first *f, t_tree *tree);
+void handle_redirect_out(t_first *f, t_tree *tree);
+void handle_redirect_append(t_first *f, t_tree *tree);
 
 #endif

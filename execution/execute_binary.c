@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 10:47:44 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/22 20:21:22 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,31 @@
 
 char	*find_path(char *command, t_first *f);
 
-void execute_binary(t_first *f, char *command, char **args, int fd)
+void	execute_binary(t_first *f, char *command, char **args, int fd)
 {
-    // if (fd != 1)
-    //     dup2(fd, STDIN_FILENO);
 	char	*command_path;
 
 	if (command[0] != '/')
-        command_path = find_path(args[0], f);
-    else
-        command_path = args[0];
-    if (!command_path || access(command_path, X_OK) == -1)
-    {
-        ft_putstr_fd("minishell: ", fd);
-        ft_putstr_fd("\033[31mcommand not found: \033[00m", fd);
-        ft_putstr_fd(args[0], fd);
-        ft_putchar_fd('\n', fd);
-        return ;
-    }
-    if (execve(command_path, args, f->envp_array) == -1)
-    {
-        ft_putstr_fd("minishell: ", fd);
-        ft_putstr_fd("\033[31merror executing command: \033[00m", fd);
-        ft_putstr_fd(args[0], fd);
-        ft_putchar_fd('\n', fd);
-        return ;
-    }
+		command_path = find_path(args[0], f);
+	else
+		command_path = args[0];
+	if (!command_path || access(command_path, X_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", fd);
+		ft_putstr_fd("\033[31mcommand not found: \033[00m", fd);
+		ft_putstr_fd(args[0], fd);
+		ft_putchar_fd('\n', fd);
+		return ;
+	}
+	if (execve(command_path, args, f->envp_array) == -1)
+	{
+		ft_putstr_fd("minishell: ", fd);
+		ft_putstr_fd("\033[31merror executing command: \033[00m", fd);
+		ft_putstr_fd(args[0], fd);
+		ft_putchar_fd('\n', fd);
+		return ;
+	}
 }
-
 
 char	*find_path(char *command, t_first *f)
 {

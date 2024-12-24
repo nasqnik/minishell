@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tree.c                                      :+:      :+:    :+:   */
+/*   try.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 16:32:18 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/22 16:35:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_tree *create_ast_command(t_tokens **tokens);
+t_tree *create_ast_heredoc(t_tokens **tokens);
+t_tree *create_ast_redirections(t_tokens **tokens);
+t_tree *create_ast_pipe(t_tokens **tokens);
+t_tree *create_ast_or(t_tokens **tokens);
+t_tree *create_ast_and(t_tokens **tokens);
 
 void fill_in_args(t_tree *node, t_tokens **tokens)
 {
@@ -52,7 +59,6 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
             node->args[i] = NULL;
     }
 }
-
 
 t_tree *create_ast_tree(t_tokens **token)
 {
@@ -122,18 +128,46 @@ t_tree *create_ast_pipe(t_tokens **tokens)
 
 t_tree *create_ast_redirections(t_tokens **tokens)
 {
-    t_tree *cmd;
+    t_tree *left;
     t_tree *node;
     
-    cmd = create_ast_command(tokens);
-    while (*tokens && ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC))
+    left = create_ast_heredoc(tokens);  
+    while (*tokens && (*tokens)->type >= REDIRECT_IN && (*tokens)->type <= REDIRECT_APPEND)
     {
         node = malloc(sizeof(t_tree));
         node->type = (*tokens)->type;
         node->args = NULL;
         *tokens = (*tokens)->next;
 
-        if (*tokens && ((*tokens)->type == FILENAME || (*tokens)->type == DELIMITER))
+        if (*tokens && ((*tokens)->type == FILENAME))
+        {
+            node->file = ft_strdup((*tokens)->data);
+            *tokens = (*tokens)->next;
+        }
+        while ((*tokens) && ((*tokens)->type == COMMAND 
+            || (*tokens)->type == ARGUMENT
+            || (*tokens)->type == FLAG))
+            *tokens = (*tokens)->next;
+        node->right = create_ast_heredoc(tokens);
+        left = node; 
+    }
+    return (left);
+}
+
+t_tree *create_ast_heredoc(t_tokens **tokens)
+{
+     t_tree *cmd;
+    t_tree *node;
+    
+    cmd = create_ast_command(tokens);
+    while (*tokens && ((*tokens)->type == HEREDOC))
+    {
+        node = malloc(sizeof(t_tree));
+        node->type = (*tokens)->type;
+        node->args = NULL;
+        *tokens = (*tokens)->next;
+
+        if (*tokens && ((*tokens)->type == DELIMITER))
         {
             node->file = ft_strdup((*tokens)->data);
             *tokens = (*tokens)->next;

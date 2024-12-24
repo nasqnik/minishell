@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:05:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 14:55:25 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/24 18:35:04 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	initialize(t_first *f, char **env)
 	f->exit_status = 0;
 	f->last_arg = "empty";
 	f->ast_tree = NULL;
+	f->stdout = dup(STDOUT_FILENO);
+	f->stdin = dup(STDOUT_FILENO);
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	env_to_list(f);
-	
 }
 
 int	main(int ac, char **av, char **env)
@@ -67,7 +68,8 @@ int	main(int ac, char **av, char **env)
 		if (*f.buffer != '\0')
 		{
 			parsing(&f);
-			execution(&f);
+			// if(f.ast_tree) 
+			// 	execution(&f, f.ast_tree);
 			add_history(f.buffer);
 			free(f.buffer);
 			f.buffer = NULL;

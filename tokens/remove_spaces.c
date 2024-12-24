@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:41:57 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 17:19:54 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/24 16:46:56 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,53 @@ void	remove_spaces(t_first *f)
 	to_delete = NULL;
 	tmp = f->token_list;
 	if (!f || !f->token_list)
-        return;
+		return ;
 	while (tmp)
 	{
-		if ((tmp->type != ARGUMENT && tmp->type != FLAG) &&tmp->next && tmp->next->type == WSPACE)
+		if ((tmp->next && tmp->next->type == WSPACE))
 		{
-			to_delete = tmp->next;
-			if (tmp->next->next)
-				tmp->next = tmp->next->next;
+			if (tmp->type == ARGUMENT
+				&& (tmp->next->next && tmp->next->next->type == ARGUMENT))
+			{
+				tmp->next->type = ARGUMENT;
+				tmp = tmp->next;
+			}
 			else
-				tmp->next = NULL;
-			free(to_delete->data);
-			free(to_delete);
-		}
-		else if ((tmp->type == ARGUMENT || tmp->type == FLAG)&&tmp->next && tmp->next->type == WSPACE)
-		{
-			 tmp->next->type = ARGUMENT;
-			 tmp = tmp->next;
+			{
+				to_delete = tmp->next;
+				if (tmp->next->next)
+					tmp->next = tmp->next->next;
+				else
+					tmp->next = NULL;
+				free(to_delete->data);
+				free(to_delete);
+			}
 			
 		}
 		else
 			tmp = tmp->next;
 	}
+	// while (tmp)
+	// {
+	// 	if ((tmp->type == ARGUMENT || tmp->type == FLAG) && (tmp->next
+	// 		&& tmp->next->type == WSPACE) && (!tmp->next->next
+	// 		||  (tmp->next->next && tmp->next->next->type != ARGUMENT && tmp->next->next->type != FLAG)))
+	// 	{
+	// 		to_delete = tmp->next;
+	// 		if (tmp->next->next)
+	// 			tmp->next = tmp->next->next;
+	// 		else
+	// 			tmp->next = NULL;
+	// 		free(to_delete->data);
+	// 		free(to_delete);
+	// 	}
+	// 	else if ((tmp->type == ARGUMENT || tmp->type == FLAG) && (tmp->next
+	// 		&& tmp->next->type == WSPACE) && (tmp->next->next && (tmp->next->next->type == ARGUMENT || tmp->next->next->type == FLAG)))
+	// 	{
+	// 		tmp->next->type = ARGUMENT;
+	// 		tmp = tmp->next;
+	// 	}
+	// 	else
+	// 		tmp = tmp->next;
+	// }
 }

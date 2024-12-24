@@ -77,10 +77,10 @@ void	ft_clear_tmp(t_w_tmp **lst)
 	{
 		tmp = current;
 		current = current->next;
-            free (tmp->data);
-            tmp->data = NULL;   
+		free (tmp->data);
+		tmp->data = NULL;
 		free(tmp);
-        tmp = NULL;
+		tmp = NULL;
 	}
 	*lst = NULL;
 }

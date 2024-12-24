@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 16:10:43 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/24 18:36:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ void	parsing(t_first *f)
 	f->i = 0;
 	lexer(f, f->buffer);
 	here_doc_env_check(f);
-	expand_variables(f);
-	wildcard_str(f); // it is bigger than what i thought <i will do it later>
-	// print_after_expansions(f);
+	// expand_variables(f);
+	// wildcard_str(f); // it is bigger than what i thought <i will do it later>
 	rename_tokens(f);
-	remove_spaces(f);
-	if (verify_logic(f) == 1)
-		return ;
+	//print_after_expansions(f);
+	// remove_spaces(f);
+	// printf("\n after removing\n");
 	// print_after_expansions(f);
-	t_tokens *tokens = (f->token_list);
-	f->ast_tree = create_ast_tree(&(tokens));
-	// printf("\033[95m start printing \033[00m\n");
+
+	// if (verify_logic(f) == 1)
+	// 	return ;
+	// print_after_expansions(f);
+	// t_tokens *tokens = (f->token_list);
+	// f->ast_tree = create_ast_tree(&(tokens));
+	// // printf("\033[95m start printing \033[00m\n");
 	// print_ast(f->ast_tree, 5, "head");
 }
 	//wildcard(f); - put the check for ls
