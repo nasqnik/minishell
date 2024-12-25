@@ -1,0 +1,13 @@
+
+Notes
+The wildcard functionality is almost complete, but it needs to be refined. There is something strange happening with capital letters.
+
+Fix the segmentation fault that occurs when there is an error.
+
+Expansion of the $_
+
+in the <Redirection_Operators> function 
+    if (cursor->next->next && index == 0)
+        cursor->next->next->type = COMMAND;
+this fix is not enough
+

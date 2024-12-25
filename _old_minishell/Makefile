@@ -8,10 +8,16 @@ RLDIR		=	-L/opt/vagrant/embedded/lib
 RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 
-SRC = minishell.c env_list.c \
-	parsing/parsing.c parsing/token_types.c parsing/token_utils.c parsing/token_list.c\
-	parsing/rename_tokens.c \
-	utils/utils.c utils/print_error.c
+SRC = minishell.c parsing.c \
+	tokens/token_types.c tokens/token_utils.c tokens/token_types02.c tokens/token_list.c \
+	tokens/join_tokens.c tokens/remove_spaces.c \
+	expansions/expansions_dquotes.c expansions/env_list.c expansions/expansions.c \
+	verify_logic.c \
+	utils/print_error.c utils/utils.c wildcard/wildcard_last.c wildcard/utils.c\
+	ast_tree/create_tree.c ast_tree/clear_tree.c \
+	execution/execute_builtins.c execution/execute_binary.c execution/execution.c execution/02_execution_redirections.c \
+	execution/exec_logic.c \
+	 builtins/builtins.c builtins/utils.c builtins/export_unset.c
 
 OBJ = $(SRC:.c=.o)
 

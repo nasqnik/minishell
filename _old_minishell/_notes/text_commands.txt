@@ -1,0 +1,32 @@
+/// NOT WORKING ///
+(echo hi) | (echo bye)
+
+
+
+
+
+/// WORKING FINE ///
+echo hello -la $USER $((2+2)) | && << >> >1>2>3>4 
+
+(cd /tmp && ls)
+
+echo "Hello" ) - should give the error
+echo "Hello" ) ) 
+
+(echo "Outer" && (echo "Inner" && echo "Inner 2"))
+
+(echo "Outer" && (echo "Inner" || echo "Inner2") && echo "Outer2")
+echo "Outer" && (echo "Inner" || echo "Inner2") && echo "Outer2")
+
+
+
+
+
+/// CHECK IN THE FUTURE ///
+
+true && false - ?
+
+echo >  - missing argument (bash: syntax error near unexpected token `newline')
+echo "Test" > echo
+
+
