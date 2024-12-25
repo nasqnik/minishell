@@ -72,13 +72,12 @@ typedef struct s_env
 
 typedef struct s_tree
 {
-//     // void *data; // why you did close this one
-//     t_token_type type;
-//     //int *level;
-//     char *file;
-//     char **args;
-//     struct s_tree *left;
-//     struct s_tree *right;
+    int type;
+    char *file;
+    char **args;
+    struct s_tree *left;
+    struct s_tree *right;
+    //int *level;
 }           t_tree;
 
 typedef struct s_info
@@ -145,6 +144,17 @@ void	print_list(t_tokens	*list);
 void rename_tokens(t_info *info);
 t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i);
 
+// create_tree
+t_tree *create_ast_tree(t_tokens **token);
+t_tree *create_ast_and(t_tokens **tokens);
+t_tree *create_ast_or(t_tokens **tokens);
+t_tree *create_ast_pipe(t_tokens **tokens);
+t_tree *create_ast_redirections(t_tokens **tokens);
+t_tree *create_ast_command(t_tokens **tokens);
+void print_ast(t_tree *node, int depth, char *flag);
+
+// clear_tree
+void ft_clear_tree(t_tree *node);
 
 // // env_list.c
 // void env_to_list(t_info *info);
@@ -188,17 +198,6 @@ t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i);
 // // verify_logic
 // int verify_logic(t_first *f);
 
-// // create_tree
-// t_tree *create_ast_tree(t_tokens **token);
-// t_tree *create_ast_and(t_tokens **tokens);
-// t_tree *create_ast_or(t_tokens **tokens);
-// t_tree *create_ast_pipe(t_tokens **tokens);
-// t_tree *create_ast_redirections(t_tokens **tokens);
-// t_tree *create_ast_command(t_tokens **tokens);
-// void print_ast(t_tree *node, int depth, char *flag);
-
-// // clear_tree
-// void ft_clear_tree(t_tree *node);
 
 // // execution
 // char	*find_path(char *command, t_first *f);

@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try.c                                              :+:      :+:    :+:   */
+/*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 16:35:41 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/25 19:14:28 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_tree *create_ast_command(t_tokens **tokens);
-t_tree *create_ast_heredoc(t_tokens **tokens);
-t_tree *create_ast_redirections(t_tokens **tokens);
-t_tree *create_ast_pipe(t_tokens **tokens);
-t_tree *create_ast_or(t_tokens **tokens);
-t_tree *create_ast_and(t_tokens **tokens);
 
 void fill_in_args(t_tree *node, t_tokens **tokens)
 {
@@ -26,13 +19,12 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
     
     while (tmp && ((tmp->type == COMMAND 
             || tmp->type == ARGUMENT
-            || tmp->type == FLAG || tmp->type == FILENAME
+            || tmp->type == FILENAME
             || tmp->type == DELIMITER) 
             || (tmp->type >= REDIRECT_IN && tmp->type <= HEREDOC)))
     {
         if (tmp->type == COMMAND 
-            || tmp->type == ARGUMENT || 
-                tmp->type == FLAG)
+            || tmp->type == ARGUMENT)
             i++;
         tmp = tmp->next;
     }
@@ -43,13 +35,12 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
          tmp = (*tokens);
     while (tmp && ((tmp->type == COMMAND 
             || tmp->type == ARGUMENT
-            || tmp->type == FLAG || tmp->type == FILENAME
+            || tmp->type == FILENAME
             || tmp->type == DELIMITER) 
             || (tmp->type >= REDIRECT_IN && tmp->type <= HEREDOC)))
         {
             if (tmp->type == COMMAND 
-            || tmp->type == ARGUMENT || 
-                tmp->type == FLAG)
+            || tmp->type == ARGUMENT)
             {
                 node->args[i] = ft_strdup(tmp->data);
                 i++;    
@@ -60,9 +51,11 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
     }
 }
 
+
 t_tree *create_ast_tree(t_tokens **token)
 {
     return create_ast_and(token);
+    printf("pov 1\n");
 }
 
 t_tree *create_ast_and(t_tokens **tokens)
@@ -70,7 +63,9 @@ t_tree *create_ast_and(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
+    printf("pov 2-1\n");
     left = create_ast_or(tokens);
+     printf("pov 2-2\n");
     while (*tokens && (*tokens)->type == LOGIC_AND)
     {
         node = malloc(sizeof(t_tree));
@@ -90,8 +85,9 @@ t_tree *create_ast_or(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
+     printf("pov 3-1\n");
     left = create_ast_pipe(tokens);
-
+    printf("pov 3-2\n");
     while (*tokens && (*tokens)->type == LOGIC_OR)
     {
         node = malloc(sizeof(t_tree));
@@ -111,7 +107,9 @@ t_tree *create_ast_pipe(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
+    printf("pov 4-1\n");
     left = create_ast_redirections(tokens);  
+    printf("pov 4-2\n");
     while (*tokens && (*tokens)->type == PIPE)
     {
         node = malloc(sizeof(t_tree));
@@ -128,53 +126,26 @@ t_tree *create_ast_pipe(t_tokens **tokens)
 
 t_tree *create_ast_redirections(t_tokens **tokens)
 {
-    t_tree *left;
+    t_tree *cmd;
     t_tree *node;
     
-    left = create_ast_heredoc(tokens);  
-    while (*tokens && (*tokens)->type >= REDIRECT_IN && (*tokens)->type <= REDIRECT_APPEND)
-    {
-        node = malloc(sizeof(t_tree));
-        node->type = (*tokens)->type;
-        node->args = NULL;
-        *tokens = (*tokens)->next;
-
-        if (*tokens && ((*tokens)->type == FILENAME))
-        {
-            node->file = ft_strdup((*tokens)->data);
-            *tokens = (*tokens)->next;
-        }
-        while ((*tokens) && ((*tokens)->type == COMMAND 
-            || (*tokens)->type == ARGUMENT
-            || (*tokens)->type == FLAG))
-            *tokens = (*tokens)->next;
-        node->right = create_ast_heredoc(tokens);
-        left = node; 
-    }
-    return (left);
-}
-
-t_tree *create_ast_heredoc(t_tokens **tokens)
-{
-     t_tree *cmd;
-    t_tree *node;
-    
+    printf("pov 5-1\n");
     cmd = create_ast_command(tokens);
-    while (*tokens && ((*tokens)->type == HEREDOC))
+    printf("pov 5-2\n");
+    while (*tokens && ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC))
     {
         node = malloc(sizeof(t_tree));
         node->type = (*tokens)->type;
         node->args = NULL;
         *tokens = (*tokens)->next;
 
-        if (*tokens && ((*tokens)->type == DELIMITER))
+        if (*tokens && ((*tokens)->type == FILENAME || (*tokens)->type == DELIMITER))
         {
             node->file = ft_strdup((*tokens)->data);
             *tokens = (*tokens)->next;
         }
         while ((*tokens) && ((*tokens)->type == COMMAND 
-            || (*tokens)->type == ARGUMENT
-            || (*tokens)->type == FLAG))
+            || (*tokens)->type == ARGUMENT))
             *tokens = (*tokens)->next;
         node->right = NULL;
         node->left = cmd;
@@ -187,12 +158,14 @@ t_tree *create_ast_command(t_tokens **tokens)
 {
     t_tree *node;
     
+    printf("pov 6\n");
     node = malloc(sizeof(t_tree));
+    if (!node)
+        printf("something\n");
     node->type = COMMAND;
     fill_in_args(node, tokens);
     while ((*tokens) && ((*tokens)->type == COMMAND 
-            || (*tokens)->type == ARGUMENT || 
-                (*tokens)->type == FLAG))
+            || (*tokens)->type == ARGUMENT))
         (*tokens) = (*tokens)->next;
     node->file = NULL;
     node->left = NULL;
@@ -206,7 +179,12 @@ void print_ast(t_tree *node, int depth, char *flag)
 {
     // printf("\033[95m start printing \033[00m\n");
     // printf("\033[95m i am almost in\033[00m\n");
-    if (!node) return;
+    if (!node) 
+    {
+        printf("there is no nodes\n");
+        
+        return;
+    }
     // printf("\033[95m i am in \033[00m\n");
 
     printf("\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/25 18:24:33 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/25 19:16:14 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void parsing(t_info *info)
     lexer(info, info->buffer);
 	rename_tokens(info);
 	print_list(info->token_list);
-}
+	info->ast_tree = create_ast_tree(&info->token_list);
+	print_ast(info->ast_tree, 5, "head");
+}					
 
 void lexer(t_info *info, char *str)
 {
