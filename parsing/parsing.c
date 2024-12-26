@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/26 10:12:17 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 18:31:59 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void parsing(t_info *info)
 	// print_list(info->token_list);
 	rename_tokens(info);
 	// print_list(info->token_list);
-	info->ast_tree = create_ast_tree(&info->token_list);
+	t_tokens *tokens = info->token_list;
+	info->ast_tree = create_ast_tree(&tokens);
+	ft_clear_tokens(&info->token_list);
 	// print_ast(info->ast_tree, 5, "head");
 }					
 

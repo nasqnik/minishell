@@ -206,6 +206,8 @@ void	get_file(t_info *info);
 
 void expand_command(t_info *info, t_tree *tree);
 char *expand_d_quotes(char *str, int *pos, t_env *envp_list);
+char *expand_s_quotes(char *str, int *pos);
+char *expand_variables(char *str, int *pos, t_env *envp_list);
 
 // void expand_variables(t_info *info);
 // void expand_envp(t_tokens *token, t_info *info);

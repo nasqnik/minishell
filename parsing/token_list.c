@@ -32,6 +32,7 @@ t_tokens	*ft_create_token(t_info *info, int len, int type, char *str)
 	new = malloc(sizeof(t_tokens));
 	if (new)
 	{
+		printf("strart:%d len:%d\n", info->i - len,  token_len);
 		new->data = ft_substr(str, info->i - len, token_len);
 		new->type = type;
 		new->next = NULL;
@@ -58,7 +59,10 @@ void	ft_clear_tokens(t_tokens **token_list)
 	t_tokens	*next;
 
 	if (!token_list || !*token_list)
+	{
+		printf("pppppppoooov\n");
 		return ;
+	}
 	current = *token_list;
 	while (current)
 	{

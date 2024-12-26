@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_dquotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/26 15:27:41 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 18:43:15 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list)
+char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list) // add $_ and $?
 {
 	char	*before_var;
 	char	*var_value;
@@ -41,6 +41,8 @@ char	*append_remaining_data(char *data, int pov[2], char *result)
 	char	*remaining_part;
 	char	*new_result;
 
+	printf("here\n");
+	printf("pov[0]: %d pov[1]: %d\n", pov[0], pov[1]);
 	remaining_part = ft_substr(data, pov[1], pov[0] - pov[1]);
 	new_result = ft_strjoin(result, remaining_part);
 	free(result);

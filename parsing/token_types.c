@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_types.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/26 09:29:37 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 18:06:51 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ t_tokens	*word_token(char *str, t_info *info, int len)
 			return (handle_error(info, "you did not close "" | '' | ()", 1), NULL);
 	} 
 	len = info->i - len;
-    if (len <= 0)  // Ensure non-empty token
-        return (handle_error(info, "Empty token detected", 1), NULL);
+    if (len <= 0) // Ensure non-empty token
+	{
+		return (handle_error(info, "Empty token detected", 1), NULL);
+	}  
 	return (ft_create_token(info, len, WORD, str));
 }
