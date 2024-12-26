@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/25 19:14:28 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 10:11:26 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void fill_in_args(t_tree *node, t_tokens **tokens)
 t_tree *create_ast_tree(t_tokens **token)
 {
     return create_ast_and(token);
-    printf("pov 1\n");
 }
 
 t_tree *create_ast_and(t_tokens **tokens)
@@ -63,9 +62,7 @@ t_tree *create_ast_and(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
-    printf("pov 2-1\n");
     left = create_ast_or(tokens);
-     printf("pov 2-2\n");
     while (*tokens && (*tokens)->type == LOGIC_AND)
     {
         node = malloc(sizeof(t_tree));
@@ -85,9 +82,7 @@ t_tree *create_ast_or(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
-     printf("pov 3-1\n");
     left = create_ast_pipe(tokens);
-    printf("pov 3-2\n");
     while (*tokens && (*tokens)->type == LOGIC_OR)
     {
         node = malloc(sizeof(t_tree));
@@ -107,9 +102,7 @@ t_tree *create_ast_pipe(t_tokens **tokens)
     t_tree *left;
     t_tree *node;
     
-    printf("pov 4-1\n");
     left = create_ast_redirections(tokens);  
-    printf("pov 4-2\n");
     while (*tokens && (*tokens)->type == PIPE)
     {
         node = malloc(sizeof(t_tree));
@@ -129,9 +122,7 @@ t_tree *create_ast_redirections(t_tokens **tokens)
     t_tree *cmd;
     t_tree *node;
     
-    printf("pov 5-1\n");
     cmd = create_ast_command(tokens);
-    printf("pov 5-2\n");
     while (*tokens && ((*tokens)->type >= REDIRECT_IN && (*tokens)->type <= HEREDOC))
     {
         node = malloc(sizeof(t_tree));
@@ -158,10 +149,9 @@ t_tree *create_ast_command(t_tokens **tokens)
 {
     t_tree *node;
     
-    printf("pov 6\n");
     node = malloc(sizeof(t_tree));
     if (!node)
-        printf("something\n");
+        return NULL;
     node->type = COMMAND;
     fill_in_args(node, tokens);
     while ((*tokens) && ((*tokens)->type == COMMAND 

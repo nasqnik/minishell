@@ -12,7 +12,9 @@ SRC = minishell.c env_list.c \
 	parsing/parsing.c parsing/token_types.c parsing/token_utils.c parsing/token_list.c\
 	parsing/rename_tokens.c \
 	utils/utils.c utils/print_error.c \
-	ast_tree/clear_tree.c ast_tree/create_tree.c 
+	ast_tree/clear_tree.c ast_tree/create_tree.c \
+	execution/execution.c execution/execute_binary.c execution/exec_logic.c\
+	builtins/builtins.c builtins/export_unset.c builtins/utils.c
 
 OBJ = $(SRC:.c=.o)
 

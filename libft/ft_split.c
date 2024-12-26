@@ -6,15 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 08:17:33 by meid              #+#    #+#             */
-/*   Updated: 2024/07/15 05:55:16 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 09:04:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#include "libft.h"
-
-static void	free_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
 

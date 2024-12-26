@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:28:56 by meid              #+#    #+#             */
-/*   Updated: 2024/12/18 16:39:44 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 09:08:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ void ft_clear_tree(t_tree *node)
     }
     if (node->file)
         free(node->file);
-
     free(node);
 }

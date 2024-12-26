@@ -27,7 +27,7 @@
 # include <sys/types.h> //waitpid flags
 # include <sys/wait.h>  //wait, waitpid
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 // extern int sig;
 
@@ -88,6 +88,8 @@ typedef struct s_info
     char		**envp_array;
     t_env		*envp_list;
     int     i;
+    int stdout;
+    int stdin;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -96,13 +98,14 @@ typedef struct s_info
     // char        *last_arg;
     // // int     error_signal;
     // char        *temporary;
-    // int stdout;
-    // int stdin;
 }           t_info;
 
+void	free_array(char **array);
 // env_list.c
 void	env_to_list(t_info *info);
 void	ft_clear_list(t_env **lst);
+t_env	*env_lstnew(char *env_var);
+void	env_lstadd_back(t_env **lst, t_env *new);
 
 //utils
 int ft_is(int c, char *str);
@@ -131,6 +134,7 @@ int check_operator_type(int flag, char cur);
 void handle_error(t_info *info, char *msg, int flag);
 const char *token_type_to_string(t_token_type type);
 void	print_list(t_tokens	*list);
+void	print_the_error(char *args, int flag, int fd);
 
 // void	print_after_expansions(t_info *info);
 // void open_the_shell(t_info *info);
@@ -155,6 +159,38 @@ void print_ast(t_tree *node, int depth, char *flag);
 
 // clear_tree
 void ft_clear_tree(t_tree *node);
+
+// // execution
+// char	*find_path(char *command, t_first *f);
+void execute_binary(t_info *info, char *command, char **args, int fd);
+void execute_command(t_info *info, t_tree *tree);
+int	strcmp_builtin(t_info *info, char *command, char **args);
+void	execute_binary(t_info *info, char *command, char **args, int fd);
+
+// builtins
+int ft_echo(char **args, int i);
+int ft_cd(t_info *info, char **args, int i);
+int ft_export(t_info *info, char **args, int i);
+int ft_unset(t_info *info, char **args, int i);
+int ft_env(t_info *info, char **args, int i);
+int ft_exit(t_info *info, char **args, int i, int j);
+int ft_pwd(char **args, int i);
+int ft_meow(char **args, int i, int j);
+
+char	*search_in_env(t_info *info, char *key);
+void	change_pwd_in_env(t_info *f);
+int	invalid_identifier(char *str, int flag);
+
+// execution_logic
+void execution(t_info *info, t_tree *tree);
+void execution_pipe(t_info *info, t_tree *tree);
+pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+void execution_redirection(t_info *info, t_tree *tree);
+void handle_redirect_in(t_info *info, t_tree *tree);
+void handle_redirect_out(t_info *info, t_tree *tree);
+void handle_redirect_append(t_info *info, t_tree *tree);
+void	get_file(t_info *info);
 
 // // env_list.c
 // void env_to_list(t_info *info);
@@ -199,20 +235,7 @@ void ft_clear_tree(t_tree *node);
 // int verify_logic(t_first *f);
 
 
-// // execution
-// char	*find_path(char *command, t_first *f);
-// void execute_binary(t_first *f, char *command, char **args, int fd);
-// void execute_command(t_first *f, t_tree *tree);
 
-// // builtins
-// int ft_echo(char **args, int i);
-// int ft_cd(t_first *f, char **args, int i);
-// int ft_export(t_first *f, char **args, int i);
-// int ft_unset(t_first *f, char **args, int i);
-// int ft_env(t_first *f, char **args, int i);
-// int ft_exit(t_first *f, char **args, int i, int j);
-// int ft_pwd(char **args, int i);
-// int ft_meow(char **args, int i, int j);
 
 
 // int invalid_identifier(char *str, int flag);
@@ -228,12 +251,5 @@ void ft_clear_tree(t_tree *node);
 // int str_cmp_builtin(t_first *f, char *command, char **args);
 // void	get_file(t_first *f);
 
-// void execution_pipe(t_first *f, t_tree *tree);
-// pid_t   handle_left_pipe(t_first *f, t_tree *tree, int pipefd[2]);
-// pid_t   handle_right_pipe(t_first *f, t_tree *tree, int pipefd[2]);
-// void execution_redirection(t_first *f, t_tree *tree);
-// void handle_redirect_in(t_first *f, t_tree *tree);
-// void handle_redirect_out(t_first *f, t_tree *tree);
-// void handle_redirect_append(t_first *f, t_tree *tree);
 
 #endif

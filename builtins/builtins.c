@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 08:47:50 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 08:48:18 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	ft_echo(char **args, int i)
 	int	line_flag;
 	int	fd;
 
-
-	// printf("--echo--\n");
 	line_flag = 0;
 	fd = 1;
 	if (args[i] && ft_strcmp(args[i], "-n") == 0)
@@ -31,6 +29,7 @@ int	ft_echo(char **args, int i)
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], fd);
+		ft_putchar_fd(' ', fd);		
 		i++;
 	}
 	if (line_flag == 0)
@@ -38,7 +37,7 @@ int	ft_echo(char **args, int i)
 	return (42);
 }
 
-int	ft_cd(t_first *f, char **args, int i)
+int	ft_cd(t_info *info, char **args, int i)
 {
 	int		fd;
 	char	*str;
@@ -52,7 +51,7 @@ int	ft_cd(t_first *f, char **args, int i)
 		return (0);
 	if (args[i][0] == '~')
 	{
-		home = search_in_env(f, "HOME");
+		home = search_in_env(info, "HOME");
 		sub = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
 		str = ft_strjoin(home, sub); // allocated
 		free(sub);
@@ -65,19 +64,19 @@ int	ft_cd(t_first *f, char **args, int i)
 	// free(str); // <i should free but thisw make problems for a reason>
 	if (args[i])
 		return (print_the_error(args[i - 1], 1, fd), 0);
-	return (change_pwd_in_env(f), 42);
+	return (change_pwd_in_env(info), 42);
 }
 
-int	ft_env(t_first *f, char **args, int i)
+int	ft_env(t_info *info, char **args, int i)
 {
 	int		fd;
-	t_list	*tmp;
+	t_env	*tmp;
 
 	if (args[i] != NULL) // we should not handell more than env alone
 		return (0);
 	i = 0;
 	fd = 1;
-	tmp = f->envp_list;
+	tmp = info->envp_list;
 	while (tmp)
 	{
 		ft_putstr_fd(tmp->key, fd);
@@ -89,7 +88,7 @@ int	ft_env(t_first *f, char **args, int i)
 	return (42);
 }
 
-int	ft_exit(t_first *f, char **args, int i, int j)
+int	ft_exit(t_info *info, char **args, int i, int j)
 {
 	int	fd;
 	int	exit_code;
@@ -110,9 +109,9 @@ int	ft_exit(t_first *f, char **args, int i, int j)
 		exit_code = ft_atoi(args[i]);
 		i++;
 	}
-	ft_clear_tokens(&(f->token_list));
-	ft_clear_tree(f->ast_tree);
-	ft_clear_list(&(f->envp_list));
+	ft_clear_tokens(&(info->token_list));
+	ft_clear_tree(info->ast_tree);
+	ft_clear_list(&(info->envp_list));
 	exit(exit_code);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2024/12/25 15:31:01 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/26 08:29:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	env_to_list(t_info *info)
 	t_env	*new_node;
 	int		k;
 	int env_size;
-	int i;
 
-	i = 0;
 	env_size = 0;
 	new_node = NULL;
 	while (info->envp_array[env_size])

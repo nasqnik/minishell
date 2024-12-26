@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/25 17:59:42 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/26 08:41:52 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	handle_error(t_info *info, char *msg, int flag)
 {
+	(void)flag;
+	(void)info;
 	printf("\033[31m %s\033[00m\n", msg);
-	if (flag <= 1)
-	{
-		ft_clear_tokens(&(info->token_list));
-		ft_clear_list(&(info->envp_list));
-		// info->error_flag = 1;
-		// free(f->buffer);
-		//f->buffer = NULL;
-	}
+	// if (info->token_list)
+	// 	ft_clear_tokens(&(info->token_list));
+	// if (info->envp_list)
+	// 	ft_clear_list(&(info->envp_list));
+	// info->error_flag = 1;
+	// free(f->buffer);
+	//f->buffer = NULL;
 }
 
 const char	*token_type_to_string(t_token_type type)
@@ -111,25 +112,25 @@ void	print_list(t_tokens	*list)
 // 	}
 // }
 
-// void	print_the_error(char *args, int flag, int fd)
-// {
-// 	if (flag == 0)
-// 		ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
-// 	if (flag == 1)
-// 		ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
-// 	if (flag == 2)
-// 		ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
-// 	if (flag == 3)
-// 		ft_putstr_fd("\033[31mexport: \033[00m", fd);
-// 	if (flag == 4)
-// 		ft_putstr_fd("\033[31mminishell: exit: too many arguments\033[00m", fd);
-// 	if (flag == 5)
-// 		ft_putstr_fd("\033[31mminishell: exit: \033[00m", fd);
-// 	if (args)
-// 		ft_putstr_fd(args, fd);
-// 	if (flag == 3)
-// 		ft_putstr_fd("\033[31not an identifier: \033[00m", fd);
-// 	if (flag == 5)
-// 		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
-// 	ft_putchar_fd('\n', fd);
-// }
+void	print_the_error(char *args, int flag, int fd)
+{
+	if (flag == 0)
+		ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
+	if (flag == 1)
+		ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
+	if (flag == 2)
+		ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
+	if (flag == 3)
+		ft_putstr_fd("\033[31mexport: \033[00m", fd);
+	if (flag == 4)
+		ft_putstr_fd("\033[31mminishell: exit: too many arguments\033[00m", fd);
+	if (flag == 5)
+		ft_putstr_fd("\033[31mminishell: exit: \033[00m", fd);
+	if (args)
+		ft_putstr_fd(args, fd);
+	if (flag == 3)
+		ft_putstr_fd("\033[31not an identifier: \033[00m", fd);
+	if (flag == 5)
+		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+	ft_putchar_fd('\n', fd);
+}

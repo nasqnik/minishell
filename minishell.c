@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/25 16:49:35 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/26 09:44:33 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	initialize(t_info *info, char **env)
 	info->ast_tree = NULL;
 	info->envp_array = env;
 	info->envp_list = NULL;
-	// info->i = 0;
+	info->i = 0;
+	info->stdout = dup(STDOUT_FILENO);
+	info->stdin = dup(STDOUT_FILENO);
     
 	// f->exit_status = 0;
 	// f->last_arg = "empty";
-	// f->stdout = dup(STDOUT_FILENO);
-	// f->stdin = dup(STDOUT_FILENO);
 	// signal(SIGINT, handle_signal);
 	// signal(SIGQUIT, SIG_IGN);
 	env_to_list(info);
@@ -53,10 +53,13 @@ int main(int argc, char **argv, char **env)
         {
             add_history(info.buffer);
             parsing(&info);
+			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
             free(info.buffer);
             info.buffer = NULL;
 			ft_clear_tokens(&info.token_list);
+			ft_clear_tree(info.ast_tree);
         }
+		// ft_clear_list(&(info.envp_list));
     }
     
 }

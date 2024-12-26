@@ -62,8 +62,12 @@ void	ft_clear_tokens(t_tokens **token_list)
 	current = *token_list;
 	while (current)
 	{
-		next = current->next;
-		free(current->data);
+		if (current->next)
+			next = current->next;
+		else
+			next = NULL;
+		if(current->data)
+			free(current->data);
 		current->data = NULL;
 		free(current);
 		current = next;
