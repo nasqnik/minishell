@@ -14,7 +14,8 @@ SRC = minishell.c env_list.c \
 	utils/utils.c utils/print_error.c \
 	ast_tree/clear_tree.c ast_tree/create_tree.c \
 	execution/execution.c execution/execute_binary.c execution/exec_logic.c\
-	builtins/builtins.c builtins/export_unset.c builtins/utils.c
+	builtins/builtins.c builtins/export_unset.c builtins/utils.c \
+	expansions/expansions_dquotes.c expansions/expansions.c
 
 OBJ = $(SRC:.c=.o)
 

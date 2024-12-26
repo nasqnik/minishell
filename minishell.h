@@ -204,16 +204,17 @@ void	get_file(t_info *info);
 
 // int do_op(char *str, t_info *info);
 
+void expand_command(t_info *info, t_tree *tree);
+char *expand_d_quotes(char *str, int *pos, t_env *envp_list);
 
 // void expand_variables(t_info *info);
 // void expand_envp(t_tokens *token, t_info *info);
-// void expand_d_quotes(t_tokens *token, t_info *info);
 
 // // expansions_dquotes.c
-// char *handle_variable(char *data, int *i, char *result, t_list *envp_list);
-// char *append_remaining_data(char *data, int start, int end, char *result);
-// char *get_var(char *data, int *i, t_list *envp_list);
-// char *get_var_value(char *var_name, t_list *envp_list);
+char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list);
+char	*append_remaining_data(char *data, int pov[2], char *result);
+char	*get_var(char *data, int *i, t_env *envp_list);
+char	*get_var_value(char *var_name, t_env *envp_list);
 
 // // wildcard
 // void	ft_clear_tmp(t_w_tmp **lst);

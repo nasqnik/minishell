@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 16:33:53 by meid              #+#    #+#             */
-/*   Updated: 2024/12/24 18:36:37 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 12:40:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	parsing(t_first *f)
 	f->i = 0;
 	lexer(f, f->buffer);
 	here_doc_env_check(f);
-	// expand_variables(f);
+	expand_variables(f);
 	// wildcard_str(f); // it is bigger than what i thought <i will do it later>
 	rename_tokens(f);
 	//print_after_expansions(f);

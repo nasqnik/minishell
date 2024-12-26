@@ -6,26 +6,25 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/13 18:59:37 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 15:27:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*handle_variable(char *data, int *i, char *result, t_list *envp_list)
+char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list)
 {
 	char	*before_var;
 	char	*var_value;
-	int		start;
 	char	*tmp;
 
+	
 	var_value = NULL;
-	start = *i;
-	before_var = ft_substr(data, start, *i - start);
-	if (data[*i + 1])
-		(*i)++;
-	if (ft_is(data[*i], "alnum") || data[*i] == '_')
-		var_value = get_var(data, i, envp_list);
+	before_var = ft_substr(data, pov[1], pov[0] - pov[1]);
+	if (data[pov[0] + 1])
+		(pov[0])++;
+	if (ft_is(data[pov[0]], "alnum") || data[pov[0]] == '_')
+		var_value = get_var(data, &pov[0], envp_list);
 	else
 		var_value = ft_strdup("$");
 	tmp = ft_strjoin(result, before_var);
@@ -37,19 +36,19 @@ char	*handle_variable(char *data, int *i, char *result, t_list *envp_list)
 	return (result);
 }
 
-char	*append_remaining_data(char *data, int start, int end, char *result)
+char	*append_remaining_data(char *data, int pov[2], char *result)
 {
 	char	*remaining_part;
 	char	*new_result;
 
-	remaining_part = ft_substr(data, start, end - start);
+	remaining_part = ft_substr(data, pov[1], pov[0] - pov[1]);
 	new_result = ft_strjoin(result, remaining_part);
 	free(result);
 	free(remaining_part);
 	return (new_result);
 }
 
-char	*get_var(char *data, int *i, t_list *envp_list)
+char	*get_var(char *data, int *i, t_env *envp_list)
 {
 	char	*var_name;
 	char	*var_value;
@@ -70,9 +69,9 @@ char	*get_var(char *data, int *i, t_list *envp_list)
 	return (var_value);
 }
 
-char	*get_var_value(char *var_name, t_list *envp_list)
+char	*get_var_value(char *var_name, t_env *envp_list)
 {
-	t_list	*cursor;
+	t_env	*cursor;
 
 	cursor = envp_list;
 	while (cursor)

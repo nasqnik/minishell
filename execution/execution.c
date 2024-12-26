@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 09:32:58 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/26 13:31:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	execute_command(t_info *info, t_tree *tree)
 		return ;
 	// strcmp_builtin(info, tree->args[0], tree->args);
 	int	pid = 0;
-	//  expansions
+	expand_command(info, tree);
 	// clear quotes
 	if (!(strcmp_builtin(info, tree->args[0], tree->args)))
 	{
