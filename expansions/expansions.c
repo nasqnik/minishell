@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 15:44:51 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:52:39 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,16 @@
 // echo *".c"
 // echo *"as"
 // echo *
-// $?a 
 
 void expand_command(t_info *info, t_tree *tree)
 {
 	int i;
-	int j;
-	char *tmp;
-	char *tmp1;
 	char *result;
 
 	i = 0;
-	j = 0;
-	tmp = NULL;
-	tmp1 = NULL;
 	while (tree->args[i])
 	{
-		j = 0;
-		result = ft_strdup("");
-		if (!result)
-			return;
-		while (tree->args[i][j])
-		{
-			if (tree->args[i][j] == '\"')	
-				tmp = expand_d_quotes(tree->args[i], &j, info);
-			else if (tree->args[i][j] == '\'')
-			 	tmp = expand_s_quotes(tree->args[i], &j);
-			else
-				tmp = expand_variables(tree->args[i], &j, info);
-			if (!tmp) 
-			{
-				free(result);
-				return; 
-			}
-			tmp1 = result;
-			result = ft_strjoin(tmp1, tmp);
-			free(tmp1);
-			free(tmp);
-			if (!result)
-				return;
-		}
+		result = process_expansion(tree->args[i], info);
 		// wildcard(info, &result);
 		result = clean_quotes(result);
 		free(tree->args[i]);
@@ -67,10 +37,31 @@ void expand_command(t_info *info, t_tree *tree)
 	}
 }
 
-
-void process_expansion()
+char *process_expansion(char *arg, t_info *info)
 {
+	int j;
+	char *result;
+	char *tmp;
+	char *tmp1;
 	
+	j = 0;
+	result = ft_strdup("");
+	if (!result)
+		return NULL;
+	while (arg[j])
+	{
+		if (arg[j] == '\"')	
+			tmp = expand_d_quotes(arg, &j, info);
+		else if (arg[j] == '\'')
+		 	tmp = expand_s_quotes(arg, &j);
+		else
+			tmp = expand_variables(arg, &j, info);
+		tmp1 = result;
+		result = ft_strjoin(tmp1, tmp);
+		free(tmp1);
+		free(tmp);
+	}
+	return (result);
 }
 
 char *expand_variables(char *str, int *pos, t_info *info)

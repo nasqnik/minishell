@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 15:36:06 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:50:25 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,38 +73,14 @@ char	*append_remaining_data(char *data, int pov[2], char *result)
 	return (new_result);
 }
 
-char	*get_var(char *data, int *i, t_env *envp_list)
+char *clean_quotes(char *result)
 {
-	char	*var_name;
-	char	*var_value;
-	int		start;
-
-	start = *i;
-	var_name = NULL;
-	while (data[*i] && (ft_is(data[*i], "alnum") || data[*i] == '_'))
-		(*i)++;
-	if (*i > start)
-	{
-		var_name = ft_substr(data, start, *i - start);
-		var_value = get_var_value(var_name, envp_list);
-		free(var_name);
-	}
-	else
-		var_value = ft_strdup("$");
-	return (var_value);
-}
-
-char	*get_var_value(char *var_name, t_env *envp_list)
-{
-	t_env	*cursor;
-
-	cursor = envp_list;
-	while (cursor)
-	{
-		if (!ft_strncmp(var_name, cursor->key, ft_strlen(var_name))
-			&& ft_strlen(var_name) == ft_strlen(cursor->key))
-			return (ft_strdup(cursor->value));
-		cursor = cursor->next;
-	}
-	return (ft_strdup(""));
+	char *end_result;
+	int count;
+	
+	count = 0;
+	count_without_quotes(result, &count);	
+	end_result = substring_without_quotes(result, count);
+	free(result);
+	return (end_result);
 }
