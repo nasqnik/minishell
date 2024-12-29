@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/26 18:44:13 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:21:08 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,34 @@ void expand_command(t_info *info, t_tree *tree)
 	char *tmp;
 	char *tmp1;
 	char *result;
-	// char *temp_result;
 
 	i = 0;
 	j = 0;
 	tmp = NULL;
 	tmp1 = NULL;
-	result = ft_strdup("");
 	while (tree->args[i])
 	{
+		j = 0;
+		result = ft_strdup("");
 		while (tree->args[i][j])
 		{
-			// sleep(1);
-			// printf("char : %c\n", tree->args[i][j]);
-			if (tree->args[i][j] == '\"')
-			{
+			if (tree->args[i][j] == '\"')	
 				tmp = expand_d_quotes(tree->args[i], &j, info->envp_list);
-				printf("tmp: |%s|\n", tmp);
-			}
 			else if (tree->args[i][j] == '\'')
-			{
 			 	tmp = expand_s_quotes(tree->args[i], &j);
-				printf("tmp: |%s|\n", tmp);
-			}
 			else
-			{
 				tmp = expand_variables(tree->args[i], &j, info->envp_list);
-				printf("tmp: |%s|\n", tmp);
-			}
 			tmp1 = result;
 			result = ft_strjoin(tmp1, tmp);
 			free(tmp1);
 			free(tmp);
 		}
-		printf("result: |%s|\n", result);
+		wildcard(info, &result);
 		free(tree->args[i]);
-		tree->args[i] = result;
+		tree->args[i] = ft_strdup(result);
+		free(result);
 		i++;
 	}
-		
 }
 
 char *expand_variables(char *str, int *pos, t_env *envp_list)
@@ -76,7 +65,7 @@ char *expand_variables(char *str, int *pos, t_env *envp_list)
 	
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
 	{
-		if (str[pov[0]] == '\'' && str[pov[0]] == '\"')
+		if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
 			break ;
 		if (str[pov[0]] == '$')
 		{
@@ -87,12 +76,7 @@ char *expand_variables(char *str, int *pos, t_env *envp_list)
 			pov[0]++;
 	}
 	if (*result == '\0')
-	{
-		// printf("I'm here\n");
 		result = ft_substr(str, pov[1], pov[0] - pov[1]);
-		// printf("pov1: %d\npov0 - pov1: %d\n", pov[1], pov[0]);
-	}
-	// printf("result: %s\n", result);
 	*pos = pov[0];
 	return (result);
 }
@@ -103,11 +87,12 @@ char *expand_d_quotes(char *str, int *pos, t_env *envp_list)
 	int pov[2];
 
 	pov[0] = *pos + 1;
-	pov[1] = *pos + 1;
+	pov[1] = *pos ;
 	result = ft_strdup("");
 	
 	while (str[pov[0]] && str[pov[0]] != '\"')
 	{
+		
 		if (str[pov[0]] == '$')
 		{
 			result = handle_variable(str, pov, result, envp_list); // add $_ and $?
@@ -132,7 +117,7 @@ char *expand_s_quotes(char *str, int *pos)
 	
 	while (str[i] && str[i] != '\'') // check for empty
 		i++;
-	result = ft_substr(str, *pos + 1, i - *pos - 1);
+	result = ft_substr(str, *pos, i - *pos + 1); // (str, *pos + 1, i - *pos - 1)
 	*pos = i + 1;
 
 	return (result);

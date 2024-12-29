@@ -90,6 +90,7 @@ typedef struct s_info
     int     i;
     int stdout;
     int stdin;
+    char        *temporary;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -97,7 +98,6 @@ typedef struct s_info
     // int         exit_status;
     // char        *last_arg;
     // // int     error_signal;
-    // char        *temporary;
 }           t_info;
 
 void	free_array(char **array);
@@ -192,6 +192,13 @@ void handle_redirect_out(t_info *info, t_tree *tree);
 void handle_redirect_append(t_info *info, t_tree *tree);
 void	get_file(t_info *info);
 
+// wildcard
+void	wildcard(t_info *info, char **exp_res);
+//wildcard/utils
+int	ft_there_wildcard(char *str);
+int	who_many_wildcard(char *str);
+char	*clean_wildcard(char *data);
+void	prossing_files(t_info *info, struct dirent *entry);
 // // env_list.c
 // void env_to_list(t_info *info);
 // char *search_in_env(t_info *info, char *key);
@@ -217,6 +224,9 @@ char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list);
 char	*append_remaining_data(char *data, int pov[2], char *result);
 char	*get_var(char *data, int *i, t_env *envp_list);
 char	*get_var_value(char *var_name, t_env *envp_list);
+
+// whildcard
+
 
 // // wildcard
 // void	ft_clear_tmp(t_w_tmp **lst);

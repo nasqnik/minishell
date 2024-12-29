@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/22 20:14:16 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/27 14:31:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,41 +76,41 @@ char	*clean_wildcard(char *data)
 	return (result);
 }
 
-void	prossing_files(t_first *f, struct dirent *entry)
+void	prossing_files(t_info *info, struct dirent *entry)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	if (f->temporary == NULL)
+	if (info->temporary == NULL)
 	{
-		f->temporary = ft_strdup(entry->d_name);
-		if (!f->temporary)
+		info->temporary = ft_strdup(entry->d_name);
+		if (!info->temporary)
 			return ;
 	}
 	else
 	{
-		tmp = ft_strjoin(f->temporary, " ");
+		tmp = ft_strjoin(info->temporary, " ");
 		if (!tmp)
 			return ;
-		free(f->temporary);
-		f->temporary = ft_strjoin(tmp, entry->d_name);
-		if (!f->temporary)
+		free(info->temporary);
+		info->temporary = ft_strjoin(tmp, entry->d_name);
+		if (!info->temporary)
 			return ;
 		free(tmp);
 	}
 }
 
-void	free_array(char **array)
-{
-	int	i;
+// void	free_array(char **array)
+// {
+// 	int	i;
 
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
+// 	if (!array)
+// 		return ;
+// 	i = 0;
+// 	while (array[i] != NULL)
+// 	{
+// 		free(array[i]);
+// 		i++;
+// 	}
+// 	free(array);
+// }

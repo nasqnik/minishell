@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/26 18:37:25 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/27 13:45:33 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int main(int argc, char **argv, char **env)
             add_history(info.buffer);
             parsing(&info);
 			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
+			print_ast(info.ast_tree, 5, "head");
             free(info.buffer);
             info.buffer = NULL;
         }
@@ -61,7 +62,7 @@ int main(int argc, char **argv, char **env)
 			ft_clear_tokens(&info.token_list);
 		if (info.ast_tree)
 			ft_clear_tree(info.ast_tree);
-		ft_clear_list(&(info.envp_list));
     }
+	ft_clear_list(&(info.envp_list));
     
 }

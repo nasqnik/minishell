@@ -1,54 +1,13 @@
-==287== Memcheck, a memory error detector
-==287== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==287== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==287== Command: ./minishell
-==287== 
-==287== 
-==287== Process terminating with default action of signal 2 (SIGINT)
-==287==    at 0x48E23DB: kill (syscall-template.S:78)
-==287==    by 0x487C7A2: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
-==287==    by 0x487EC8E: rl_getc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
-==287==    by 0x487F502: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
-==287==    by 0x4864C81: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
-==287==    by 0x48654EC: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
-==287==    by 0x109547: main (minishell.c:51)
-==287== 
-==287== FILE DESCRIPTORS: 5 open at exit.
-==287== Open file descriptor 4: /dev/pts/0
-==287==    at 0x49ADABB: dup (syscall-template.S:78)
-==287==    by 0x1094BD: initialize (minishell.c:24)
-==287==    by 0x10953B: main (minishell.c:46)
-==287== 
-==287== Open file descriptor 3: /dev/pts/0
-==287==    at 0x49ADABB: dup (syscall-template.S:78)
-==287==    by 0x1094AC: initialize (minishell.c:23)
-==287==    by 0x10953B: main (minishell.c:46)
-==287== 
-==287== Open file descriptor 2: /home/vscode/src/out
-==287==    <inherited from parent>
-==287== 
-==287== Open file descriptor 1: /dev/pts/0
-==287==    <inherited from parent>
-==287== 
-==287== Open file descriptor 0: /dev/pts/0
-==287==    <inherited from parent>
-==287== 
-==287== 
-==287== HEAP SUMMARY:
-==287==     in use at exit: 204,487 bytes in 216 blocks
-==287==   total heap usage: 527 allocs, 311 frees, 223,595 bytes allocated
-==287== 
-==287== LEAK SUMMARY:
-==287==    definitely lost: 0 bytes in 0 blocks
-==287==    indirectly lost: 0 bytes in 0 blocks
-==287==      possibly lost: 0 bytes in 0 blocks
-==287==    still reachable: 0 bytes in 0 blocks
-==287==         suppressed: 204,487 bytes in 216 blocks
-==287== 
-==287== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
---287-- 
---287-- used_suppression:     52 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,344 bytes in 209 blocks
---287-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,123 bytes in 4 blocks
---287-- used_suppression:      3 rl _notes/ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
-==287== 
-==287== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==2297== Memcheck, a memory error detector
+==2297== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2297== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==2297== Command: ./minishell
+==2297== 
+==2297== 
+==2297== Process terminating with default action of signal 1 (SIGHUP)
+==2297==    at 0x49AD295: write (write.c:26)
+==2297==    by 0x492DE8C: _IO_file_write@@GLIBC_2.2.5 (fileops.c:1181)
+==2297==    by 0x492F950: new_do_write (fileops.c:449)
+==2297==    by 0x492F950: _IO_new_do_write (fileops.c:426)
+==2297==    by 0x492F950: _IO_do_write@@GLIBC_2.2.5 (fileops.c:423)
+==2297==    by 0x492E6B4: _IO_new_file_xsputn (fileops.c:1244)
