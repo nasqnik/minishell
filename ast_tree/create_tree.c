@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 13:30:57 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/29 15:22:46 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void print_ast(t_tree *node, int depth, char *flag)
         }
         while (str[j])
         {
-            printf("arg: %s\n", str[j]);
+            printf("arg: |%s|\n", str[j]);
             j++;
         }
     }

@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 12:51:53 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:44:51 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void expand_command(t_info *info, t_tree *tree)
 			if (!result)
 				return;
 		}
-		wildcard(info, &result);
+		// wildcard(info, &result);
+		result = clean_quotes(result);
 		free(tree->args[i]);
 		tree->args[i] = ft_strdup(result);
 		free(result);
@@ -66,6 +67,12 @@ void expand_command(t_info *info, t_tree *tree)
 	}
 }
 
+
+void process_expansion()
+{
+	
+}
+
 char *expand_variables(char *str, int *pos, t_info *info)
 {
 	char *result;
@@ -73,9 +80,7 @@ char *expand_variables(char *str, int *pos, t_info *info)
 
 	pov[0] = *pos;
 	pov[1] = *pos;
-	
 	result = ft_strdup("");
-	
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
 	{
 		if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
@@ -100,23 +105,16 @@ char *expand_variables(char *str, int *pos, t_info *info)
 char *expand_d_quotes(char *str, int *pos, t_info *info)
 {
 	char *result;
-	char *tmp;
 	int pov[2];
 
 	pov[0] = *pos + 1;
-	pov[1] = *pos ;
+	pov[1] = *pos;
 	result = ft_strdup("");
 	while (str[pov[0]] && str[pov[0]] != '\"')
 	{
 		if (str[pov[0]] == '$')
 		{
-			result = handle_variable(str, pov, result, info); // add $_ and $?
-			if (str[pov[0]] == '\"')
-			{
-				tmp = ft_strjoin(result, "\"");
-				free(result);
-				result = tmp;
-			}
+			result = handle_variable(str, pov, result, info); 
 			pov[1] = pov[0];
 		}
 		else
@@ -124,7 +122,6 @@ char *expand_d_quotes(char *str, int *pos, t_info *info)
 	}
 	if (pov[1] < pov[0])
 		result = append_remaining_data(str, pov, result);
-	printf("result: %s\n", result);
 	*pos = pov[0] + 1;
 	return (result);
 }
@@ -136,10 +133,11 @@ char *expand_s_quotes(char *str, int *pos)
 	
 	i = *pos + 1;
 	
-	while (str[i] && str[i] != '\'') // check for empty
+	while (str[i] && str[i] != '\'')
 		i++;
-	result = ft_substr(str, *pos, i - *pos + 1); // (str, *pos + 1, i - *pos - 1)
+	result = ft_substr(str, *pos, i - *pos + 1);
 	*pos = i + 1;
 
 	return (result);
 }
+

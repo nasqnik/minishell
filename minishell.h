@@ -216,14 +216,18 @@ char *expand_d_quotes(char *str, int *pos, t_info *info);
 char *expand_s_quotes(char *str, int *pos);
 char *expand_variables(char *str, int *pos, t_info *info);
 
-// void expand_variables(t_info *info);
-// void expand_envp(t_tokens *token, t_info *info);
-
-// // expansions_dquotes.c
+// expansions_dquotes.c
 char	*handle_variable(char *data, int pov[2], char *result, t_info *info);
+char    *handle_var_value(char *data, int pov[2], t_info *info);
+char    *handle_exit_status(char *data, int pov[2], t_info *info);
 char	*append_remaining_data(char *data, int pov[2], char *result);
 char	*get_var(char *data, int *i, t_env *envp_list);
 char	*get_var_value(char *var_name, t_env *envp_list);
+
+// expansions_utils.c
+char *clean_quotes(char *result);
+void count_without_quotes(char *result, int *count);
+char *substring_without_quotes(char *result, int count);
 
 // whildcard
 
