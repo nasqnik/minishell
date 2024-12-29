@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/27 13:45:33 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/29 12:32:14 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void	initialize(t_info *info, char **env)
 	info->envp_array = env;
 	info->envp_list = NULL;
 	info->i = 0;
+	info->exit_status = 0;
 	info->stdout = dup(STDOUT_FILENO);
 	info->stdin = dup(STDOUT_FILENO);
     
-	// f->exit_status = 0;
 	// f->last_arg = "empty";
 	// signal(SIGINT, handle_signal);
 	// signal(SIGQUIT, SIG_IGN);

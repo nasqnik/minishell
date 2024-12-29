@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_dquotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/27 14:10:29 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/29 12:39:52 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list) // add $_ and $?
+char	*handle_variable(char *data, int pov[2], char *result, t_info *info) 
 {
 	char	*before_var;
 	char	*var_value;
@@ -24,7 +24,12 @@ char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list) //
 	if (data[pov[0] + 1])
 		(pov[0])++;
 	if (ft_is(data[pov[0]], "alnum") || data[pov[0]] == '_')
-		var_value = get_var(data, &pov[0], envp_list);
+		var_value = get_var(data, &pov[0], info->envp_list);
+	else if (data[pov[0]] == '?')
+	{
+		var_value = ft_itoa(info->exit_status);
+		pov[0]++;
+	}
 	else
 		var_value = ft_strdup("$");
 	tmp = ft_strjoin(result, before_var);

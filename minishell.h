@@ -91,11 +91,11 @@ typedef struct s_info
     int stdout;
     int stdin;
     char        *temporary;
+    int         exit_status;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
     // int			env_size;
-    // int         exit_status;
     // char        *last_arg;
     // // int     error_signal;
 }           t_info;
@@ -212,15 +212,15 @@ void	prossing_files(t_info *info, struct dirent *entry);
 // int do_op(char *str, t_info *info);
 
 void expand_command(t_info *info, t_tree *tree);
-char *expand_d_quotes(char *str, int *pos, t_env *envp_list);
+char *expand_d_quotes(char *str, int *pos, t_info *info);
 char *expand_s_quotes(char *str, int *pos);
-char *expand_variables(char *str, int *pos, t_env *envp_list);
+char *expand_variables(char *str, int *pos, t_info *info);
 
 // void expand_variables(t_info *info);
 // void expand_envp(t_tokens *token, t_info *info);
 
 // // expansions_dquotes.c
-char	*handle_variable(char *data, int pov[2], char *result, t_env *envp_list);
+char	*handle_variable(char *data, int pov[2], char *result, t_info *info);
 char	*append_remaining_data(char *data, int pov[2], char *result);
 char	*get_var(char *data, int *i, t_env *envp_list);
 char	*get_var_value(char *var_name, t_env *envp_list);

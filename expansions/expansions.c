@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/27 14:21:08 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/29 12:51:53 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // echo *".c"
 // echo *"as"
 // echo *
+// $?a 
 
 void expand_command(t_info *info, t_tree *tree)
 {
@@ -33,34 +34,46 @@ void expand_command(t_info *info, t_tree *tree)
 	{
 		j = 0;
 		result = ft_strdup("");
+		if (!result)
+			return;
 		while (tree->args[i][j])
 		{
 			if (tree->args[i][j] == '\"')	
-				tmp = expand_d_quotes(tree->args[i], &j, info->envp_list);
+				tmp = expand_d_quotes(tree->args[i], &j, info);
 			else if (tree->args[i][j] == '\'')
 			 	tmp = expand_s_quotes(tree->args[i], &j);
 			else
-				tmp = expand_variables(tree->args[i], &j, info->envp_list);
+				tmp = expand_variables(tree->args[i], &j, info);
+			if (!tmp) 
+			{
+				free(result);
+				return; 
+			}
 			tmp1 = result;
 			result = ft_strjoin(tmp1, tmp);
 			free(tmp1);
 			free(tmp);
+			if (!result)
+				return;
 		}
 		wildcard(info, &result);
 		free(tree->args[i]);
 		tree->args[i] = ft_strdup(result);
 		free(result);
+		if (!tree->args[i])
+			return;
 		i++;
 	}
 }
 
-char *expand_variables(char *str, int *pos, t_env *envp_list)
+char *expand_variables(char *str, int *pos, t_info *info)
 {
 	char *result;
 	int pov[2];
 
 	pov[0] = *pos;
 	pov[1] = *pos;
+	
 	result = ft_strdup("");
 	
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
@@ -69,33 +82,41 @@ char *expand_variables(char *str, int *pos, t_env *envp_list)
 			break ;
 		if (str[pov[0]] == '$')
 		{
-			result = handle_variable(str, pov, result, envp_list);
+			result = handle_variable(str, pov, result, info);
 			pov[1] = pov[0];
 		}
 		else
 			pov[0]++;
 	}
 	if (*result == '\0')
+	{
+		free(result);
 		result = ft_substr(str, pov[1], pov[0] - pov[1]);
+	}
 	*pos = pov[0];
 	return (result);
 }
 
-char *expand_d_quotes(char *str, int *pos, t_env *envp_list)
+char *expand_d_quotes(char *str, int *pos, t_info *info)
 {
 	char *result;
+	char *tmp;
 	int pov[2];
 
 	pov[0] = *pos + 1;
 	pov[1] = *pos ;
 	result = ft_strdup("");
-	
 	while (str[pov[0]] && str[pov[0]] != '\"')
 	{
-		
 		if (str[pov[0]] == '$')
 		{
-			result = handle_variable(str, pov, result, envp_list); // add $_ and $?
+			result = handle_variable(str, pov, result, info); // add $_ and $?
+			if (str[pov[0]] == '\"')
+			{
+				tmp = ft_strjoin(result, "\"");
+				free(result);
+				result = tmp;
+			}
 			pov[1] = pov[0];
 		}
 		else
@@ -122,44 +143,3 @@ char *expand_s_quotes(char *str, int *pos)
 
 	return (result);
 }
-
-// char	*search_in_env(t_first *f, char *key)
-// {
-// 	t_list	*tmp;
-
-// 	tmp = f->envp_list;
-// 	while (tmp)
-// 	{
-// 		if (ft_strcmp(tmp->key, key) == 0)
-// 			return (tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// 	return (NULL);
-// }
-
-// void	expand_envp(t_tokens *token, t_first *f)
-// {
-// 	char	*env_value;
-// 	char	*new_token_data;
-
-// 	env_value = NULL;
-// 	new_token_data = NULL;
-// 	if (ft_strlen(token->data) == 1)
-// 	{
-// 		if (((char *)(token->data))[0] == '?')
-// 			new_token_data = ft_itoa(f->exit_status);
-// 		else if (((char *)(token->data))[0] == '_')
-// 			new_token_data = ft_strdup(f->last_arg);
-// 	}
-// 	else
-// 	{
-// 		env_value = search_in_env(f, token->data);
-// 		if (env_value)
-// 			new_token_data = ft_strdup(env_value);
-// 	}
-// 	if (new_token_data)
-// 	{
-// 		free(token->data);
-// 		token->data = new_token_data;
-// 	}
-// }
