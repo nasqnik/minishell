@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 12:32:14 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:13:04 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int main(int argc, char **argv, char **env)
 	{
         // signals(info);
         
-        info.buffer = readline("\033[92mmini_cat😺$ \033[00m");
+        info.buffer = readline("mini_cat😺$ ");
         if (info.buffer)
         {
             add_history(info.buffer);
             parsing(&info);
 			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
-			print_ast(info.ast_tree, 5, "head");
+			//print_ast(info.ast_tree, 5, "head");
             free(info.buffer);
             info.buffer = NULL;
         }

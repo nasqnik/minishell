@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:37:44 by meid              #+#    #+#             */
-/*   Updated: 2024/12/29 16:17:52 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/30 12:27:29 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	disply_files_dir(t_info *info, int flag, char *sub_str,
-		int wildcard_count)
+void	disply_files_dir(t_info *info, int flag, char *sub_str)
 {
 	char			buf[1024];
 	DIR				*dir;
 	struct dirent	*entry;
 
-	(void)wildcard_count;
 	(void)sub_str;
 	getcwd(buf, sizeof(buf));
 	dir = opendir(buf);
@@ -28,7 +26,7 @@ void	disply_files_dir(t_info *info, int flag, char *sub_str,
 	while ((entry = readdir(dir)) != NULL)
 	{
 		if ((entry->d_name[0] != '.' && flag == 0) || (flag == 1
-				&& ft_matchy(entry->d_name, sub_str, wildcard_count) == 1))
+				&& ft_matchy(entry->d_name, sub_str) == 1))
 		{
 			printf("match: %s\n", entry->d_name);
 			prossing_files(info, entry);
@@ -48,13 +46,10 @@ void	wildcard(t_info *info, char **exp_res)
 		{
 			char *clean_data = clean_wildcard(*exp_res);
 			int clean_len = ft_strlen(clean_data);
-			int wildcard_count = who_many_wildcard(clean_data);
-			wildcard_pos = ft_there_wildcard(clean_data);
-			printf("%d", wildcard_count);
 			if (clean_len == 1)
-				disply_files_dir(info, 0, NULL, wildcard_count);
+				disply_files_dir(info, 0, NULL);
 			else
-				disply_files_dir(info, 1, clean_data, wildcard_count);
+				disply_files_dir(info, 1, clean_data);
 			if (info->temporary)
 			{
 				free(*exp_res);

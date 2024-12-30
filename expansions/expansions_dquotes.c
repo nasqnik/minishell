@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 15:50:25 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:52:30 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ char	*handle_variable(char *data, int pov[2], char *result, t_info *info)
 	free(result);
 	result = ft_strjoin(tmp, var_value);
 	free(tmp);
-	// if (data[pov[0]] == '\"')
-	// {
-	// 	tmp = ft_strjoin(result, "\"");
-	// 	free(result);
-	// 	result = tmp;
-	// }
+	if (data[pov[0]] == '\"')
+	{
+		tmp = ft_strjoin(result, "\"");
+		free(result);
+		result = tmp;
+	}
 	free(before_var);
 	free(var_value);
 	return (result);

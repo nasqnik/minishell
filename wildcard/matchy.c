@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matchy.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:11:54 by meid              #+#    #+#             */
-/*   Updated: 2024/12/30 11:57:01 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/30 12:29:49 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ char *end_sub(char *wildcard, int *i, int *j)
     return (str);
 }
 
-int	ft_matchy(char *file, char *wildcard, int wildcard_count)
+int	ft_matchy(char *file, char *wildcard)
 {
 	int		i;
 	int		j;
@@ -224,7 +224,6 @@ int	ft_matchy(char *file, char *wildcard, int wildcard_count)
 	int		end_f = 0;
 	char	*tmp_file;
 	char *sub_str = NULL;
-	(void)wildcard_count;
 	if (!file || !wildcard)
 		return (0);
     printf("the file: %s\n", file);

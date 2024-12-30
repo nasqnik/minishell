@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/30 11:57:13 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/30 12:32:51 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,26 @@
 int	ft_there_wildcard(char *str)
 {
 	int	i;
+	char close;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '*')
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			close = str[i];
+			i++;
+			while (str[i] && str[i] != close)
+				i++;
+		}
+		if (str[i] && str[i] == '*')
+		{
+			printf("i found one\n");
 			return (i);
+		}
 		i++;
 	}
 	return (-1);
-}
-
-int	who_many_wildcard(char *str)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '*')
-			count++;
-		i++;
-	}
-	return (count);
 }
 
 char	*clean_wildcard(char *data)
@@ -98,4 +93,26 @@ void	prossing_files(t_info *info, struct dirent *entry)
 			return ;
 		free(tmp);
 	}
+}
+
+int who_many_wildcard(char *str)
+{
+    int i = 0;
+    int count = 0;
+	char close;
+
+    while (str[i])
+    {		
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			close = str[i];
+			i++;
+			while (str[i] && str[i] != close)
+				i++;
+		}
+        if (str[i] == '*')
+            count++;
+        i++;
+    }
+    return (count);
 }

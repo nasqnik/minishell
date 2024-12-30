@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/27 13:37:31 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/30 17:36:04 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execute_command(t_info *info, t_tree *tree)
 	if (!info || !tree)
 		return ;
 	// strcmp_builtin(info, tree->args[0], tree->args);
-	int	pid = 0;
+	pid_t	pid;
 	expand_command(info, tree);
 	// clear quotes
 	if (!(strcmp_builtin(info, tree->args[0], tree->args)))
@@ -28,6 +28,7 @@ void	execute_command(t_info *info, t_tree *tree)
 		else if (pid == 0)
 		{
 			execute_binary(info, tree->args[0], tree->args, 1);
+			exit(1);
 		}
 		wait(NULL);
 	}
