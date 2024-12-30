@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/27 14:31:47 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/30 11:57:13 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,3 @@ void	prossing_files(t_info *info, struct dirent *entry)
 		free(tmp);
 	}
 }
-
-// void	free_array(char **array)
-// {
-// 	int	i;
-
-// 	if (!array)
-// 		return ;
-// 	i = 0;
-// 	while (array[i] != NULL)
-// 	{
-// 		free(array[i]);
-// 		i++;
-// 	}
-// 	free(array);
-// }

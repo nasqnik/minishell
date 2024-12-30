@@ -16,7 +16,7 @@ SRC = minishell.c env_list.c \
 	execution/execution.c execution/execute_binary.c execution/exec_logic.c\
 	builtins/builtins.c builtins/export_unset.c builtins/utils.c \
 	expansions/expansions_dquotes.c expansions/expansions.c expansions/expansions_utils.c\
-	wildcard/wildcard.c wildcard/utils.c
+	wildcard/wildcard.c wildcard/utils.c wildcard/matchy.c
 
 OBJ = $(SRC:.c=.o)
 

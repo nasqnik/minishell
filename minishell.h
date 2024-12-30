@@ -199,6 +199,7 @@ int	ft_there_wildcard(char *str);
 int	who_many_wildcard(char *str);
 char	*clean_wildcard(char *data);
 void	prossing_files(t_info *info, struct dirent *entry);
+int	ft_matchy(char *file, char *wildcard, int wildcard_count);
 // // env_list.c
 // void env_to_list(t_info *info);
 // char *search_in_env(t_info *info, char *key);

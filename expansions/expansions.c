@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/29 15:52:39 by anikitin         ###   ########.fr       */
+/*   Updated: 2024/12/29 16:17:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void expand_command(t_info *info, t_tree *tree)
 	while (tree->args[i])
 	{
 		result = process_expansion(tree->args[i], info);
-		// wildcard(info, &result);
+		wildcard(info, &result);
 		result = clean_quotes(result);
 		free(tree->args[i]);
 		tree->args[i] = ft_strdup(result);

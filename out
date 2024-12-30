@@ -1,0 +1,106 @@
+==346== Memcheck, a memory error detector
+==346== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==346== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==346== Command: ./minishell
+==346== 
+==346== 
+==346== Process terminating with default action of signal 2 (SIGINT)
+==346==    at 0x48E23DB: kill (syscall-template.S:78)
+==346==    by 0x487C7A2: ??? (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
+==346==    by 0x487EC8E: rl_getc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
+==346==    by 0x487F502: rl_read_key (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
+==346==    by 0x4864C81: readline_internal_char (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
+==346==    by 0x48654EC: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.0)
+==346==    by 0x1095B2: main (minishell.c:51)
+==346== 
+==346== FILE DESCRIPTORS: 5 open at exit.
+==346== Open file descriptor 4: /dev/pts/0
+==346==    at 0x49ADABB: dup (syscall-template.S:78)
+==346==    by 0x109528: initialize (minishell.c:25)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== Open file descriptor 3: /dev/pts/0
+==346==    at 0x49ADABB: dup (syscall-template.S:78)
+==346==    by 0x109517: initialize (minishell.c:24)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== Open file descriptor 2: /home/vscode/src/out
+==346==    <inherited from parent>
+==346== 
+==346== Open file descriptor 1: /dev/pts/0
+==346==    at 0x49ADAEB: dup2 (syscall-template.S:78)
+==346==    by 0x10B18B: execute_command (execution.c:34)
+==346==    by 0x10B600: execution (exec_logic.c:25)
+==346==    by 0x1095EA: main (minishell.c:56)
+==346== 
+==346== Open file descriptor 0: /dev/pts/0
+==346==    at 0x49ADAEB: dup2 (syscall-template.S:78)
+==346==    by 0x10B19E: execute_command (execution.c:35)
+==346==    by 0x10B600: execution (exec_logic.c:25)
+==346==    by 0x1095EA: main (minishell.c:56)
+==346== 
+==346== 
+==346== HEAP SUMMARY:
+==346==     in use at exit: 207,131 bytes in 278 blocks
+==346==   total heap usage: 489 allocs, 211 frees, 222,532 bytes allocated
+==346== 
+==346== 9 bytes in 1 blocks are still reachable in loss record 6 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10ECB0: ft_substr (in /home/vscode/src/minishell)
+==346==    by 0x1096E3: env_lstnew (env_list.c:28)
+==346==    by 0x1097E3: env_to_list (env_list.c:68)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== 24 bytes in 1 blocks are still reachable in loss record 13 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10966E: env_lstnew (env_list.c:20)
+==346==    by 0x1097E3: env_to_list (env_list.c:68)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== 37 bytes in 1 blocks are still reachable in loss record 17 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10ECB0: ft_substr (in /home/vscode/src/minishell)
+==346==    by 0x1096B1: env_lstnew (env_list.c:27)
+==346==    by 0x1097E3: env_to_list (env_list.c:68)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== 174 bytes in 19 blocks are still reachable in loss record 25 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10ECB0: ft_substr (in /home/vscode/src/minishell)
+==346==    by 0x1096B1: env_lstnew (env_list.c:27)
+==346==    by 0x109814: env_to_list (env_list.c:72)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== 456 bytes in 19 blocks are still reachable in loss record 28 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10966E: env_lstnew (env_list.c:20)
+==346==    by 0x109814: env_to_list (env_list.c:72)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== 1,872 bytes in 19 blocks are still reachable in loss record 40 of 67
+==346==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==346==    by 0x10ECB0: ft_substr (in /home/vscode/src/minishell)
+==346==    by 0x1096E3: env_lstnew (env_list.c:28)
+==346==    by 0x109814: env_to_list (env_list.c:72)
+==346==    by 0x10953B: initialize (minishell.c:30)
+==346==    by 0x1095A6: main (minishell.c:46)
+==346== 
+==346== LEAK SUMMARY:
+==346==    definitely lost: 0 bytes in 0 blocks
+==346==    indirectly lost: 0 bytes in 0 blocks
+==346==      possibly lost: 0 bytes in 0 blocks
+==346==    still reachable: 2,572 bytes in 60 blocks
+==346==         suppressed: 204,559 bytes in 218 blocks
+==346== 
+==346== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--346-- 
+--346-- used_suppression:     54 readline _notes/ignore_readline_leaks.txt:2 suppressed: 200,479 bytes in 211 blocks
+--346-- used_suppression:      4 add_history _notes/ignore_readline_leaks.txt:9 suppressed: 4,060 bytes in 4 blocks
+--346-- used_suppression:      3 rl _notes/ignore_readline_leaks.txt:15 suppressed: 20 bytes in 3 blocks
+==346== 
+==346== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
