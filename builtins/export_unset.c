@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2024/12/31 17:47:21 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/01 19:40:49 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	handle_export_error(char *str)
 	return (0);
 }
 
-void	new_env(t_info *info, char *search_for, char *value)
+void	new_env(t_info *info, char *search_for, char *value, char flago)
 {
+	(void)flago;
 	char	*the_str;
 	char	*tmpo;
 
@@ -42,18 +43,39 @@ void	new_env(t_info *info, char *search_for, char *value)
 	env_lstadd_back(&info->envp_list, env_lstnew(the_str));
 	free(the_str);
 }
-int	check_env_there(t_info *info, char *search_for, char *value)
+int	check_env_there(t_info *info, char *search_for, char *value, char flago)
 {
+	(void)flago;
 	t_env	*tmp;
+	char *tmp_joined = NULL;
+	char *tmpo = NULL;
 
 	tmp = info->envp_list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, search_for) == 0)
 		{
+			if (flago == 'n')
+			{
+				free(tmp->env);
+				tmpo = ft_strjoin(search_for, "=");
+				tmp->env = ft_strjoin(tmpo, value);
+				free(tmpo);
+				free(tmp->value);
+				tmp->value = value;
+			}
+			else
+			{
+				tmp_joined = ft_strjoin(tmp->value, value);
+				free(tmp->value);
+				free(value);
+				tmp->value = tmp_joined;
+				free(tmp->env);
+				tmpo = ft_strjoin(search_for, "=");
+				tmp->env = ft_strjoin(tmpo, tmp_joined);
+				free(tmpo);
+			}
 			free(search_for);
-			free(tmp->value);
-			tmp->value = value;
 			return (1);
 		}
 		tmp = tmp->next;
@@ -67,11 +89,13 @@ int	ft_export(t_info *info, char **args, int i)
 	int		j;
 	int		flag;
 	char	*search_for;
+	char flago;
 
 	value = NULL;
 	j = 0;
 	flag = 0;
 	search_for = NULL;
+	flago = 'n';
 	if (!args[i])
 	{
 		env_sort(info, info->envp_list);
@@ -89,12 +113,19 @@ int	ft_export(t_info *info, char **args, int i)
 			j = 0;
 			while (args[i][j] && args[i][j] != '=')
 				j++;
-			search_for = ft_substr(args[i], 0, j);
+			if (args[i][j - 1] == '+')
+			{
+				flago = 'y';
+				search_for = ft_substr(args[i], 0, j - 1);
+			}
+			else
+				search_for = ft_substr(args[i], 0, j);
 			value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
-			if (check_env_there(info, search_for, value))
+			printf("%s\n", value);
+			if (check_env_there(info, search_for, value, flago))
 				flag = 1;
 			if (flag == 0)
-				new_env(info, search_for, value);
+				new_env(info, search_for, value, flago);
 		}
 		i++;
 	}

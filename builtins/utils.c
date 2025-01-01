@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2024/12/31 18:06:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/01 19:36:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	invalid_identifier(char *str, int flag)
 		return (1);
 	while (str[i])
 	{
-		if ((!(ft_isalnum(str[i])) && str[i] != '_' && str[i] != '=')
+		if ((!(ft_isalnum(str[i])) && str[i] != '_' && str[i] != '=' && str[i] != '+')
 			|| (str[i] == '=' && flag == 2))
 			return (2);
 		i++;
@@ -138,10 +138,9 @@ void print_export(t_env *export_tmp)
 void env_sort(t_info *info, t_env *envp_list)
 {
     t_env *tmp = envp_list;
-    info->export_tmp = NULL;
-
     while (tmp)
     {
+		printf("lol\n");
         // Create a new node for the sorted list
         t_env *new_node = env_lstnew(tmp->env);
         if (!new_node)
@@ -160,6 +159,7 @@ void env_sort(t_info *info, t_env *envp_list)
     }
 	print_export(info->export_tmp);
 	ft_clear_list(&info->export_tmp);
+	info->export_tmp = NULL;
 }
 
 // 1. Starts with a Number
