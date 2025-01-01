@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 10:13:23 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/01 11:59:45 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,25 @@ void execution_pipe(t_info *info, t_tree *tree)
     int pipefd[2];
     pid_t   pipe_left;
     pid_t   pipe_right;
-    int left;
-    int right;
+    int status_left, status_right;
 
-    pipe(pipefd);
-    // if (pipefd == -1)
-    //     return ;
+    if (pipe(pipefd) == -1) {
+        perror("pipe failed");
+        return ;
+    }
     pipe_left = handle_left_pipe(info, tree, pipefd);
     pipe_right = handle_right_pipe(info, tree, pipefd);
-    waitpid(pipe_left, &left, 0);
-    waitpid(pipe_right, &right, 0); 
+    close(pipefd[1]);
+    close(pipefd[0]);
+
+    // waitpid(pipe_left, NULL, 0);
+    // waitpid(pipe_right, NULL, 0);
+    waitpid(pipe_left, &status_left, 0);
+    waitpid(pipe_right, &status_right, 0);
+    if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
+        info->last_status = WEXITSTATUS(status_left);
+    else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)
+        info->last_status = WEXITSTATUS(status_right);
 }
 
 pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
@@ -48,14 +57,23 @@ pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
     pid_t pid;
 
     pid = fork();
-    // if (pid = -1)
-    //     error
+    if (pid == -1) {
+        perror("fork failed");
+        exit(EXIT_FAILURE);
+    }// add error
     if (pid == 0)
     {
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
         execution(info, tree->left);
+        close(info->stdout);
+	    close(info->stdin);
+        ft_clear_tree(info->ast_tree);
+        ft_clear_list(&(info->envp_list));
+        free(info->buffer);
+        info->buffer = NULL;
+        exit(EXIT_SUCCESS);
     }
     
     return(pid);
@@ -66,14 +84,23 @@ pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
     pid_t pid;
 
     pid = fork(); 
-    // if (pid = -1)
-    //     error
+    if (pid == -1) {
+        perror("fork failed");
+        exit(EXIT_FAILURE);
+    }// add error
     if (pid == 0)
     {
         close(pipefd[1]);
         dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
         execution(info, tree->right);
+        close(info->stdout);
+	    close(info->stdin);
+        ft_clear_tree(info->ast_tree);
+        ft_clear_list(&(info->envp_list));
+        free(info->buffer);
+        info->buffer = NULL;
+        exit(EXIT_SUCCESS);
     }
     return(pid);
 }
@@ -157,3 +184,7 @@ void	get_file(t_info *info)
 	dup2(file, STDIN_FILENO);
 	unlink("here_doc");
 }
+
+// start with heredoc 
+// if the command is not right it should stop exe
+// 

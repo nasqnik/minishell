@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 08:06:27 by meid             ###   ########.fr       */
+/*   Updated: 2024/12/31 17:47:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,22 @@ int	ft_export(t_info *info, char **args, int i)
 	j = 0;
 	flag = 0;
 	search_for = NULL;
+	if (!args[i])
+	{
+		env_sort(info, info->envp_list);
+		return (42);
+	}
 	while (args[i])
 	{
 		if (handle_export_error(args[i]))
-			return (1);
-		else if (ft_strcmp(args[i], " ") != 0 && ft_strfind(args[i], '=') == 1)
+		{
+			i++;
+			continue;
+		}
+		else if (ft_strcmp(args[i], " ") != 0)
 		{
 			j = 0;
-			while (args[i][j] != '=')
+			while (args[i][j] && args[i][j] != '=')
 				j++;
 			search_for = ft_substr(args[i], 0, j);
 			value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
@@ -104,6 +112,7 @@ void	search_to_unset(t_env *tmp, char *str)
 		{
 			if (tmp->next->next)
 				tmp1 = tmp->next->next;
+			free(tmp->next->env);
 			free(tmp->next->value);
 			free(tmp->next->key);
 			free(tmp->next);
@@ -123,7 +132,11 @@ int	ft_unset(t_info *info, char **args, int i)
 	while (args[i])
 	{
 		if (invalid_identifier(args[i], 2))
-			return (print_the_error(args[i], 2, fd), 0);
+		{
+			print_the_error(args[i], 2, fd);
+			i++;
+			continue ;
+		}
 		else if (ft_strcmp(args[i], " ") != 0)
 		{
 			tmp = info->envp_list;

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2024/12/27 13:27:23 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/01 10:44:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,34 @@ int	ft_echo(char **args, int i)
 {
 	int	line_flag;
 	int	fd;
+	int j;
 
 	line_flag = 0;
 	fd = 1;
-	if (args[i] && ft_strcmp(args[i], "-n") == 0)
+	j = 2;
+	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		line_flag = 1;
-		i++;
+		while(args[i][j] == 'n')
+			j++;
+		if (args[i][j] == '\0')
+		{
+			line_flag = 1;
+			i++;
+		}
+		else
+			break ;
 		if (args[i] && ft_strcmp(args[i], " ") == 0)
 			i++;
 	}
-	while (args[i])
+	if (args[i])
 	{
 		ft_putstr_fd(args[i], fd);
+		i++;
+	}
+	while (args[i])
+	{
 		ft_putchar_fd(' ', fd);		
+		ft_putstr_fd(args[i], fd);
 		i++;
 	}
 	if (line_flag == 0)
@@ -79,10 +93,18 @@ int	ft_env(t_info *info, char **args, int i)
 	tmp = info->envp_list;
 	while (tmp)
 	{
-		ft_putstr_fd(tmp->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(tmp->value, fd);
-		ft_putchar_fd('\n', fd);
+		if (tmp->value[0] != '\0')
+		{
+			ft_putstr_fd(tmp->key, fd);
+			ft_putchar_fd('=', fd);
+			ft_putstr_fd(tmp->value, fd);
+			ft_putchar_fd('\n', fd);	
+		}
+		// else
+		// {
+		// 	printf("i am here but not\n");
+		// 	printf("%s\n", tmp->key);
+		// }
 		tmp = tmp->next;
 	}
 	return (42);
@@ -112,6 +134,10 @@ int	ft_exit(t_info *info, char **args, int i, int j)
 	ft_clear_tokens(&(info->token_list));
 	ft_clear_tree(info->ast_tree);
 	ft_clear_list(&(info->envp_list));
+	close(info->stdout);
+	close(info->stdin);
+    free(info->buffer);
+    info->buffer = NULL;
 	exit(exit_code);
 }
 

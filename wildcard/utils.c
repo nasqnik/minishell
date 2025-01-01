@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/30 12:32:51 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/01 10:59:03 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_there_wildcard(char *str)
 		}
 		if (str[i] && str[i] == '*')
 		{
-			printf("i found one\n");
 			return (i);
 		}
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/30 17:13:04 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/01 10:42:28 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ static void	initialize(t_info *info, char **env)
 	info->i = 0;
 	info->exit_status = 0;
 	info->stdout = dup(STDOUT_FILENO);
-	info->stdin = dup(STDOUT_FILENO);
+	info->stdin = dup(STDIN_FILENO);
+	if (info->stdout == -1 || info->stdin == -1) {
+    	perror("dup failed");
+    	exit(EXIT_FAILURE);
+	}
     
 	// f->last_arg = "empty";
 	// signal(SIGINT, handle_signal);
@@ -44,6 +48,8 @@ int main(int argc, char **argv, char **env)
 		return (1); // or exit?
 	}
     initialize(&info, env);
+	if (!(info.envp_list))
+		return (0);
     while (1)
 	{
         // signals(info);
@@ -63,6 +69,15 @@ int main(int argc, char **argv, char **env)
 		if (info.ast_tree)
 			ft_clear_tree(info.ast_tree);
     }
+	printf("out of the looop\n");
+	printf("info.stdout: %d, info.stdin: %d\n", info.stdout, info.stdin);
+	if (close(info.stdout) != -1)
+		printf("%d, is closed\n", info.stdout);
+	else
+		printf("i am not closed, Regards, stdout\n");
+	if (close(info.stdin) != -1)
+		printf("%d, is closed\n", info.stdin);
+	else
+		printf("i am not closed, Regards, stdin\n");
 	ft_clear_list(&(info.envp_list));
-    
 }

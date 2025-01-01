@@ -3,37 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2024/12/30 17:36:04 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/01 10:43:31 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execute_command(t_info *info, t_tree *tree)
+void execute_command(t_info *info, t_tree *tree)
 {
-	if (!info || !tree)
-		return ;
-	// strcmp_builtin(info, tree->args[0], tree->args);
-	pid_t	pid;
-	expand_command(info, tree);
-	// clear quotes
-	if (!(strcmp_builtin(info, tree->args[0], tree->args)))
-	{
-		pid = fork();
-		if (pid == -1)
-			return ;
-		else if (pid == 0)
-		{
-			execute_binary(info, tree->args[0], tree->args, 1);
-			exit(1);
-		}
-		wait(NULL);
-	}
-	dup2(info->stdout, STDOUT_FILENO);
-	dup2(info->stdin, STDIN_FILENO);
+    int status;
+    
+    if (!info || !tree)
+        return;
+        
+    expand_command(info, tree);
+    
+    if (!strcmp_builtin(info, tree->args[0], tree->args))
+    {
+        pid_t pid = fork();
+        if (pid == -1) {
+            perror("fork failed");
+            return;
+        }
+        else if (pid == 0)
+        {
+            execute_binary(info, tree->args[0], tree->args, 1);
+            // Clean up and exit
+			close(info->stdout);
+	    	close(info->stdin);
+            ft_clear_tree(info->ast_tree);
+            ft_clear_list(&(info->envp_list));
+        	free(info->buffer);
+        	info->buffer = NULL;
+            exit(1);
+        }
+        waitpid(pid, &status, 0);
+        info->last_status = WIFEXITED(status) ? WEXITSTATUS(status) : 1;
+    }
+    
+    // Consider moving this to a cleanup function
+    if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
+        dup2(info->stdin, STDIN_FILENO) == -1)
+    {
+        perror("dup2 failed during cleanup");
+    }
 }
 
 int	strcmp_builtin(t_info *info, char *command, char **args)

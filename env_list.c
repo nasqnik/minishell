@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 08:29:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/01 09:21:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env	*env_lstnew(char *env_var)
 	if (new)
 	{
 		i = 0;
-		// new->env = ft_strdup(env_var);
+		new->env = ft_strdup(env_var);
 		while (env_var[i] != '=')
 			i++;
 		new->key = ft_substr(env_var, 0, i);
@@ -29,6 +29,12 @@ t_env	*env_lstnew(char *env_var)
 		new->next = NULL;
 	}
 	return (new);
+}
+
+void	ft_lstadd_front(t_env **lst, t_env *new)
+{
+	new->next = *lst;
+	*lst = new;
 }
 
 t_env	*env_lstlast(t_env *lst)
@@ -87,9 +93,10 @@ void	ft_clear_list(t_env **lst)
 	current = *lst;
 	while (current != NULL)
 	{
+		// printf("clear\n");
 		tmp = current;
 		current = current->next;
-		// free(tmp->env);
+		free(tmp->env);
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);

@@ -56,19 +56,12 @@ typedef struct s_tokens
     struct s_tokens *next;    
 }           t_tokens;
 
-typedef struct s_env
-{
-    // char *env;
-    char *key;
-    char *value;
-    struct s_env *next;
-}       t_env;
 
-// typedef struct s_tmp
+// typedef struct s_export
 // {
 //     char *data;
 //     struct s_tmp *next;
-// }       t_w_tmp;
+// }       t_export;
 
 typedef struct s_tree
 {
@@ -79,19 +72,28 @@ typedef struct s_tree
     struct s_tree *right;
     //int *level;
 }           t_tree;
+typedef struct s_env
+{
+    char *env;
+    char *key;
+    char *value;
+    struct s_env *next;
+}       t_env;
 
 typedef struct s_info
 {
+    t_env		*envp_list;
+    t_env       *export_tmp;
     char		*buffer;
     t_tokens 	*token_list;
     t_tree      *ast_tree;
     char		**envp_array;
-    t_env		*envp_list;
     int     i;
     int stdout;
     int stdin;
     char        *temporary;
-    int         exit_status;
+    int         exit_status; // add that
+    int last_status;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -103,6 +105,7 @@ typedef struct s_info
 void	free_array(char **array);
 // env_list.c
 void	env_to_list(t_info *info);
+void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_clear_list(t_env **lst);
 t_env	*env_lstnew(char *env_var);
 void	env_lstadd_back(t_env **lst, t_env *new);
@@ -155,6 +158,7 @@ t_tree *create_ast_or(t_tokens **tokens);
 t_tree *create_ast_pipe(t_tokens **tokens);
 t_tree *create_ast_redirections(t_tokens **tokens);
 t_tree *create_ast_command(t_tokens **tokens);
+t_tree *create_ast_heredoc(t_tokens **tokens);
 void print_ast(t_tree *node, int depth, char *flag);
 
 // clear_tree
@@ -180,6 +184,7 @@ int ft_meow(char **args, int i, int j);
 char	*search_in_env(t_info *info, char *key);
 void	change_pwd_in_env(t_info *f);
 int	invalid_identifier(char *str, int flag);
+void env_sort(t_info *info, t_env *envp_list);
 
 // execution_logic
 void execution(t_info *info, t_tree *tree);
@@ -193,7 +198,7 @@ void handle_redirect_append(t_info *info, t_tree *tree);
 void	get_file(t_info *info);
 
 // wildcard
-void	wildcard(t_info *info, char **exp_res);
+int wildcard(t_info *info, char **exp_res);
 //wildcard/utils
 int	ft_there_wildcard(char *str);
 int	who_many_wildcard(char *str);
