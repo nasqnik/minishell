@@ -93,7 +93,6 @@ typedef struct s_info
     int stdin;
     char        *temporary;
     int         exit_status; // add that
-    int last_status;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -112,6 +111,7 @@ void	env_lstadd_back(t_env **lst, t_env *new);
 
 //utils
 int ft_is(int c, char *str);
+int our_static(t_info *info, char *str, int set);
 
 // // token_types.c
 t_tokens *operators_token(char *str, t_info *info , int len);
@@ -126,18 +126,18 @@ void	add_back_token(t_tokens **lst, t_tokens *new);
 void	ft_clear_tokens(t_tokens **lst);
 
 // parsing.c
-void parsing(t_info *info);
-void lexer(t_info *info, char *str);
+int parsing(t_info *info);
+int lexer(t_info *info, char *str);
 
 // token_utils.c
 // int check_brackets(char *str, t_info *info);
 int check_operator_type(int flag, char cur);
 
 // print.c
-void handle_error(t_info *info, char *msg, int flag);
+void	handle_error(t_info *info, char *msg, int what_am_i, int flag);
 const char *token_type_to_string(t_token_type type);
 void	print_list(t_tokens	*list);
-void	print_the_error(char *args, int flag, int fd);
+void	print_the_error(t_info *info ,char *args, int flag, int fd);
 
 // void	print_after_expansions(t_info *info);
 // void open_the_shell(t_info *info);
@@ -148,7 +148,7 @@ void	print_the_error(char *args, int flag, int fd);
 
 
 // rename_tokens.c
-void rename_tokens(t_info *info);
+int rename_tokens(t_info *info);
 t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i);
 
 // create_tree
@@ -166,10 +166,10 @@ void ft_clear_tree(t_tree *node);
 
 // // execution
 // char	*find_path(char *command, t_first *f);
-void execute_binary(t_info *info, char *command, char **args, int fd);
+int execute_binary(t_info *info, char *command, char **args, int fd);
 void execute_command(t_info *info, t_tree *tree);
 int	strcmp_builtin(t_info *info, char *command, char **args);
-void	execute_binary(t_info *info, char *command, char **args, int fd);
+// void	execute_binary(t_info *info, char *command, char **args, int fd);
 
 // builtins
 int ft_echo(char **args, int i);
@@ -178,8 +178,8 @@ int ft_export(t_info *info, char **args, int i);
 int ft_unset(t_info *info, char **args, int i);
 int ft_env(t_info *info, char **args, int i);
 int ft_exit(t_info *info, char **args, int i, int j);
-int ft_pwd(char **args, int i);
-int ft_meow(char **args, int i, int j);
+int ft_pwd();
+int ft_meow(t_info *info, char **args, int i, int j);
 
 char	*search_in_env(t_info *info, char *key);
 void	change_pwd_in_env(t_info *f);
@@ -237,6 +237,9 @@ char	*get_var(char *data, int *i, t_env *envp_list);
 char	*get_var_value(char *var_name, t_env *envp_list);
 void count_without_quotes(char *result, int *count);
 char *substring_without_quotes(char *result, int count);
+
+void free_and_set_null(t_info *info, int flag);
+
 
 // whildcard
 

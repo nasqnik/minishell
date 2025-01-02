@@ -6,19 +6,19 @@ lsof -p <PID>
 
 pgrep sminishell
 
-echo "Hello, Minishell!" | grep Minishell [done]
-echo "This is a test" > output.txt        [done]
-echo "Appending line" >> output.txt       [done]
-grep test < output.txt                    [done]
-cat << EOF                                [done]
+echo "Hello, Minishell!" | grep Minishell [done] [done]
+echo "This is a test" > output.txt        [done] [done]
+echo "Appending line" >> output.txt       [done] [done]
+grep test < output.txt                    [done] [done]
+cat << EOF                                [done] [done]
 This is a heredoc example.
 EOF
-ls -l | grep minishell                    [done]
-echo $PATH                                [done]
+ls -l | grep minishell                    [done] [done]
+echo $PATH                                [done] [done]
 echo "Error logging" | tee error.log > output.log [done]
-echo "The current date is: $(date)"        [done]
+echo "The current date is: $(date)"        [done] [done]
 ls *.c                                     [we_need_to_make_wildcard_**_or_split_and_save_it_as_**]
-ls -l | wc -l                              [done]
+ls -l | wc -l                              [done] [done]
 mkdir test_dir && cd test_dir              [we_need_to_make_the_logic_for_&&]
 ls nonexistentfile 2> error.txt            [done]
 sleep 5 | echo hi                          [done]

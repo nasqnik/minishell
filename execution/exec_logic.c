@@ -6,13 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 19:43:48 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 18:49:11 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void execution(t_info *info, t_tree *tree)
+void  execution(t_info *info, t_tree *tree)
 {
     if (!info->ast_tree || !tree)
 		return ;
@@ -46,9 +46,9 @@ void execution_pipe(t_info *info, t_tree *tree)
     waitpid(pipe_left, &status_left, 0);
     waitpid(pipe_right, &status_right, 0);
     if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
-        info->last_status = WEXITSTATUS(status_left);
+        our_static(info, "exit status",  WEXITSTATUS(status_left));
     else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)
-        info->last_status = WEXITSTATUS(status_right);
+        our_static(info, "exit status",  WEXITSTATUS(status_right));
 }
 
 pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
@@ -67,12 +67,7 @@ pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
         execution(info, tree->left);
-        close(info->stdout);
-	    close(info->stdin);
-        ft_clear_tree(info->ast_tree);
-        ft_clear_list(&(info->envp_list));
-        free(info->buffer);
-        info->buffer = NULL;
+        free_and_set_null(info, 2);
         exit(EXIT_SUCCESS);
     }
     
@@ -94,12 +89,7 @@ pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
         dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
         execution(info, tree->right);
-        close(info->stdout);
-	    close(info->stdin);
-        ft_clear_tree(info->ast_tree);
-        ft_clear_list(&(info->envp_list));
-        free(info->buffer);
-        info->buffer = NULL;
+        free_and_set_null(info, 2);
         exit(EXIT_SUCCESS);
     }
     return(pid);

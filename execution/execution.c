@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 10:43:31 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 19:10:13 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 void execute_command(t_info *info, t_tree *tree)
 {
+    int return_builtin;
     int status;
+
     
     if (!info || !tree)
         return;
         
     expand_command(info, tree);
-    
-    if (!strcmp_builtin(info, tree->args[0], tree->args))
+    return_builtin = strcmp_builtin(info, tree->args[0], tree->args);
+    if (return_builtin == 0)
+        our_static(info, "exit status", 0);
+    if (return_builtin == 2)
     {
         pid_t pid = fork();
         if (pid == -1) {
@@ -30,25 +34,32 @@ void execute_command(t_info *info, t_tree *tree)
         }
         else if (pid == 0)
         {
-            execute_binary(info, tree->args[0], tree->args, 1);
+            printf("execute_binary\n");
+            int exit_status = execute_binary(info, tree->args[0], tree->args, 1);
             // Clean up and exit
-			close(info->stdout);
-	    	close(info->stdin);
-            ft_clear_tree(info->ast_tree);
-            ft_clear_list(&(info->envp_list));
-        	free(info->buffer);
-        	info->buffer = NULL;
-            exit(1);
+			free_and_set_null(info, 2);
+            if (exit_status != 0)
+                exit (exit_status);
         }
         waitpid(pid, &status, 0);
-        info->last_status = WIFEXITED(status) ? WEXITSTATUS(status) : 1;
+        ft_putstr_fd("helllooooooooooo\n", 1);
+        printf("WIFEXITED(status): %d\n", WIFEXITED(status));
+        if (WIFEXITED(status)) {
+            our_static(info, "exit status",  WEXITSTATUS(status));
+        } else {
+            our_static(info, "exit status", 1);
+        }
+        
     }
     
     // Consider moving this to a cleanup function
-    if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
-        dup2(info->stdin, STDIN_FILENO) == -1)
+    if (info->stdout && info->stdin)
     {
-        perror("dup2 failed during cleanup");
+        if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
+            dup2(info->stdin, STDIN_FILENO) == -1)
+        {
+            perror("dup2 failed during cleanup");
+        }
     }
 }
 
@@ -58,11 +69,11 @@ int	strcmp_builtin(t_info *info, char *command, char **args)
 
 	i = 1;
 	if (ft_strcmp(command, "echo") == 0)
-		return (ft_echo(args, i));
+		return (ft_echo(args, i)); // return 1 when there is an error
 	if (ft_strcmp(command, "cd") == 0)
-		return (ft_cd(info, args, i));
+		return (ft_cd(info, args, i)); // return 0 
 	if (ft_strcmp(command, "pwd") == 0)
-		return (ft_pwd(args, i));
+		return (ft_pwd());
 	if (ft_strcmp(command, "export") == 0)
 		return (ft_export(info, args, i));
 	if (ft_strcmp(command, "unset") == 0)
@@ -72,8 +83,8 @@ int	strcmp_builtin(t_info *info, char *command, char **args)
 	if (ft_strcmp(command, "exit") == 0)
 		return (ft_exit(info, args, i, 0));
 	if (ft_strcmp(command, "meow") == 0)
-		return (ft_meow(args, i, 0));
-	return (0);
+		return (ft_meow(info, args, i, 0));
+	return (2);
 }
 
 // ◦ echo with option -n

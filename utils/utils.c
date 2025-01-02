@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2024/12/13 20:12:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 15:06:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,22 @@ int	ft_is(int c, char *str)
 		return (c == '(' || c == ')');
 	return (0);
 }
+
+
+int our_static(t_info *info, char *str, int set)
+{
+	(void)info;
+	static int exit_status = 0;
+
+	if (ft_strcmp(str, "exit status") == 0)
+	{
+		if (set != -1)
+		{
+			exit_status = set;
+		}
+		return (exit_status);
+	}
+	return (0);
+}
+
+

@@ -6,23 +6,19 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 19:40:49 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 14:56:55 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_export_error(char *str)
+int	handle_export_error(t_info *info, char *str)
 {
-	int	fd;
-
-	fd = 1;
 	if (invalid_identifier(str, 1))
 	{
-		if (invalid_identifier(str, 1) == 2)
-			return (print_the_error(str, 2, fd), 1);
-		else
-			return (print_the_error(str, 3, fd), 1);
+		print_the_error(info, str, 3, 1);
+		our_static(info, "exit status", 1);
+		return (1);
 	}
 	return (0);
 }
@@ -90,6 +86,7 @@ int	ft_export(t_info *info, char **args, int i)
 	int		flag;
 	char	*search_for;
 	char flago;
+	int return_value = 0;
 
 	value = NULL;
 	j = 0;
@@ -103,9 +100,10 @@ int	ft_export(t_info *info, char **args, int i)
 	}
 	while (args[i])
 	{
-		if (handle_export_error(args[i]))
+		if (handle_export_error(info, args[i]))
 		{
 			i++;
+			return_value = 1;
 			continue;
 		}
 		else if (ft_strcmp(args[i], " ") != 0)
@@ -129,7 +127,8 @@ int	ft_export(t_info *info, char **args, int i)
 		}
 		i++;
 	}
-	return (42);
+	printf("return_value %d\n", return_value);
+	return (return_value);
 }
 
 void	search_to_unset(t_env *tmp, char *str)
@@ -157,6 +156,7 @@ int	ft_unset(t_info *info, char **args, int i)
 {
 	t_env *tmp;
 	int fd;
+	int return_value = 0;
 
 	tmp = NULL;
 	fd = 1;
@@ -164,7 +164,9 @@ int	ft_unset(t_info *info, char **args, int i)
 	{
 		if (invalid_identifier(args[i], 2))
 		{
-			print_the_error(args[i], 2, fd);
+			print_the_error(info, args[i], 3, fd);
+			printf("our_static: %d\n", our_static(info, "exit status", 1));
+			return_value = 1;
 			i++;
 			continue ;
 		}
@@ -175,5 +177,5 @@ int	ft_unset(t_info *info, char **args, int i)
 		}
 		i++;
 	}
-	return (42);
+	return (return_value);
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 10:44:16 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 16:03:27 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,15 @@ int	ft_echo(char **args, int i)
 	}
 	if (line_flag == 0)
 		ft_putstr_fd("\n", fd);
-	return (42);
+	return (0);
 }
 
 int	ft_cd(t_info *info, char **args, int i)
 {
-	int		fd;
 	char	*str;
 	char	*sub;
 	char	*home;
 
-	fd = 1;
 	str = NULL;
 	sub = NULL;
 	if (!(args[i]))
@@ -74,11 +72,11 @@ int	ft_cd(t_info *info, char **args, int i)
 		str = args[i];
 	i++;
 	if (chdir(str))
-		return (print_the_error(str, 0, fd), 0);
+		return (handle_error(info, str, 0, 0), 1);
 	// free(str); // <i should free but thisw make problems for a reason>
 	if (args[i])
-		return (print_the_error(args[i - 1], 1, fd), 0);
-	return (change_pwd_in_env(info), 42);
+		return (handle_error(info, args[i - 1], 0, 0), 1);
+	return (change_pwd_in_env(info), 0);
 }
 
 int	ft_env(t_info *info, char **args, int i)
@@ -87,7 +85,7 @@ int	ft_env(t_info *info, char **args, int i)
 	t_env	*tmp;
 
 	if (args[i] != NULL) // we should not handell more than env alone
-		return (0);
+		return (handle_error(info, args[i], 0, 0), 1);
 	i = 0;
 	fd = 1;
 	tmp = info->envp_list;
@@ -107,7 +105,7 @@ int	ft_env(t_info *info, char **args, int i)
 		// }
 		tmp = tmp->next;
 	}
-	return (42);
+	return (0);
 }
 
 int	ft_exit(t_info *info, char **args, int i, int j)
@@ -121,38 +119,34 @@ int	ft_exit(t_info *info, char **args, int i, int j)
 	while (args[i])
 	{
 		if (i > 1)
-			return (print_the_error(NULL, 4, fd), 0);
+			return (print_the_error(info, NULL, 4, fd), 0);
 		while (args[i][j])
 		{
 			if (!(args[i][j] >= '0' && args[i][j] <= '9'))
-				return (print_the_error(args[1], 5, fd), 0);
+			{
+				handle_error(info, args[i], 0, 5);
+				free_and_set_null(info, 2);
+				exit(255);
+			}
 			j++;
 		}
-		exit_code = ft_atoi(args[i]);
+		exit_code = ft_atoi(args[i]); // change it to make any number less than
+		// 256 and if it is very long it should return an error 
 		i++;
 	}
-	ft_clear_tokens(&(info->token_list));
-	ft_clear_tree(info->ast_tree);
-	ft_clear_list(&(info->envp_list));
-	close(info->stdout);
-	close(info->stdin);
-    free(info->buffer);
-    info->buffer = NULL;
+	free_and_set_null(info, 2);
 	exit(exit_code);
 }
 
-int	ft_pwd(char **args, int i)
+int	ft_pwd()
 {
 	int		fd;
 	char	buf[1024];
 
-	if (args[i] != NULL) // we should not handell more than env alone
-		return (0);
-	i = 0;
 	fd = 1;
 	if (getcwd(buf, sizeof(buf)) == NULL)
-		return (0);
+		return (1); // dont know what to do here
 	ft_putstr_fd(buf, fd);
 	ft_putchar_fd('\n', fd);
-	return (42);
+	return (0);
 }

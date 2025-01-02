@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/01 12:01:17 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 15:16:28 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,31 @@
 
 #include "../minishell.h"
 
-void parsing(t_info *info)
+int parsing(t_info *info)
 {
-    lexer(info, info->buffer);
+    if (lexer(info, info->buffer))
+		return (1);
 	// print_list(info->token_list);
-	rename_tokens(info);
+	if (rename_tokens(info))
+		return (1);
 	// print_list(info->token_list);
 	t_tokens *tokens = info->token_list;
 	info->ast_tree = create_ast_tree(&tokens);
+	if (info->ast_tree == NULL)
+		return(handle_error(info, "creat_tree", 2, '\0'), 1); // meybe we dont need that
 	ft_clear_tokens(&info->token_list);
-	print_ast(info->ast_tree, 5, "head");
+	// print_ast(info->ast_tree, 5, "head");
+	return (0);
 }					
 
-void lexer(t_info *info, char *str)
+int lexer(t_info *info, char *str)
 {
     int			len;
 	t_tokens	*current_token;
 
     info->i = 0;
+	if (!str[info->i])
+		return (1);
 	while (str[info->i])
 	{
 		len = info->i;
@@ -49,8 +56,9 @@ void lexer(t_info *info, char *str)
 		else
 			current_token = word_token(str, info, len);
 		if (!current_token)
-			return ;
+			return (1);
 		add_back_token(&info->token_list, current_token);
 	}
+	return (0);
 }
 

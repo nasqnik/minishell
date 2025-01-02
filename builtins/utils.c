@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 19:36:20 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 13:28:05 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	change_pwd_in_env(t_info *f)
 		free(tmp_old);
 }
 
-int	ft_meow(char **args, int i, int j)
+int	ft_meow(t_info *info, char **args, int i, int j)
 {
 	int	fd;
 	int	count;
@@ -88,11 +88,11 @@ int	ft_meow(char **args, int i, int j)
 	while (args[i])
 	{
 		if (i > 1)
-			return (print_the_error(NULL, 4, fd), 0);
+			return (print_the_error(info, NULL, 4, fd), 0);
 		while (args[i][j])
 		{
 			if (!(args[i][j] >= '0' && args[i][j] <= '9'))
-				return (print_the_error(args[1], 5, fd), 0);
+				return (print_the_error(info, args[1], 5, fd), 0);
 			j++;
 		}
 		count = ft_atoi(args[i]);
@@ -103,7 +103,7 @@ int	ft_meow(char **args, int i, int j)
 		ft_putstr_fd("meow 😺\n", fd);
 		count--;
 	}
-	return (42);
+	return (0);
 }
 
 // the_stack *array_to_linked_list(int *numbers,int count)

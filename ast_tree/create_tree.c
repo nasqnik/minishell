@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 16:06:15 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 17:19:45 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 15:18:00 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,32 +125,6 @@ t_tree *create_ast_pipe(t_tokens **tokens)
     return node;
 }
 
-// t_tree *create_ast_heredoc(t_tokens **tokens)
-// {
-//     t_tree *node;
-//     t_tree *left;
-
-//     left = create_ast_redirections(tokens);
-
-//     if (!(*tokens) || (*tokens)->type != HEREDOC)
-//         return left;
-
-//     node = malloc(sizeof(t_tree));
-//     if (!node)
-//         return NULL;
-//     node->type = HEREDOC;
-//     *tokens = (*tokens)->next;
-//     node->file = NULL;
-//     if (*tokens && ((*tokens)->type == DELIMITER))
-//         node->file = ft_strdup((*tokens)->data);
-//     node->args = NULL;
-//     node->left = left;
-//     *tokens = (*tokens)->next;
-//     // node->right = create_ast_heredoc(tokens);
-//     return node;
-// }
-
-
 t_tree *create_ast_redirections(t_tokens **tokens)
 {
     t_tree *cmd;
@@ -196,15 +170,9 @@ t_tree *create_ast_redirections(t_tokens **tokens)
     if (flag == 1)
         node->left = cmd;
     if (i == 0)
-    {
-        printf("return value is a command\n");
         return (cmd);
-    }
     else
-    {
-        printf("return value is a redirection\n");
         return (first);
-    }
 }
 
 
@@ -212,12 +180,7 @@ t_tree *create_ast_command(t_tokens **tokens)
 {
     t_tree *node;
     
-    printf("4\n");
-    if ((*tokens))
-        printf("cmd 1: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
     node = malloc(sizeof(t_tree));
-    if ((*tokens))
-        printf("cmd 2: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
     if (!node)
         return NULL;
     node->type = COMMAND;
@@ -274,80 +237,3 @@ void print_ast(t_tree *node, int depth, char *flag)
     print_ast(node->left, depth + 1, "left");
     print_ast(node->right, depth + 1, "right");
 }
-
-// // hi i sd > lo | po > lp | lol
-
-// t_tree *create_ast_and(t_tokens **tokens)
-// {
-//     t_tree *left;
-//     t_tree *node;
-    
-//     if ((*tokens))
-//         printf("&& 1: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     left = create_ast_or(tokens);
-//     if ((*tokens))
-//         printf("&& 2: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     while (*tokens && (*tokens)->type == LOGIC_AND)
-//     {
-//         node = malloc(sizeof(t_tree));
-//         if (!node) return NULL;
-//         node->type = (*tokens)->type;
-//         node->file = NULL;
-//         node->args = NULL;
-//         *tokens = (*tokens)->next;
-//         node->left = left;
-//         node->right = create_ast_or(tokens);
-//         left = node;
-//     }
-//     return (left);
-// }
-
-// t_tree *create_ast_or(t_tokens **tokens)
-// {
-//     t_tree *left;
-//     t_tree *node;
-    
-//     if ((*tokens))
-//         printf("|| 1: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     left = create_ast_pipe(tokens);
-//     if ((*tokens))
-//         printf("|| 2: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     while (*tokens && (*tokens)->type == LOGIC_OR)
-//     {
-//         node = malloc(sizeof(t_tree));
-//         if (!node) return NULL;
-//         node->type = (*tokens)->type;
-//         node->file = NULL;
-//         node->args = NULL;
-//         *tokens = (*tokens)->next;
-//         node->left = left;
-//         node->right = create_ast_pipe(tokens);
-//         left = node;
-//     }
-//     return (left);
-// }
-
-// t_tree *create_ast_pipe(t_tokens **tokens)
-// {
-//     t_tree *left;
-//     t_tree *node;
-    
-//     if ((*tokens))
-//         printf("| 1: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     left = create_ast_redirections(tokens);  
-//     if ((*tokens))
-//         printf("| 2: %s:::%s\n", (*tokens)->data, token_type_to_string((*tokens)->type));
-//     while (*tokens && (*tokens)->type == PIPE)
-//     {
-//         node = malloc(sizeof(t_tree));
-//         if (!node) return NULL;
-//         node->type = PIPE;
-//         node->file = NULL;
-//         node->args = NULL;
-//         *tokens = (*tokens)->next;
-//         node->left = left;
-//         node->right = create_ast_redirections(tokens);
-//         left = node; 
-//     }
-//     return (left);
-// }

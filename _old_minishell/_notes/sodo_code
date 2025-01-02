@@ -1,8 +1,0 @@
-// void traverse_tree(tree tree)
-// {
-//     if (tree->type == pipe)
-//     {
-//         handle_pipe(tree);
-//     }
-    
-// } sodo code

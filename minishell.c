@@ -6,11 +6,35 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/01 10:42:28 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 19:09:05 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void free_and_set_null(t_info *info, int flag)
+{
+	if (info->token_list)
+		ft_clear_tokens(&(info->token_list));
+	if (info->ast_tree)
+        ft_clear_tree(info->ast_tree);
+	if (info->stdout)
+		close(info->stdout);
+	if (info->stdin)
+	    close(info->stdin);
+	if (flag == 1) // between the calls
+	{
+		info->stdout = dup(STDOUT_FILENO);
+		info->stdin = dup(STDIN_FILENO);
+	}
+	else // at the end or exit
+	{
+		if (info->envp_list)
+			ft_clear_list(&(info->envp_list));
+	}
+	info->token_list = NULL;
+	info->ast_tree = NULL;
+}
 
 static void	initialize(t_info *info, char **env)
 {
@@ -27,6 +51,7 @@ static void	initialize(t_info *info, char **env)
     	perror("dup failed");
     	exit(EXIT_FAILURE);
 	}
+	info->exit_status = 0;
     
 	// f->last_arg = "empty";
 	// signal(SIGINT, handle_signal);
@@ -53,22 +78,20 @@ int main(int argc, char **argv, char **env)
     while (1)
 	{
         // signals(info);
-        
         info.buffer = readline("mini_cat😺$ ");
+		free_and_set_null(&info, 1);
         if (info.buffer)
         {
             add_history(info.buffer);
-            parsing(&info);
-			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
-			//print_ast(info.ast_tree, 5, "head");
+            if (parsing(&info))
+				continue;
             free(info.buffer);
             info.buffer = NULL;
+			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
+			ft_putstr_fd("helllo\n", 1);
         }
-		if (info.token_list)
-			ft_clear_tokens(&info.token_list);
-		if (info.ast_tree)
-			ft_clear_tree(info.ast_tree);
     }
+	free_and_set_null(&info, 2);
 	printf("out of the looop\n");
 	printf("info.stdout: %d, info.stdin: %d\n", info.stdout, info.stdin);
 	if (close(info.stdout) != -1)
@@ -79,5 +102,5 @@ int main(int argc, char **argv, char **env)
 		printf("%d, is closed\n", info.stdin);
 	else
 		printf("i am not closed, Regards, stdin\n");
-	ft_clear_list(&(info.envp_list));
+	// ft_clear_list(&(info.envp_list));
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 09:02:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 19:06:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 char	*find_path(char *command, t_info *info);
 
-void	execute_binary(t_info *info, char *command, char **args, int fd)
+int	execute_binary(t_info *info, char *command, char **args, int fd)
 {
 	char	*command_path;
+// 	int error;
 
+// error = 0;
 	if (command[0] != '/')
 		command_path = find_path(args[0], info);
 	else
@@ -28,16 +30,14 @@ void	execute_binary(t_info *info, char *command, char **args, int fd)
 		ft_putstr_fd("\033[31mcommand not found: \033[00m", fd);
 		ft_putstr_fd(args[0], fd);
 		ft_putchar_fd('\n', fd);
-		return ;
+		return 127;
 	}
-	if (execve(command_path, args, info->envp_array) == -1)
-	{
-		ft_putstr_fd("minishell: ", fd);
-		ft_putstr_fd("\033[31merror executing command: \033[00m", fd);
-		ft_putstr_fd(args[0], fd);
-		ft_putchar_fd('\n', fd);
-		return ;
-	}
+	// update the info->envp_array	
+	// error = execve(command_path, args, info->envp_array);
+	// printf("error: %d\n", error);
+	// printf("loooooool\n");
+	ft_putstr_fd("i am here\n", 1);
+	return (execve(command_path, args, info->envp_array));
 }
 
 char	*find_path(char *command, t_info *info)

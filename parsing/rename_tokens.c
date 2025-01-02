@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   rename_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:37:22 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/25 18:32:41 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:53:32 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void rename_tokens(t_info *info)
+int rename_tokens(t_info *info)
 {
     t_tokens	*cursor;
 	int			i;
@@ -24,7 +24,7 @@ void rename_tokens(t_info *info)
         if (cursor && cursor->type == WORD && i == 0)
                 cursor->type = COMMAND;
         else if (cursor && (cursor->type >= REDIRECT_IN
-			&& cursor->type <= HEREDOC) && cursor->next)
+			&& cursor->type <= HEREDOC))
             cursor = tokens_after_redirect(info, cursor, i);
         else if (cursor && cursor->type == WORD)
             cursor->type = ARGUMENT;
@@ -33,8 +33,11 @@ void rename_tokens(t_info *info)
             || cursor->type == LOGIC_AND 
             || cursor->type == LOGIC_OR)))
 			i = 0;
+        if (!cursor)
+            return (1);
         cursor = cursor->next;
     }
+    return (0);
 }
 
 t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i)
@@ -47,8 +50,8 @@ t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i)
     
     int type = cursor->type;
     
-    if (!cursor->next)
-        handle_error(info, "nothing after the operator", 1);
+    if (!(cursor->next))
+        return (handle_error(info, "nothing after the operator", 2, '\0'), NULL);
     cursor = cursor->next;
 	if (cursor && (cursor->type == WORD))
 	{

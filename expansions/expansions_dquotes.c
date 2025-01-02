@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_dquotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/30 12:52:30 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:04:13 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char *handle_exit_status(char *data, int pov[2], t_info *info)
 {
 	char *tmp;
 
-	tmp = ft_itoa(info->exit_status);
+	tmp = ft_itoa(our_static(info, "exit status", -1));
+	printf("tmp: %s\n", tmp);
 	pov[0]++;
 	pov[1] = pov[0];
 

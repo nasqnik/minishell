@@ -6,24 +6,74 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 08:41:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/02 19:02:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handle_error(t_info *info, char *msg, int flag)
+// if what_am_i = 0 builtins   else if == 1 binary  else normail msg 
+void	handle_error(t_info *info, char *msg, int what_am_i, int flag)
 {
-	(void)flag;
-	(void)info;
-	printf("\033[31m %s\033[00m\n", msg);
+	// (void
+	if (what_am_i == 0)
+		print_the_error(info, msg, flag, 1);
+	else if (what_am_i == 1)
+		perror("minicat");
+	else if (what_am_i == 2)
+	{
+		info->exit_status = 258;
+		ft_putstr_fd("minicat: syntax error near unexpected token `", 1);
+		ft_putstr_fd(msg, 1);
+		ft_putstr_fd("\'\n", 1);
+	}
+	printf("our stativ in the handle error: %d\n", our_static(info, "exit status", info->exit_status));
 	// if (info->token_list)
 	// 	ft_clear_tokens(&(info->token_list));
+	// if (info->ast_tree)
+    //     ft_clear_tree(info->ast_tree);
 	// if (info->envp_list)
 	// 	ft_clear_list(&(info->envp_list));
-	// info->error_flag = 1;
-	// free(f->buffer);
-	//f->buffer = NULL;
+	// if (info->buffer)
+    //     free(info->buffer);
+	// if (info->stdout)
+	// 	close(info->stdout);
+	// if (info->stdin)
+	//     close(info->stdin);
+	// info->token_list = NULL;
+	// info->ast_tree = NULL;
+	// info->envp_list = NULL;
+	// info->stdout = dup(STDOUT_FILENO);
+	// info->stdin = dup(STDIN_FILENO);
+    // info->buffer = NULL;
+	
+}
+
+void	print_the_error(t_info *info ,char *args, int flag, int fd)
+{
+	info->exit_status = 1;
+	ft_putstr_fd("\033[31mminicat: \033[00m", fd);
+	if (flag == 0)
+		ft_putstr_fd("\033[31mcd: \033[00m", fd);
+	if (flag == 10)
+		ft_putstr_fd("\033[31menv: \033[00m", fd);
+	if (flag == 1)
+		ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
+	if (flag == 3)
+		ft_putstr_fd("\033[31mexport: `\033[00m", fd);
+	if (flag == 4)
+		ft_putstr_fd("\033[31mexit: too many arguments\033[00m", fd);
+	if (flag == 5)
+		ft_putstr_fd("\033[31mexit: \033[00m", fd);
+	if (args)
+		ft_putstr_fd(args, fd);
+	if (flag == 0 || flag == 10)
+		ft_putstr_fd("\033[31m: no such file or directory\033[00m", fd);
+	if (flag == 3)
+		ft_putstr_fd("\033[31m': not an identifier\033[00m", fd);
+	if (flag == 5)
+		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+	if (flag != 100)
+		ft_putchar_fd('\n', fd);
 }
 
 const char	*token_type_to_string(t_token_type type)
@@ -112,25 +162,4 @@ void	print_list(t_tokens	*list)
 // 	}
 // }
 
-void	print_the_error(char *args, int flag, int fd)
-{
-	if (flag == 0)
-		ft_putstr_fd("\033[31mcd: no such file or directory: \033[00m", fd);
-	if (flag == 1)
-		ft_putstr_fd("\033[31mcd: string not in pwd: \033[00m", fd);
-	if (flag == 2)
-		ft_putstr_fd("\033[31mzsh: no matches found: \033[00m", fd);
-	if (flag == 3)
-		ft_putstr_fd("\033[31mexport: \033[00m", fd);
-	if (flag == 4)
-		ft_putstr_fd("\033[31mminishell: exit: too many arguments\033[00m", fd);
-	if (flag == 5)
-		ft_putstr_fd("\033[31mminishell: exit: \033[00m", fd);
-	if (args)
-		ft_putstr_fd(args, fd);
-	if (flag == 3)
-		ft_putstr_fd("\033[31not an identifier: \033[00m", fd);
-	if (flag == 5)
-		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
-	ft_putchar_fd('\n', fd);
-}
+
