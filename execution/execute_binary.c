@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 19:06:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 14:02:24 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	execute_binary(t_info *info, char *command, char **args, int fd)
 		ft_putchar_fd('\n', fd);
 		return 127;
 	}
+	update_envp_array(info);
 	// update the info->envp_array	
 	// error = execve(command_path, args, info->envp_array);
 	// printf("error: %d\n", error);

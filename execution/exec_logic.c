@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 18:49:11 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 10:04:27 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,16 @@ void handle_redirect_in(t_info *info, t_tree *tree)
         (void)info;
     int file;
 
-    file = open(tree->file, O_RDONLY, 0777); //have to check permissions
-    dup2(file, STDIN_FILENO);
+    file = open(tree->file, O_RDONLY, 0); //have to check permissions
+    if (file == -1)
+    {
+        perror("Error opening file for input redirection");
+        return;
+    }
+    if (dup2(file, STDIN_FILENO) == -1)
+    {
+        perror("Error duplicating file descriptor");
+    }
     close(file);
 }
 
@@ -124,7 +132,7 @@ void handle_redirect_out(t_info *info, t_tree *tree)
     (void)info;
     int file;
 
-    file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0777); //have to check permissions
+    file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644); //have to check permissions
     if (file == -1)
         return ;
     dup2(file, STDOUT_FILENO);
@@ -136,7 +144,7 @@ void handle_redirect_append(t_info *info, t_tree *tree)
         (void)info;
     int file;
 
-    file = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0777); //have to check permissions
+    file = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0644); //have to check permissions
     if (file == -1)
         return ;
     dup2(file, STDOUT_FILENO);
@@ -151,7 +159,7 @@ void	get_file(t_info *info)
 
 	buffer = NULL;
 	limiter = ft_strjoin(info->ast_tree->file, "\n");
-	file = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	file = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (file == -1 || limiter == NULL)
 	{
 		perror("Error opening file or allocating limiter");
@@ -162,17 +170,26 @@ void	get_file(t_info *info)
 	{
 		write(1, "heredoc> ", 9);
 		buffer = get_next_line(0);
+        if (!buffer)
+        {
+            perror("Error reading from stdin");
+            break;
+        }
 		if (ft_strncmp(limiter, buffer, ft_strlen(limiter)) == 0)
-			break ;
+        {
+            free(buffer);
+            break;
+        }
 		ft_putstr_fd(buffer, file);
 		free(buffer);
 	}
 	free(buffer);
 	free(limiter);
 	close(file);
-	file = open("here_doc", O_RDONLY, 0777);
+	file = open("here_doc", O_RDONLY);
 	dup2(file, STDIN_FILENO);
-	unlink("here_doc");
+    if (unlink("here_doc") == -1)
+        perror("Error unlinking here_doc");
 }
 
 // start with heredoc 

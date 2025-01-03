@@ -6,11 +6,12 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 09:21:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 14:04:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 t_env	*env_lstnew(char *env_var)
 {
@@ -102,4 +103,62 @@ void	ft_clear_list(t_env **lst)
 		free(tmp);
 	}
 	*lst = NULL;
+}
+
+int	ft_lstsize(t_env *lst)
+{
+	int	counter;
+
+	counter = 0;
+	while (lst)
+	{
+		++counter;
+		lst = lst->next;
+	}
+	return (counter);
+}
+
+void update_envp_array(t_info *info)
+{
+	t_env *env_cur = info->envp_list;
+
+	int counter;
+	counter = ft_lstsize(env_cur);
+	env_cur = info->envp_list;
+
+	char **new_env_array = malloc((counter + 1) * sizeof(char *));
+	new_env_array[counter] = NULL;
+
+	int	j, x;
+	int i = 0;
+
+	int c_key;
+	int c_val;
+	c_key = 0;
+	c_val = 0;
+
+	while (i < counter)
+	{
+		j = 0;
+		x = 0;
+		c_key = ft_strlen(env_cur->key);
+		c_val = ft_strlen(env_cur->value);
+
+		new_env_array[i] = malloc((c_key + c_val + 2) * sizeof(char));
+		while (x < c_key)
+			new_env_array[i][j++] = env_cur->key[x++];
+		new_env_array[i][j++] = '=';
+		x = 0;
+		while (x < c_val)
+			new_env_array[i][j++] = env_cur->value[x++];
+		new_env_array[i][j] = '\0';
+
+		printf("string: %s\n", new_env_array[i]);
+
+		env_cur = env_cur->next;
+		i++;
+	}
+	new_env_array[i] = NULL;
+	free_array(info->envp_array);
+	info->envp_array = new_env_array;
 }

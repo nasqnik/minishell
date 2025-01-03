@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 19:10:13 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 14:05:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void execute_command(t_info *info, t_tree *tree)
                 exit (exit_status);
         }
         waitpid(pid, &status, 0);
-        ft_putstr_fd("helllooooooooooo\n", 1);
-        printf("WIFEXITED(status): %d\n", WIFEXITED(status));
+        // ft_putstr_fd("helllooooooooooo\n", 1);
+        // printf("WIFEXITED(status): %d\n", WIFEXITED(status));
+        // printf("WEXITSTATUS(status): %d\n", WEXITSTATUS(status));
         if (WIFEXITED(status)) {
-            our_static(info, "exit status",  WEXITSTATUS(status));
+            our_static(info, "exit status",  WIFEXITED(status));
         } else {
             our_static(info, "exit status", 1);
         }
-        
     }
     
     // Consider moving this to a cleanup function

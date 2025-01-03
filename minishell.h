@@ -109,6 +109,8 @@ void	ft_clear_list(t_env **lst);
 t_env	*env_lstnew(char *env_var);
 void	env_lstadd_back(t_env **lst, t_env *new);
 
+void update_envp_array(t_info *info);
+
 //utils
 int ft_is(int c, char *str);
 int our_static(t_info *info, char *str, int set);
