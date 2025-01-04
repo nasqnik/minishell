@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 08:17:33 by meid              #+#    #+#             */
-/*   Updated: 2024/12/26 09:04:12 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 14:49:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ void	free_array(char **array)
 {
 	int	i;
 
-	if (!array)
-		return ;
 	i = 0;
+	if (!array || !array[i])
+		return ;
 	while (array[i] != NULL)
 	{
 		free(array[i]);
 		i++;
 	}
-	free(array);
+	if (array)
+		free(array);
+	array = NULL;
 }
 
 static int	ft_partnum(const char *str, char c)

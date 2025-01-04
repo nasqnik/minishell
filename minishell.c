@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/02 19:09:05 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 15:37:18 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void free_and_set_null(t_info *info, int flag)
 	}
 	else // at the end or exit
 	{
+		if (info->envp_array)
+			free_array(info->envp_array);
 		if (info->envp_list)
 			ft_clear_list(&(info->envp_list));
 	}
@@ -36,12 +38,32 @@ void free_and_set_null(t_info *info, int flag)
 	info->ast_tree = NULL;
 }
 
+char **ft_allocate_env(char **env)
+{
+	int i = 0;
+	char **env_array;
+
+	while (env[i])
+		i++;
+	env_array = malloc(sizeof(char *) * (i + 1));
+	if (!env_array)
+		return NULL;
+	i = 0;
+	while (env[i])
+	{
+		env_array[i] = ft_strdup(env[i]);
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
+
 static void	initialize(t_info *info, char **env)
 {
 	info->buffer = NULL;
 	info->token_list = NULL;
 	info->ast_tree = NULL;
-	info->envp_array = env;
+	info->envp_array = ft_allocate_env(env);
 	info->envp_list = NULL;
 	info->i = 0;
 	info->exit_status = 0;
@@ -88,7 +110,6 @@ int main(int argc, char **argv, char **env)
             free(info.buffer);
             info.buffer = NULL;
 			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
-			ft_putstr_fd("helllo\n", 1);
         }
     }
 	free_and_set_null(&info, 2);

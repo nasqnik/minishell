@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 14:05:10 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 15:05:56 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void execute_command(t_info *info, t_tree *tree)
         }
         else if (pid == 0)
         {
-            printf("execute_binary\n");
+            // printf("execute_binary\n");
             int exit_status = execute_binary(info, tree->args[0], tree->args, 1);
             // Clean up and exit
 			free_and_set_null(info, 2);
@@ -46,7 +46,7 @@ void execute_command(t_info *info, t_tree *tree)
         // printf("WIFEXITED(status): %d\n", WIFEXITED(status));
         // printf("WEXITSTATUS(status): %d\n", WEXITSTATUS(status));
         if (WIFEXITED(status)) {
-            our_static(info, "exit status",  WIFEXITED(status));
+            our_static(info, "exit status",   WEXITSTATUS(status));
         } else {
             our_static(info, "exit status", 1);
         }

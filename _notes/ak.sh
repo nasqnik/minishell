@@ -17,10 +17,11 @@ ls -l | grep minishell                    [done] [done]
 echo $PATH                                [done] [done]
 echo "Error logging" | tee error.log > output.log [done]
 echo "The current date is: $(date)"        [done] [done]
+echo "The current date is: " $(date)       [so_that_will_not_work_because_the_bracket_is_a_different_thing_now]
 ls *.c                                     [we_need_to_make_wildcard_**_or_split_and_save_it_as_**]
 ls -l | wc -l                              [done] [done]
 mkdir test_dir && cd test_dir              [we_need_to_make_the_logic_for_&&]
-ls nonexistentfile 2> error.txt            [done]
+ls nonexistentfile 2> error.txt            [not_required]
 sleep 5 | echo hi                          [done]
 
 cat << EOF > file3.txt

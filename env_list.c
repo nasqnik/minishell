@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 14:04:35 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 14:50:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,13 @@ void update_envp_array(t_info *info)
 			new_env_array[i][j++] = env_cur->value[x++];
 		new_env_array[i][j] = '\0';
 
-		printf("string: %s\n", new_env_array[i]);
+		// printf("string: %s\n", new_env_array[i]);
 
 		env_cur = env_cur->next;
 		i++;
 	}
 	new_env_array[i] = NULL;
-	free_array(info->envp_array);
+	if (info->envp_array)
+		free_array(info->envp_array);
 	info->envp_array = new_env_array;
 }

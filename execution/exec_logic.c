@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 10:04:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/03 15:02:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,19 @@ void  execution(t_info *info, t_tree *tree)
     if (!info->ast_tree || !tree)
 		return ;
     // printf("token_type:%s\n", token_type_to_string(tree->type));
-    if (tree->type == PIPE)
+    if (tree->type == LOGIC_AND)
+    {
+        execution(info, tree->left);
+        if (our_static(info, "exit status", -1) == 0)
+            execution(info, tree->right);
+    }
+    else if (tree->type == LOGIC_OR)
+    {
+        execution(info, tree->left);
+        if (our_static(info, "exit status", -1) != 0)
+            execution(info, tree->right);
+    }
+    else if (tree->type == PIPE)
         execution_pipe(info, tree);
     else if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
         execution_redirection(info, tree);
