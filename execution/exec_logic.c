@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 15:02:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 17:02:06 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void  execution(t_info *info, t_tree *tree)
     if (tree->type == LOGIC_AND)
     {
         execution(info, tree->left);
-        if (our_static(info, "exit status", -1) == 0)
+        if (our_static("exit status", -1) == 0)
             execution(info, tree->right);
     }
     else if (tree->type == LOGIC_OR)
     {
         execution(info, tree->left);
-        if (our_static(info, "exit status", -1) != 0)
+        if (our_static("exit status", -1) != 0)
             execution(info, tree->right);
     }
     else if (tree->type == PIPE)
@@ -58,9 +58,9 @@ void execution_pipe(t_info *info, t_tree *tree)
     waitpid(pipe_left, &status_left, 0);
     waitpid(pipe_right, &status_right, 0);
     if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
-        our_static(info, "exit status",  WEXITSTATUS(status_left));
+        our_static("exit status",  WEXITSTATUS(status_left));
     else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)
-        our_static(info, "exit status",  WEXITSTATUS(status_right));
+        our_static("exit status",  WEXITSTATUS(status_right));
 }
 
 pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:37:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/02 11:53:32 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 16:39:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i)
     int type = cursor->type;
     
     if (!(cursor->next))
-        return (handle_error(info, "nothing after the operator", 2, '\0'), NULL);
+        return (handle_error(info, "newline", 2, '\0'), NULL);
     cursor = cursor->next;
 	if (cursor && (cursor->type == WORD))
 	{

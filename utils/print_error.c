@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 19:02:43 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 16:41:52 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,25 @@
 // if what_am_i = 0 builtins   else if == 1 binary  else normail msg 
 void	handle_error(t_info *info, char *msg, int what_am_i, int flag)
 {
-	// (void
 	if (what_am_i == 0)
+	{
+		our_static("exit status", 1);
 		print_the_error(info, msg, flag, 1);
-	else if (what_am_i == 1)
-		perror("minicat");
+	}
+	else if (what_am_i == 1) // make sure where are you using that 
+		perror("minicat"); //  so we can chose the exit status
 	else if (what_am_i == 2)
 	{
-		info->exit_status = 258;
+		our_static("exit status", 258);
 		ft_putstr_fd("minicat: syntax error near unexpected token `", 1);
 		ft_putstr_fd(msg, 1);
 		ft_putstr_fd("\'\n", 1);
 	}
-	printf("our stativ in the handle error: %d\n", our_static(info, "exit status", info->exit_status));
-	// if (info->token_list)
-	// 	ft_clear_tokens(&(info->token_list));
-	// if (info->ast_tree)
-    //     ft_clear_tree(info->ast_tree);
-	// if (info->envp_list)
-	// 	ft_clear_list(&(info->envp_list));
-	// if (info->buffer)
-    //     free(info->buffer);
-	// if (info->stdout)
-	// 	close(info->stdout);
-	// if (info->stdin)
-	//     close(info->stdin);
-	// info->token_list = NULL;
-	// info->ast_tree = NULL;
-	// info->envp_list = NULL;
-	// info->stdout = dup(STDOUT_FILENO);
-	// info->stdin = dup(STDIN_FILENO);
-    // info->buffer = NULL;
-	
 }
 
 void	print_the_error(t_info *info ,char *args, int flag, int fd)
 {
-	info->exit_status = 1;
+	(void)info;
 	ft_putstr_fd("\033[31mminicat: \033[00m", fd);
 	if (flag == 0)
 		ft_putstr_fd("\033[31mcd: \033[00m", fd);
@@ -72,6 +54,8 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd)
 		ft_putstr_fd("\033[31m': not an identifier\033[00m", fd);
 	if (flag == 5)
 		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+	if (flag == 6)
+		ft_putstr_fd("\033[31m: it's a directory\033[00m", fd);
 	if (flag != 100)
 		ft_putchar_fd('\n', fd);
 }

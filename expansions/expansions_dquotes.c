@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/02 15:04:13 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 08:20:52 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ char *handle_var_value(char *data, int pov[2], t_info *info)
 
 char *handle_exit_status(char *data, int pov[2], t_info *info)
 {
+	(void)info;
 	char *tmp;
 
-	tmp = ft_itoa(our_static(info, "exit status", -1));
+	tmp = ft_itoa(our_static("exit status", -1));
 	printf("tmp: %s\n", tmp);
 	pov[0]++;
 	pov[1] = pov[0];

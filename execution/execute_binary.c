@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 14:49:56 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 15:11:51 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ char	*find_path(char *command, t_info *info);
 
 int	execute_binary(t_info *info, char *command, char **args, int fd)
 {
+	struct stat	directory;
 	char	*command_path;
-// 	int error;
 
-// error = 0;
-	if (command[0] != '/')
+	if (command[0] != '/' && command[0] != '.')
 		command_path = find_path(args[0], info);
 	else
 		command_path = args[0];
@@ -33,11 +32,13 @@ int	execute_binary(t_info *info, char *command, char **args, int fd)
 		return 127;
 	}
 	update_envp_array(info);
-	// update the info->envp_array	
-	// error = execve(command_path, args, info->envp_array);
-	// printf("error: %d\n", error);
-	// printf("loooooool\n");
-	return (execve(command_path, args, info->envp_array));
+	execve(command_path, args, info->envp_array);
+	if (!stat(command_path, &directory))
+	{
+		handle_error(info, command_path, 0, 6);
+		return 126;
+	}
+	return (1);
 }
 
 char	*find_path(char *command, t_info *info)

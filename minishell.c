@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/03 15:37:18 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 13:50:08 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ static void	initialize(t_info *info, char **env)
 	info->envp_array = ft_allocate_env(env);
 	info->envp_list = NULL;
 	info->i = 0;
-	info->exit_status = 0;
 	info->stdout = dup(STDOUT_FILENO);
 	info->stdin = dup(STDIN_FILENO);
 	if (info->stdout == -1 || info->stdin == -1) {
     	perror("dup failed");
     	exit(EXIT_FAILURE);
 	}
-	info->exit_status = 0;
     
 	// f->last_arg = "empty";
 	// signal(SIGINT, handle_signal);
@@ -81,7 +79,34 @@ static void	initialize(t_info *info, char **env)
 	env_to_list(info);
 }
 
+void	disable_echoctl(void)
+{
+	struct termios	term;
 
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	handle_sig(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(2, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		our_static("exit status", 1);
+	}
+}
+
+// STDOUT_FILENO: Standard output is typically used for normal program output (e.g., command results, logs, or prompts).
+// STDERR_FILENO: Standard error is often used for error messages, warnings, or notifications, including signals like Ctrl+C.
+void	castom_signals(void)
+{
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -99,9 +124,16 @@ int main(int argc, char **argv, char **env)
 		return (0);
     while (1)
 	{
-        // signals(info);
-        info.buffer = readline("mini_cat😺$ ");
+		disable_echoctl();
+        castom_signals();
 		free_and_set_null(&info, 1);
+        info.buffer = readline("mini_cat😺$ ");
+		if (!info.buffer) // there is condtion that i did not understand (isatty(0))
+		{
+			write (2, "exit\n", 5); // or write "mini_cat😺$ exit"
+			free_and_set_null(&info, 2);
+			exit (1);
+		}
         if (info.buffer)
         {
             add_history(info.buffer);
@@ -113,7 +145,6 @@ int main(int argc, char **argv, char **env)
         }
     }
 	free_and_set_null(&info, 2);
-	printf("out of the looop\n");
 	printf("info.stdout: %d, info.stdin: %d\n", info.stdout, info.stdin);
 	if (close(info.stdout) != -1)
 		printf("%d, is closed\n", info.stdout);

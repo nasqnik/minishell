@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 14:56:55 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 08:17:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_export_error(t_info *info, char *str)
 	if (invalid_identifier(str, 1))
 	{
 		print_the_error(info, str, 3, 1);
-		our_static(info, "exit status", 1);
+		our_static("exit status", 1);
 		return (1);
 	}
 	return (0);
@@ -165,7 +165,7 @@ int	ft_unset(t_info *info, char **args, int i)
 		if (invalid_identifier(args[i], 2))
 		{
 			print_the_error(info, args[i], 3, fd);
-			printf("our_static: %d\n", our_static(info, "exit status", 1));
+			printf("our_static: %d\n", our_static("exit status", 1));
 			return_value = 1;
 			i++;
 			continue ;

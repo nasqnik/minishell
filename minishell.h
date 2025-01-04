@@ -15,17 +15,19 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include "libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h> 
-#include <dirent.h>
-#include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <signal.h>
+# include "libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h> 
+# include <dirent.h>
+# include <fcntl.h>
 # include <sys/types.h> //waitpid flags
 # include <sys/wait.h>  //wait, waitpid
+# include <termios.h>
+# include <sys/stat.h> 
 
 // int rl_replace_line(const char *text, int clear_undo);
 
@@ -92,7 +94,6 @@ typedef struct s_info
     int stdout;
     int stdin;
     char        *temporary;
-    int         exit_status; // add that
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -113,7 +114,7 @@ void update_envp_array(t_info *info);
 
 //utils
 int ft_is(int c, char *str);
-int our_static(t_info *info, char *str, int set);
+int our_static(char *str, int set);
 
 // // token_types.c
 t_tokens *operators_token(char *str, t_info *info , int len);
@@ -241,6 +242,11 @@ void count_without_quotes(char *result, int *count);
 char *substring_without_quotes(char *result, int count);
 
 void free_and_set_null(t_info *info, int flag);
+
+// verify_logic.c
+int control_operators(t_tokens *cursor, int index);
+int redirection_operators(t_tokens *cursor);
+int verify_logic(t_info *info);
 
 
 // whildcard

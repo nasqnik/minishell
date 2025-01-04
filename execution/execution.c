@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/03 15:05:56 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 13:32:33 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void execute_command(t_info *info, t_tree *tree)
     expand_command(info, tree);
     return_builtin = strcmp_builtin(info, tree->args[0], tree->args);
     if (return_builtin == 0)
-        our_static(info, "exit status", 0);
+        our_static("exit status", 0);
     if (return_builtin == 2)
     {
         pid_t pid = fork();
@@ -34,6 +34,8 @@ void execute_command(t_info *info, t_tree *tree)
         }
         else if (pid == 0)
         {
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
             // printf("execute_binary\n");
             int exit_status = execute_binary(info, tree->args[0], tree->args, 1);
             // Clean up and exit
@@ -45,13 +47,23 @@ void execute_command(t_info *info, t_tree *tree)
         // ft_putstr_fd("helllooooooooooo\n", 1);
         // printf("WIFEXITED(status): %d\n", WIFEXITED(status));
         // printf("WEXITSTATUS(status): %d\n", WEXITSTATUS(status));
-        if (WIFEXITED(status)) {
-            our_static(info, "exit status",   WEXITSTATUS(status));
-        } else {
-            our_static(info, "exit status", 1);
+        if (WIFEXITED(status))
+            our_static("exit status",   WEXITSTATUS(status));
+        if (WIFSIGNALED(status))
+        {
+            if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGSEGV)
+            {
+                if (WTERMSIG(status) == SIGQUIT)
+		            write(2, "Quit: ", 7);
+                else
+		            write(2, "Segmentation fault: ", 20);;
+                char *mas = ft_itoa(WTERMSIG(status));
+                write(2, mas, ft_strlen(mas)); 
+                write(2, "\n", 1);  
+            }
+            our_static("exit status",   WTERMSIG(status) + 128);
         }
     }
-    
     // Consider moving this to a cleanup function
     if (info->stdout && info->stdin)
     {

@@ -10,7 +10,7 @@ RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 SRC = minishell.c env_list.c \
 	parsing/parsing.c parsing/token_types.c parsing/token_utils.c parsing/token_list.c\
-	parsing/rename_tokens.c \
+	parsing/rename_tokens.c parsing/verify_logic.c \
 	utils/utils.c utils/print_error.c \
 	ast_tree/clear_tree.c ast_tree/create_tree.c \
 	execution/execution.c execution/execute_binary.c execution/exec_logic.c\

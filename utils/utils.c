@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 15:06:41 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 08:18:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	ft_is(int c, char *str)
 }
 
 
-int our_static(t_info *info, char *str, int set)
+int our_static(char *str, int set)
 {
-	(void)info;
 	static int exit_status = 0;
 
 	if (ft_strcmp(str, "exit status") == 0)

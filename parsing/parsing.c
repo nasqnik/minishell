@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/02 15:16:28 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/04 08:05:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int parsing(t_info *info)
 	if (rename_tokens(info))
 		return (1);
 	// print_list(info->token_list);
+	if (verify_logic(info))
+		return (1);
 	t_tokens *tokens = info->token_list;
 	info->ast_tree = create_ast_tree(&tokens);
 	if (info->ast_tree == NULL)
