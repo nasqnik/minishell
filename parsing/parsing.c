@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/04 08:05:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/05 17:35:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int parsing(t_info *info)
 	if (info->ast_tree == NULL)
 		return(handle_error(info, "creat_tree", 2, '\0'), 1); // meybe we dont need that
 	ft_clear_tokens(&info->token_list);
-	// print_ast(info->ast_tree, 5, "head");
+	print_ast(info->ast_tree, 5, "head");
 	return (0);
 }					
 

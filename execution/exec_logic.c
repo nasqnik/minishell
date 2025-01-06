@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/04 17:02:06 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/05 16:46:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void execution_redirection(t_info *info, t_tree *tree)
 
 void handle_redirect_in(t_info *info, t_tree *tree)
 {
-        (void)info;
+    (void)info;
     int file;
 
     file = open(tree->file, O_RDONLY, 0); //have to check permissions
