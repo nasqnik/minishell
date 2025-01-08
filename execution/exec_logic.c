@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 19:11:49 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:34:34 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,9 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 		    buffer = get_next_line(read_from);
             if (!buffer)
                 break ;
+            tmp = buffer;
             buffer = process_expansion(buffer, info);
+            free(tmp);
             if (*buffer == '\0')
             {
                 tmp = ft_strdup("\n");
@@ -218,6 +220,7 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
         close(read_from);
         fd = open(".tmp", O_RDONLY, 0777);
 	    dup2(fd, 0);
+        close(fd);
         unlink(".tmp"); // unlink
         fd = -1;
         tree->fd = -1;
