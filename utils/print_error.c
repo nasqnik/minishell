@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/04 16:41:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 17:30:13 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd)
 		ft_putstr_fd("\033[31mexit: \033[00m", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
+	if (flag == 2)
+		ft_putstr_fd("\033[31m: ambiguous redirect\033[00m", fd);
 	if (flag == 0 || flag == 10)
 		ft_putstr_fd("\033[31m: no such file or directory\033[00m", fd);
 	if (flag == 3)

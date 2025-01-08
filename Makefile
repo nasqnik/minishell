@@ -15,7 +15,7 @@ SRC = minishell.c env_list.c \
 	ast_tree/clear_tree.c ast_tree/create_tree.c \
 	execution/execution.c execution/execute_binary.c execution/exec_logic.c execution/here_doc.c\
 	builtins/builtins.c builtins/export_unset.c builtins/utils.c \
-	expansions/expansions_dquotes.c expansions/expansions.c expansions/expansions_utils.c\
+	expansions/expansions_dquotes.c expansions/expansions.c expansions/expansions_utils.c expansions/expand_command.c expansions/expand_redirection.c\
 	wildcard/wildcard.c wildcard/utils.c wildcard/matchy.c \
 	subshell/subshell.c
 

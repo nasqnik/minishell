@@ -1,14 +1,12 @@
-// echo *.c > "file1.txt $USER"hi'lol $PWD' | grep "*.c" >> ls $? &&  awk $_ << $USER 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2024/12/12 12:02:01 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 18:57:03 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +163,7 @@ t_tree *create_ast_or(t_tokens **tokens);
 t_tree *create_ast_pipe(t_tokens **tokens);
 t_tree *create_ast_redirections(t_tokens **tokens);
 t_tree *create_ast_command(t_tokens **tokens);
-t_tree *create_ast_heredoc(t_tokens **tokens);
+// t_tree *create_ast_heredoc(t_tokens **tokens);
 void print_ast(t_tree *node, int depth, char *flag);
 
 // clear_tree
@@ -203,7 +201,7 @@ void handle_redirect_in(t_info *info, t_tree *tree);
 void handle_redirect_out(t_info *info, t_tree *tree);
 void handle_redirect_append(t_info *info, t_tree *tree);
 // void	get_file(t_info *info);
-int	get_file(int read_from, t_tree *tree);
+int	get_file(int read_from, t_tree *tree, t_info *info);
 
 // wildcard
 int wildcard(t_info *info, char **exp_res);
@@ -230,6 +228,7 @@ char *process_expansion(char *arg, t_info *info);
 char *expand_d_quotes(char *str, int *pos, t_info *info);
 char *expand_s_quotes(char *str, int *pos);
 char *expand_variables(char *str, int *pos, t_info *info);
+void expand_redirection(t_info *info, t_tree *tree);
 
 // expansions_dquotes.c
 char	*handle_variable(char *data, int pov[2], char *result, t_info *info);

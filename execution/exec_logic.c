@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 16:57:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 19:11:49 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,10 @@ pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 
 void execution_redirection(t_info *info, t_tree *tree)
 {
-    // printf("execution_redirection\n");
+    if (tree->type != HEREDOC)
+        expand_redirection(info, tree);
     if (tree->type == HEREDOC)
-        get_file(tree->fd, tree);
+        get_file(tree->fd, tree, info);
     else if (tree->type == REDIRECT_IN)
         handle_redirect_in(info, tree);
     else if (tree->type == REDIRECT_OUT)
@@ -187,17 +188,41 @@ void handle_redirect_append(t_info *info, t_tree *tree)
     close(file);
 }
 
-int	get_file(int read_from, t_tree *tree)
+int	get_file(int read_from, t_tree *tree, t_info *info)
 {
+    int fd;
+    char	*buffer;
+    char *tmp;
+    
     if (read_from != -1)
     {
-        // printf("fd redirection :%d\n", read_from);
-	    dup2(read_from, 0);
+        fd = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+
+	    while (1)
+	    {
+		    buffer = get_next_line(read_from);
+            if (!buffer)
+                break ;
+            buffer = process_expansion(buffer, info);
+            if (*buffer == '\0')
+            {
+                tmp = ft_strdup("\n");
+                free(buffer);
+                buffer = tmp;
+            }
+            
+            ft_putstr_fd(buffer, fd);
+            free(buffer);
+        }
+        close(fd);
         close(read_from);
+        fd = open(".tmp", O_RDONLY, 0777);
+	    dup2(fd, 0);
+        unlink(".tmp"); // unlink
+        fd = -1;
         tree->fd = -1;
     }
     return (0);
-	// return (read_from);
 }
 // {
 // 	char	*buffer;
