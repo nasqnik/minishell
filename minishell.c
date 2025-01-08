@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:02:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/06 12:26:14 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 16:46:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void free_and_set_null(t_info *info, int flag)
 {
+	// printf("I'm here\n");
 	if (info->token_list)
 		ft_clear_tokens(&(info->token_list));
 	if (info->ast_tree)
@@ -140,9 +141,11 @@ int main(int argc, char **argv, char **env)
 				continue;
             free(info.buffer);
             info.buffer = NULL;
+			find_docs(&info, info.ast_tree);
 			execution(&info, info.ast_tree); // should we s if there is an error in the parsing sould we execiute a part
         }
     }
+	printf("I'm here 2\n");
 	free_and_set_null(&info, 2);
 	printf("info.stdout: %d, info.stdin: %d\n", info.stdout, info.stdin);
 	if (close(info.stdout) != -1)

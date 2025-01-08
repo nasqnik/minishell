@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/05 16:46:12 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 16:57:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void  execution(t_info *info, t_tree *tree)
 {
+    // printf("execution: 1\n");
     if (!info->ast_tree || !tree)
 		return ;
+    // printf("execution: 2\n");
     // printf("token_type:%s\n", token_type_to_string(tree->type));
     if (tree->type == LOGIC_AND)
     {
@@ -32,9 +34,17 @@ void  execution(t_info *info, t_tree *tree)
     else if (tree->type == PIPE)
         execution_pipe(info, tree);
     else if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
+    {
+        // printf("redirection <><><>\n");
         execution_redirection(info, tree);
+    }
     else if (tree->type == COMMAND)
         execute_command(info, tree);
+    else if (tree->type == BRACKET)
+    {
+        // printf("hiiiiiiii\n");
+        subshell(info, tree);
+    }
 }
 
 void execution_pipe(t_info *info, t_tree *tree)
@@ -109,16 +119,29 @@ pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 
 void execution_redirection(t_info *info, t_tree *tree)
 {
-    
+    // printf("execution_redirection\n");
     if (tree->type == HEREDOC)
-        get_file(info);
+        get_file(tree->fd, tree);
     else if (tree->type == REDIRECT_IN)
         handle_redirect_in(info, tree);
     else if (tree->type == REDIRECT_OUT)
         handle_redirect_out(info, tree);
     else if (tree->type == REDIRECT_APPEND)
         handle_redirect_append(info, tree);
-    execution(info, tree->left);
+    if (tree->left)
+        execution(info, tree->left);
+    else
+    {
+        // printf("I'm in else in execution_redirection\n");
+        if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
+            dup2(info->stdin, STDIN_FILENO) == -1)
+        {
+            perror("dup2 failed during cleanup");
+        }
+        // printf("hihi\n");
+        // printf("STDIN_FILENO: %d\n", STDIN_FILENO);
+        // printf("STDOUT_FILENO: %d\n", STDOUT_FILENO);
+    }
 }
 
 void handle_redirect_in(t_info *info, t_tree *tree)
@@ -149,6 +172,7 @@ void handle_redirect_out(t_info *info, t_tree *tree)
         return ;
     dup2(file, STDOUT_FILENO);
     close(file);
+    // printf("I'm here\n");
 }
 
 void handle_redirect_append(t_info *info, t_tree *tree)
@@ -163,46 +187,57 @@ void handle_redirect_append(t_info *info, t_tree *tree)
     close(file);
 }
 
-void	get_file(t_info *info)
+int	get_file(int read_from, t_tree *tree)
 {
-	char	*buffer;
-	char	*limiter;
-	int		file;
-
-	buffer = NULL;
-	limiter = ft_strjoin(info->ast_tree->file, "\n");
-	file = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (file == -1 || limiter == NULL)
-	{
-		perror("Error opening file or allocating limiter");
-		free(limiter);
-		return ;
-	}
-	while (1)
-	{
-		write(1, "heredoc> ", 9);
-		buffer = get_next_line(0);
-        if (!buffer)
-        {
-            perror("Error reading from stdin");
-            break;
-        }
-		if (ft_strncmp(limiter, buffer, ft_strlen(limiter)) == 0)
-        {
-            free(buffer);
-            break;
-        }
-		ft_putstr_fd(buffer, file);
-		free(buffer);
-	}
-	free(buffer);
-	free(limiter);
-	close(file);
-	file = open("here_doc", O_RDONLY);
-	dup2(file, STDIN_FILENO);
-    if (unlink("here_doc") == -1)
-        perror("Error unlinking here_doc");
+    if (read_from != -1)
+    {
+        // printf("fd redirection :%d\n", read_from);
+	    dup2(read_from, 0);
+        close(read_from);
+        tree->fd = -1;
+    }
+    return (0);
+	// return (read_from);
 }
+// {
+// 	char	*buffer;
+// 	char	*limiter;
+// 	int		file;
+
+// 	buffer = NULL;
+// 	limiter = ft_strjoin(info->ast_tree->file, "\n");
+// 	file = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+// 	if (file == -1 || limiter == NULL)
+// 	{
+// 		perror("Error opening file or allocating limiter");
+// 		free(limiter);
+// 		return ;
+// 	}
+// 	while (1)
+// 	{
+// 		write(1, "heredoc> ", 9);
+// 		buffer = get_next_line(0);
+//         if (!buffer)
+//         {
+//             perror("Error reading from stdin");
+//             break;
+//         }
+// 		if (ft_strncmp(limiter, buffer, ft_strlen(limiter)) == 0)
+//         {
+//             free(buffer);
+//             break;
+//         }
+// 		ft_putstr_fd(buffer, file);
+// 		free(buffer);
+// 	}
+// 	free(buffer);
+// 	free(limiter);
+// 	close(file);
+// 	file = open("here_doc", O_RDONLY);
+// 	dup2(file, STDIN_FILENO);
+//     if (unlink("here_doc") == -1)
+//         perror("Error unlinking here_doc");
+// }
 
 // start with heredoc 
 // if the command is not right it should stop exe

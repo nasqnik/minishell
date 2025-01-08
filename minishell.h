@@ -29,9 +29,12 @@
 # include <termios.h>
 # include <sys/stat.h> 
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 // extern int sig;
+
+#define TRUE 1
+#define FALSE 0
 
 typedef enum e_token_type
 {
@@ -70,6 +73,7 @@ typedef struct s_tree
     int type;
     char *file;
     char **args;
+    int fd;
     struct s_tree *left;
     struct s_tree *right;
     //int *level;
@@ -152,7 +156,7 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd);
 
 // rename_tokens.c
 int rename_tokens(t_info *info);
-t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i);
+t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int *j);
 
 // create_tree
 t_tree *create_ast_tree(t_tokens **token);
@@ -198,7 +202,8 @@ void execution_redirection(t_info *info, t_tree *tree);
 void handle_redirect_in(t_info *info, t_tree *tree);
 void handle_redirect_out(t_info *info, t_tree *tree);
 void handle_redirect_append(t_info *info, t_tree *tree);
-void	get_file(t_info *info);
+// void	get_file(t_info *info);
+int	get_file(int read_from, t_tree *tree);
 
 // wildcard
 int wildcard(t_info *info, char **exp_res);
@@ -248,10 +253,11 @@ int control_operators(t_tokens *cursor, int index);
 int redirection_operators(t_tokens *cursor);
 int verify_logic(t_info *info);
 
+// subshell
+void subshell(t_info *info, t_tree *tree);
+int	find_docs(t_info *info, t_tree *tree);
 
 // whildcard
-
-
 // // wildcard
 // void	ft_clear_tmp(t_w_tmp **lst);
 // void	free_array(char **array);

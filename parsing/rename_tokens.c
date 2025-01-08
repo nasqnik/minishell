@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:37:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/04 16:39:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 16:54:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,31 @@ int rename_tokens(t_info *info)
 {
     t_tokens	*cursor;
 	int			i;
+    int j;
 
 	cursor = info->token_list;
 	i = 0;
+    j = 0;
 	while (cursor)
     {
         if (cursor && cursor->type == WORD && i == 0)
-                cursor->type = COMMAND;
+        {
+            cursor->type = COMMAND;
+            j = 1;
+        }
         else if (cursor && (cursor->type >= REDIRECT_IN
 			&& cursor->type <= HEREDOC))
-            cursor = tokens_after_redirect(info, cursor, i);
+            cursor = tokens_after_redirect(info, cursor, &j);
         else if (cursor && cursor->type == WORD)
             cursor->type = ARGUMENT;
         i++;
         if (cursor && ((cursor->type == PIPE 
             || cursor->type == LOGIC_AND 
             || cursor->type == LOGIC_OR)))
-			i = 0;
+            {
+                i = 0;
+                j = 0;
+            }
         if (!cursor)
             return (1);
         cursor = cursor->next;
@@ -40,14 +48,8 @@ int rename_tokens(t_info *info)
     return (0);
 }
 
-t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i)
+t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int *j)
 {
-	int	flag;
-
-	flag = 0;
-	if (i == 0)
-		flag++;
-    
     int type = cursor->type;
     
     if (!(cursor->next))
@@ -58,9 +60,12 @@ t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int i)
         cursor->type = FILENAME;
         if (type == HEREDOC)
             cursor->type = DELIMITER;
-		flag++;
 	}
-	if (cursor && (cursor->type == WORD) && flag == 2)
-		cursor->type = COMMAND;
+	if (cursor->next && (cursor->next->type == WORD) && (*j) == 0)
+    {
+		cursor->next->type = COMMAND;
+        cursor = cursor->next;
+        (*j) = 1;
+    }
 	return (cursor);
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/03 15:23:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/07 10:51:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void expand_command(t_info *info, t_tree *tree)
 	{
 		result = process_expansion(tree->args[i], info);
 		wildcard_flag = wildcard(info, &result);
-		printf("result: %s\n", result);
+		// printf("result: %s\n", result);
 		if (wildcard_flag == 0)
 		{
 			result = clean_quotes(result);

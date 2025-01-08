@@ -106,3 +106,60 @@ string :   #psoaf essgsd#
           echo hello > file1 | cat file1 && echo done
 
 # echo > out -n "Hello World" << ls | meow > sleep.txt // fix this one itv should strat from the bgining if it found a pipe
+
+
+# VALID COMMANDS:
+
+# 1. Runs `echo` and `ls` in a subshell, pipes the output to `grep`, and saves it to `output.txt`.
+(echo "Hello" && ls) | grep "H" > output.txt
+
+# 2. Tries to create `mydir`. If it fails, outputs "Failed". Then appends "Retry" to `log.txt`.
+mkdir mydir || echo "Failed" && echo "Retry" >> log.txt
+
+# 3. Reads from `input.txt`, pipes "Data" through `cat`, and appends it to `output.txt`.
+echo "Data" | cat < input.txt >> output.txt
+
+# 4. Uses a here document as input and pipes its output to `grep`.
+cat << EOF | grep "example"
+This is an example
+line of text
+EOF
+
+# 5. Writes "Start" to `file.txt`, lists a nonexistent file, and falls back to echo "Fallback".
+echo "Start" > file.txt && (ls nonexistent || echo "Fallback")
+
+# INVALID COMMANDS:
+
+# 6. Error: Parentheses are not used this way; they must wrap commands as a subshell.
+echo "Hi" (ls)
+
+# 7. Error: Missing the `EOF` terminator for the here document.
+cat << EOF | grep "missing"
+This line is incomplete
+
+# 8. Error: A pipe cannot start a command; it must connect commands.
+| echo "Pipe first"
+
+# 9. Error: `>|` is not valid in standard Bash syntax; it's a typo or unsupported syntax.
+ls >| file.txt
+
+# 10. Error: `&&` and `||` cannot be used together without a command in between.
+echo "test" && || echo "error"
+
+((echo "This is the outer subshell") && (echo "This is the inner subshell"))
+
+
+# Command 1: Simple logical grouping with priorities
+(echo "Outer" && (echo "Inner success" || echo "Inner failure")) && echo "Final success"
+
+# Command 2: Nested failure case with priorities
+(echo "Outer success" || (echo "Inner success" && echo "This won't run")) || echo "Final failure"
+
+# Command 3: Combining priorities for mixed cases
+(echo "Start" && (false || echo "Inner condition met")) && echo "End reached"
+
+# Command 4: A failing outer subshell that skips the inner
+(false && (echo "Inner success" || echo "Inner fallback")) || echo "Outer failure"
+
+# Command 5: Complex chaining with multiple priorities
+((echo "First" && echo "Second") || echo "Skipped") && (echo "Final success" || echo "Final failure")

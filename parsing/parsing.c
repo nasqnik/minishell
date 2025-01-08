@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/05 17:35:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/08 16:55:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@ int parsing(t_info *info)
 {
     if (lexer(info, info->buffer))
 		return (1);
-	// print_list(info->token_list);
+	free(info->buffer);
+	info->buffer = NULL;
+	//print_list(info->token_list);
 	if (rename_tokens(info))
 		return (1);
-	// print_list(info->token_list);
 	if (verify_logic(info))
 		return (1);
+	//print_list(info->token_list);
 	t_tokens *tokens = info->token_list;
 	info->ast_tree = create_ast_tree(&tokens);
 	if (info->ast_tree == NULL)
 		return(handle_error(info, "creat_tree", 2, '\0'), 1); // meybe we dont need that
 	ft_clear_tokens(&info->token_list);
-	print_ast(info->ast_tree, 5, "head");
+	// print_ast(info->ast_tree, 5, "head");
 	return (0);
 }					
 
