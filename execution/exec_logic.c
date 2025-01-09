@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 19:34:34 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:29:13 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
             if (!buffer)
                 break ;
             tmp = buffer;
-            buffer = process_expansion(buffer, info);
+            buffer = process_expansion_heredoc(buffer, info);
             free(tmp);
             if (*buffer == '\0')
             {

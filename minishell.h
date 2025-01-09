@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 18:57:03 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:52:19 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,10 @@ char    *handle_exit_status(char *data, int pov[2], t_info *info);
 char	*append_remaining_data(char *data, int pov[2], char *result);
 char    *clean_quotes(char *result);
 
+char *process_expansion_heredoc(char *arg, t_info *info);
+char *expand_quotes_heredoc(char *str, int *pos, t_info *info);
+char	*handle_variable_heredoc(char *data, int pov[2], char *result, t_info *info);
+char *expand_variables_heredoc(char *str, int *pos, t_info *info);
 
 // expansions_utils.c
 
