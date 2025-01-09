@@ -6,11 +6,78 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/04 08:18:35 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 15:38:33 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void free_and_set_null(t_info *info, int flag)
+{
+	if (info->token_list)
+		ft_clear_tokens(&(info->token_list));
+	if (info->ast_tree)
+        ft_clear_tree(info->ast_tree);
+	if (info->stdout)
+		close(info->stdout);
+	if (info->stdin)
+	    close(info->stdin);
+	if (flag == 1) // between the calls
+	{
+		info->stdout = dup(STDOUT_FILENO);
+		info->stdin = dup(STDIN_FILENO);
+	}
+	else // at the end or exit
+	{
+		if (info->envp_array)
+			free_array(info->envp_array);
+		if (info->envp_list)
+			ft_clear_list(&(info->envp_list));
+	}
+	info->token_list = NULL;
+	info->ast_tree = NULL;
+}
+
+char **ft_allocate_env(char **env)
+{
+	int i = 0;
+	char **env_array;
+
+	while (env[i])
+		i++;
+	env_array = malloc(sizeof(char *) * (i + 1));
+	if (!env_array)
+		return NULL;
+	i = 0;
+	while (env[i])
+	{
+		env_array[i] = ft_strdup(env[i]);
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
+
+void	initialize(t_info *info, char **env)
+{
+	info->buffer = NULL;
+	info->token_list = NULL;
+	info->ast_tree = NULL;
+	info->envp_array = ft_allocate_env(env);
+	info->envp_list = NULL;
+	info->i = 0;
+	info->stdout = dup(STDOUT_FILENO);
+	info->stdin = dup(STDIN_FILENO);
+	if (info->stdout == -1 || info->stdin == -1) {
+    	perror("dup failed");
+    	exit(EXIT_FAILURE);
+	}
+    
+	// f->last_arg = "empty";
+	// signal(SIGINT, handle_signal);
+	// signal(SIGQUIT, SIG_IGN);
+	env_to_list(info);
+}
 
 int	ft_is(int c, char *str)
 {

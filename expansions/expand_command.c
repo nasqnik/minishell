@@ -54,7 +54,7 @@ void expand_command(t_info *info, t_tree *tree)
 
 			new_array_size = arg_count + wildcard_count;
 			new_array = malloc(sizeof(char *) * (new_array_size));
-			new_array[new_array_size] = NULL;
+			new_array[new_array_size - 1] = NULL;
 
 			int point;
 			point = 0;

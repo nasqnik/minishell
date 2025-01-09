@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 14:48:34 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 15:31:34 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,11 @@ int verify_logic(t_info *info);
 void subshell(t_info *info, t_tree *tree);
 int	find_docs(t_info *info, t_tree *tree);
 
+void	initialize(t_info *info, char **env);
+void	castom_signals(void);
+void	handle_sig(int sig);
+void	disable_echoctl(void);
+void minishell(t_info *info);
 // whildcard
 // // wildcard
 // void	ft_clear_tmp(t_w_tmp **lst);

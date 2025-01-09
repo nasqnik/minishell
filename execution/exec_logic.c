@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 14:55:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 15:35:03 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,43 @@
 
 void  execution(t_info *info, t_tree *tree)
 {
-    // printf("execution: 1\n");
+    printf("execution: 1\n");
     if (!info->ast_tree || !tree)
 		return ;
-    // printf("execution: 2\n");
-    // printf("token_type:%s\n", token_type_to_string(tree->type));
     if (tree->type == LOGIC_AND)
     {
+        printf("execution: LOGIC_AND\n");
         execution(info, tree->left);
         if (our_static("exit status", -1) == 0)
             execution(info, tree->right);
     }
     else if (tree->type == LOGIC_OR)
     {
+        printf("execution: LOGIC_OR\n");
         execution(info, tree->left);
         if (our_static("exit status", -1) != 0)
             execution(info, tree->right);
     }
     else if (tree->type == PIPE)
+    {
+        printf("execution: PIPE\n");
         execution_pipe(info, tree);
+    }
     else if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
     {
+        printf("execution: redirection\n");
         // printf("redirection <><><>\n");
         execution_redirection(info, tree);
     }
     else if (tree->type == COMMAND)
     {
+        printf("execution: COMMAND\n");
         printf("Llkjjkhj\n");
         execute_command(info, tree);
     }
     else if (tree->type == BRACKET)
     {
-        // printf("hiiiiiiii\n");
+        printf("execution: BRACKET\n");
         subshell(info, tree);
     }
 }

@@ -15,12 +15,15 @@
 int expand_redirection(t_info *info, t_tree *tree)
 {
     char *result;
-    int wildcard_flag;
+	char *tmp;
+	char **wildcard_array;
 
-	result = NULL;
-    wildcard_flag = wildcard(info, &tree->file);
-    if (wildcard_flag == 0)
+	tmp = ft_strdup(tree->file);
+	wildcard_array = NULL;
+    wildcard(info, &tmp);
+    if (ft_strcmp(tmp, tree->file) == 0)
 	{
+		free(tmp);
         result = process_expansion(tree->file, info);
         if (*result == '\0')
             handle_error(info, tree->file, 0, 2);
@@ -30,8 +33,24 @@ int expand_redirection(t_info *info, t_tree *tree)
 	}
     else
 	{
-        handle_error(info, tree->file, 0, 2);
-		return (1);
+		wildcard_array = ft_split(tmp, ' ');
+		free(tmp);
+		int i = 0;
+		while (wildcard_array[i])
+			i++;
+		if (i == 1)
+		{
+			result = ft_strdup(wildcard_array[0]);
+			free_array(wildcard_array);
+			free(tree->file);
+			tree->file = ft_strdup(result);
+		}
+		else
+		{
+			free_array(wildcard_array);
+			handle_error(info, tree->file, 0, 2);
+			return (1);
+		}
 	}
     free(result);
 	return (0);

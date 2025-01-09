@@ -48,6 +48,7 @@ int	wildcard(t_info *info, char **exp_res)
 				disply_files_dir(info, 0, NULL);
 			else
 				disply_files_dir(info, 1, clean_data);
+			free(clean_data);
 			if (info->temporary)
 			{
 				free(*exp_res);

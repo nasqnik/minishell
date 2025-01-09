@@ -233,6 +233,7 @@ int	ft_matchy(char *file, char *wildcard)
 	sub_str = start_sub(wildcard, &i, &j); // 12''"23"'4'5*678 => res : 122345 // so it delets any " ' and <i> is the pos of the first and <j> is the len of the sub str
 	if (ft_strat_with(file, sub_str) == 0)
 	{
+        free(sub_str);
 		return (0);
 	}
 	start = i; // start of wildcard
@@ -243,6 +244,7 @@ int	ft_matchy(char *file, char *wildcard)
     end_f = ft_strlen(file) - j - 1;
 	if (ft_end_with(file, sub_str) == 0)
 	{
+        free(sub_str);
 		return (0);
 	}
 	free(sub_str);
