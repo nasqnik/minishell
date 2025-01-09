@@ -6,14 +6,14 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 15:37:11 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 17:44:22 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-t_env	*env_lstnew(char *env_var)
+t_env	*env_lstnew(char *env_var, int flag)
 {
 	t_env	*new;
 	int		i;
@@ -26,7 +26,20 @@ t_env	*env_lstnew(char *env_var)
 		while (env_var[i] != '=')
 			i++;
 		new->key = ft_substr(env_var, 0, i);
-		new->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
+		if (new->env[i])
+		{
+			printf("asfaf: %c\n", new->env[i]);
+			new->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
+		}
+		else 
+		{
+			printf("ihjghgkvghk\n");
+			new->value = NULL;
+		}
+		if (flag)
+			new->flag = 1;
+		else
+			new->flag = 0;
 		new->next = NULL;
 	}
 	return (new);
@@ -72,11 +85,11 @@ void	env_to_list(t_info *info)
 	new_node = NULL;
 	while (info->envp_array[env_size])
 		env_size++;
-	info->envp_list = env_lstnew(info->envp_array[0]);
+	info->envp_list = env_lstnew(info->envp_array[0], 1);
 	k = 1;
 	while (k < env_size)
 	{
-		new_node = env_lstnew(info->envp_array[k]);
+		new_node = env_lstnew(info->envp_array[k], 1);
 		if (!new_node)
 			return ;
 		env_lstadd_back(&info->envp_list, new_node);

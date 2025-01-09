@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 19:54:28 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:54:11 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	handle_export_error(t_info *info, char *str)
 	return (0);
 }
 
-void	new_env(t_info *info, char *search_for, char *value, char flago)
+void	new_env(t_info *info, char *search_for, char *value, char flago, int flagoooo)
 {
 	(void)flago;
 	char	*the_str;
@@ -36,10 +36,10 @@ void	new_env(t_info *info, char *search_for, char *value, char flago)
 	the_str = ft_strjoin(tmpo, value);
 	free(value);
 	free(tmpo);
-	env_lstadd_back(&info->envp_list, env_lstnew(the_str));
+	env_lstadd_back(&info->envp_list, env_lstnew(the_str, 1));
 	free(the_str);
 }
-int	check_env_there(t_info *info, char *search_for, char *value, char flago)
+int	check_env_there(t_info *info, char *search_for, char *value, char flago, int flagoooo)
 {
 	(void)flago;
 	t_env	*tmp;
@@ -49,6 +49,8 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago)
 	tmp = info->envp_list;
 	while (tmp)
 	{
+		if (ft_strcmp(tmp->key, search_for) == 0 && flagoooo == 0)
+			return (1);
 		if (ft_strcmp(tmp->key, search_for) == 0)
 		{
 			if (flago == 'n')
@@ -86,6 +88,7 @@ int	ft_export(t_info *info, char **args, int i)
 	int		flag;
 	char	*search_for;
 	char flago;
+	int flagoooo = 0; 
 	int return_value = 0;
 
 	value = NULL;
@@ -96,7 +99,7 @@ int	ft_export(t_info *info, char **args, int i)
 	if (!args[i])
 	{
 		env_sort(info, info->envp_list);
-		return (42);
+		return (0);
 	}
 	while (args[i])
 	{
@@ -115,15 +118,20 @@ int	ft_export(t_info *info, char **args, int i)
 			{
 				flago = 'y';
 				search_for = ft_substr(args[i], 0, j - 1);
+				j++;
 			}
 			else
 				search_for = ft_substr(args[i], 0, j);
-			value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
-			printf("%s\n", value);
-			if (check_env_there(info, search_for, value, flago))
+			if (args[i][j] == '=')
+				flagoooo = 1;
+			if (args[i][j + 1])
+				value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
+			else
+				value = NULL;
+			if (check_env_there(info, search_for, value, flago, flagoooo))
 				flag = 1;
 			if (flag == 0)
-				new_env(info, search_for, value, flago);
+				new_env(info, search_for, value, flago, flagoooo);
 		}
 		i++;
 	}

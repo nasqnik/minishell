@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 15:38:33 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 16:58:22 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	initialize(t_info *info, char **env)
 	info->envp_array = ft_allocate_env(env);
 	info->envp_list = NULL;
 	info->i = 0;
+	info->export_tmp = NULL;
 	info->stdout = dup(STDOUT_FILENO);
 	info->stdin = dup(STDIN_FILENO);
 	if (info->stdout == -1 || info->stdin == -1) {

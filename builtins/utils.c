@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 13:28:05 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 17:08:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,11 @@ void print_export(t_env *export_tmp)
 		printf("%s", tmp1->key);
 		if (tmp1->value[0] != '\0')
 			printf("=\"%s\"", tmp1->value);
+		if (tmp1->env[ft_strlen(tmp1->env) - 1] == '=')
+			printf("=\"\"");
 		printf("\n");
+		printf("%s\n", tmp1->env);
+		printf("caaaar :%c\n", tmp1->env[ft_strlen(tmp1->env) - 1]);
 		tmp1 = tmp1->next;
 	}
 }
@@ -145,7 +149,6 @@ void env_sort(t_info *info, t_env *envp_list)
         t_env *new_node = env_lstnew(tmp->env);
         if (!new_node)
             return; // Handle memory allocation failure
-
         // Insert the new node in the correct sorted position in export_tmp
         t_env **current = &info->export_tmp;
         while (*current && ft_strcmp((*current)->env, new_node->env) < 0)
@@ -154,7 +157,6 @@ void env_sort(t_info *info, t_env *envp_list)
         }
         new_node->next = *current;
         *current = new_node;
-
         tmp = tmp->next;
     }
 	print_export(info->export_tmp);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/08 16:55:39 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 16:49:27 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 int parsing(t_info *info)
 {
     if (lexer(info, info->buffer))
+		return (1);
+	if (!info->token_list)
 		return (1);
 	free(info->buffer);
 	info->buffer = NULL;

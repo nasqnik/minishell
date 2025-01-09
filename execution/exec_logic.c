@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 15:35:03 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 16:59:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void  execution(t_info *info, t_tree *tree)
     else if (tree->type == COMMAND)
     {
         printf("execution: COMMAND\n");
-        printf("Llkjjkhj\n");
         execute_command(info, tree);
     }
     else if (tree->type == BRACKET)

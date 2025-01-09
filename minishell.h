@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 15:31:34 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 17:44:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_env
     char *env;
     char *key;
     char *value;
+    int     flag; // 1 there // 0 not there
     struct s_env *next;
 }       t_env;
 
@@ -109,7 +110,7 @@ void	free_array(char **array);
 void	env_to_list(t_info *info);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_clear_list(t_env **lst);
-t_env	*env_lstnew(char *env_var);
+t_env	*env_lstnew(char *env_var, int flag);
 void	env_lstadd_back(t_env **lst, t_env *new);
 
 void update_envp_array(t_info *info);
