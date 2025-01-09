@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 10:52:19 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:48:34 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ char *process_expansion(char *arg, t_info *info);
 char *expand_d_quotes(char *str, int *pos, t_info *info);
 char *expand_s_quotes(char *str, int *pos);
 char *expand_variables(char *str, int *pos, t_info *info);
-void expand_redirection(t_info *info, t_tree *tree);
+int expand_redirection(t_info *info, t_tree *tree);
 
 // expansions_dquotes.c
 char	*handle_variable(char *data, int pov[2], char *result, t_info *info);

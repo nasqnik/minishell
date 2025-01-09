@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/04 13:32:33 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/09 14:40:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,22 @@ void execute_command(t_info *info, t_tree *tree)
     expand_command(info, tree);
     return_builtin = strcmp_builtin(info, tree->args[0], tree->args);
     if (return_builtin == 0)
+    {
         our_static("exit status", 0);
+                // Consider moving this to a cleanup function
+        if (info->stdout && info->stdin)
+        {
+            if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
+                dup2(info->stdin, STDIN_FILENO) == -1)
+            {
+                perror("dup2 failed during cleanup");
+            }
+        }    
+    }
     if (return_builtin == 2)
     {
+        close(info->stdin);
+        close(info->stdout);
         pid_t pid = fork();
         if (pid == -1) {
             perror("fork failed");
@@ -62,15 +75,6 @@ void execute_command(t_info *info, t_tree *tree)
                 write(2, "\n", 1);  
             }
             our_static("exit status",   WTERMSIG(status) + 128);
-        }
-    }
-    // Consider moving this to a cleanup function
-    if (info->stdout && info->stdin)
-    {
-        if (dup2(info->stdout, STDOUT_FILENO) == -1 ||
-            dup2(info->stdin, STDIN_FILENO) == -1)
-        {
-            perror("dup2 failed during cleanup");
         }
     }
 }

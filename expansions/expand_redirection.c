@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:21 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/09 11:02:00 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:57:14 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void expand_redirection(t_info *info, t_tree *tree)
+int expand_redirection(t_info *info, t_tree *tree)
 {
     char *result;
     int wildcard_flag;
 
-    wildcard_flag = wildcard(info, &result);
+	result = NULL;
+    wildcard_flag = wildcard(info, &tree->file);
     if (wildcard_flag == 0)
 	{
         result = process_expansion(tree->file, info);
@@ -28,8 +29,12 @@ void expand_redirection(t_info *info, t_tree *tree)
 		tree->file = ft_strdup(result);
 	}
     else
+	{
         handle_error(info, tree->file, 0, 2);
+		return (1);
+	}
     free(result);
+	return (0);
 }
 
 

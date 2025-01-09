@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 10:29:13 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:55:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void  execution(t_info *info, t_tree *tree)
         execution_redirection(info, tree);
     }
     else if (tree->type == COMMAND)
+    {
+        printf("Llkjjkhj\n");
         execute_command(info, tree);
+    }
     else if (tree->type == BRACKET)
     {
         // printf("hiiiiiiii\n");
@@ -120,7 +123,13 @@ pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 void execution_redirection(t_info *info, t_tree *tree)
 {
     if (tree->type != HEREDOC)
-        expand_redirection(info, tree);
+    {
+        if (expand_redirection(info, tree))
+        {
+            our_static("exit status", 1);
+            return ;
+        }
+    }
     if (tree->type == HEREDOC)
         get_file(tree->fd, tree, info);
     else if (tree->type == REDIRECT_IN)
