@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 17:54:11 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 10:37:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,27 @@ void	new_env(t_info *info, char *search_for, char *value, char flago, int flagoo
 
 	the_str = NULL;
 	tmpo = NULL;
-	tmpo = ft_strjoin(search_for, "=");
+	if (flagoooo == 1)	
+		tmpo = ft_strjoin(search_for, "=");
+	else
+		tmpo = ft_strdup(search_for);
 	free(search_for);
-	the_str = ft_strjoin(tmpo, value);
-	free(value);
+	if (flagoooo == 1)
+	{
+		if (value)
+			the_str = ft_strjoin(tmpo, value);
+		else
+			the_str = ft_strdup(tmpo);
+	}
+	else
+		the_str = ft_strdup(tmpo);
+	if (value)
+		free(value);
 	free(tmpo);
-	env_lstadd_back(&info->envp_list, env_lstnew(the_str, 1));
+	if (flagoooo == 1)
+		env_lstadd_back(&info->envp_list, env_lstnew(the_str, 1));
+	else
+		env_lstadd_back(&info->envp_list, env_lstnew(the_str, 0));
 	free(the_str);
 }
 int	check_env_there(t_info *info, char *search_for, char *value, char flago, int flagoooo)
@@ -49,28 +64,34 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 	tmp = info->envp_list;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, search_for) == 0 && flagoooo == 0)
+		if (ft_strcmp(tmp->key, search_for) == 0 && (flagoooo == 0 || (value == NULL && flago == 'y' && flagoooo == 1)))
 			return (1);
-		if (ft_strcmp(tmp->key, search_for) == 0)
+		else if  (ft_strcmp(tmp->key, search_for) == 0 && flagoooo != 0)
 		{
 			if (flago == 'n')
 			{
 				free(tmp->env);
 				tmpo = ft_strjoin(search_for, "=");
-				tmp->env = ft_strjoin(tmpo, value);
-				free(tmpo);
+				if (value)
+					tmp->env = ft_strjoin(tmpo, value);
+				else
+					tmp->env = ft_strdup(tmpo);
 				free(tmp->value);
+				free(tmpo);
 				tmp->value = value;
 			}
 			else
 			{
+				
 				tmp_joined = ft_strjoin(tmp->value, value);
 				free(tmp->value);
-				free(value);
+				if (value)
+					free(value);
 				tmp->value = tmp_joined;
 				free(tmp->env);
 				tmpo = ft_strjoin(search_for, "=");
 				tmp->env = ft_strjoin(tmpo, tmp_joined);
+				printf("%s\n", tmp->env);
 				free(tmpo);
 			}
 			free(search_for);
@@ -114,18 +135,20 @@ int	ft_export(t_info *info, char **args, int i)
 			j = 0;
 			while (args[i][j] && args[i][j] != '=')
 				j++;
-			if (args[i][j - 1] == '+')
+			if (args[i][j - 1] && args[i][j - 1] == '+')
 			{
 				flago = 'y';
 				search_for = ft_substr(args[i], 0, j - 1);
-				j++;
 			}
 			else
 				search_for = ft_substr(args[i], 0, j);
-			if (args[i][j] == '=')
+			if (args[i][j] && args[i][j] == '=')
+			{
 				flagoooo = 1;
-			if (args[i][j + 1])
-				value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
+				j++;
+			}
+			if (args[i][j])
+				value = ft_substr(args[i], j, ft_strlen(args[i]) - j);
 			else
 				value = NULL;
 			if (check_env_there(info, search_for, value, flago, flagoooo))

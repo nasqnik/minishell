@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/02 16:03:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 10:36:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,14 @@ int	ft_env(t_info *info, char **args, int i)
 	tmp = info->envp_list;
 	while (tmp)
 	{
-		if (tmp->value[0] != '\0')
+		if (tmp->flag == 1)
 		{
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('=', fd);
-			ft_putstr_fd(tmp->value, fd);
+			if (tmp->value)
+				ft_putstr_fd(tmp->value, fd);
 			ft_putchar_fd('\n', fd);	
 		}
-		// else
-		// {
-		// 	printf("i am here but not\n");
-		// 	printf("%s\n", tmp->key);
-		// }
 		tmp = tmp->next;
 	}
 	return (0);

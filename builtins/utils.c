@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 17:08:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 10:38:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,11 @@ void print_export(t_env *export_tmp)
 	{
 		printf("declare -x "); 
 		printf("%s", tmp1->key);
-		if (tmp1->value[0] != '\0')
+		if (tmp1->flag == 1 && tmp1->value)
 			printf("=\"%s\"", tmp1->value);
-		if (tmp1->env[ft_strlen(tmp1->env) - 1] == '=')
+		if (tmp1->flag == 1 && !(tmp1->value))
 			printf("=\"\"");
 		printf("\n");
-		printf("%s\n", tmp1->env);
-		printf("caaaar :%c\n", tmp1->env[ft_strlen(tmp1->env) - 1]);
 		tmp1 = tmp1->next;
 	}
 }
@@ -144,9 +142,8 @@ void env_sort(t_info *info, t_env *envp_list)
     t_env *tmp = envp_list;
     while (tmp)
     {
-		printf("lol\n");
         // Create a new node for the sorted list
-        t_env *new_node = env_lstnew(tmp->env);
+        t_env *new_node = env_lstnew(tmp->env, tmp->flag);
         if (!new_node)
             return; // Handle memory allocation failure
         // Insert the new node in the correct sorted position in export_tmp

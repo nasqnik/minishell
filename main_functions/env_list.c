@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 17:44:22 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 10:38:26 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,15 @@ t_env	*env_lstnew(char *env_var, int flag)
 	{
 		i = 0;
 		new->env = ft_strdup(env_var);
-		while (env_var[i] != '=')
+		while (env_var[i] && env_var[i] != '=')
 			i++;
 		new->key = ft_substr(env_var, 0, i);
-		if (new->env[i])
-		{
-			printf("asfaf: %c\n", new->env[i]);
-			new->value = ft_substr(env_var, i + 1, ft_strlen(env_var) - i - 1);
-		}
+		if (env_var[i])
+			i++;
+		if (env_var[i])
+			new->value = ft_substr(env_var, i , ft_strlen(env_var) - i );
 		else 
-		{
-			printf("ihjghgkvghk\n");
 			new->value = NULL;
-		}
 		if (flag)
 			new->flag = 1;
 		else
