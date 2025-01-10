@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 10:38:26 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 16:25:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_env	*env_lstnew(char *env_var, int flag)
 	t_env	*new;
 	int		i;
 
+	if (!env_var)
+		return NULL;
 	new = malloc((sizeof(t_env)));
 	if (new)
 	{
@@ -71,7 +73,7 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 	last->next = new;
 }
 
-void	env_to_list(t_info *info)
+void	env_to_list(t_info *info, int flag)
 {
 	t_env	*new_node;
 	int		k;
@@ -79,13 +81,21 @@ void	env_to_list(t_info *info)
 
 	env_size = 0;
 	new_node = NULL;
+	if (!(info->envp_array) || !(*(info->envp_array)))
+	{
+		printf("you did not creat me\n");
+		return ;
+	}
 	while (info->envp_array[env_size])
 		env_size++;
 	info->envp_list = env_lstnew(info->envp_array[0], 1);
 	k = 1;
 	while (k < env_size)
 	{
-		new_node = env_lstnew(info->envp_array[k], 1);
+		if (flag == 0 && k == 2)
+			new_node = env_lstnew(info->envp_array[k], 0);
+		else
+			new_node = env_lstnew(info->envp_array[k], 1);
 		if (!new_node)
 			return ;
 		env_lstadd_back(&info->envp_list, new_node);
@@ -103,7 +113,7 @@ void	ft_clear_list(t_env **lst)
 	current = *lst;
 	while (current != NULL)
 	{
-		// printf("clear\n");
+		printf("clear\n");
 		tmp = current;
 		current = current->next;
 		free(tmp->env);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 17:44:36 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:08:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_info
 
 void	free_array(char **array);
 // env_list.c
-void	env_to_list(t_info *info);
+void	env_to_list(t_info *info, int flag);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_clear_list(t_env **lst);
 t_env	*env_lstnew(char *env_var, int flag);
@@ -188,7 +188,7 @@ int ft_pwd();
 int ft_meow(t_info *info, char **args, int i, int j);
 
 char	*search_in_env(t_info *info, char *key);
-void	change_pwd_in_env(t_info *f);
+void	change_pwd_in_env(t_info *f, char *oldpwd);
 int	invalid_identifier(char *str, int flag);
 void env_sort(t_info *info, t_env *envp_list);
 
@@ -266,6 +266,8 @@ void	castom_signals(void);
 void	handle_sig(int sig);
 void	disable_echoctl(void);
 void minishell(t_info *info);
+void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
+// char	*find_path(char *command, t_info *info, int *flag);
 // whildcard
 // // wildcard
 // void	ft_clear_tmp(t_w_tmp **lst);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 10:37:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 18:21:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	handle_export_error(t_info *info, char *str)
 	return (0);
 }
 
-void	new_env(t_info *info, char *search_for, char *value, char flago, int flagoooo)
+void	new_env(t_info *info, char *search_for, char *value, int flagoooo)
 {
-	(void)flago;
 	char	*the_str;
 	char	*tmpo;
 
@@ -154,7 +153,7 @@ int	ft_export(t_info *info, char **args, int i)
 			if (check_env_there(info, search_for, value, flago, flagoooo))
 				flag = 1;
 			if (flag == 0)
-				new_env(info, search_for, value, flago, flagoooo);
+				new_env(info, search_for, value, flagoooo);
 		}
 		i++;
 	}
@@ -162,23 +161,108 @@ int	ft_export(t_info *info, char **args, int i)
 	return (return_value);
 }
 
-void	search_to_unset(t_env *tmp, char *str)
-{
-	t_env	*tmp1;
+// void	search_to_unset(t_env *tmp, char *str)
+// {
+// 	t_env	*tmp1;
 
-	tmp1 = NULL;
+// 	tmp1 = NULL;
+// 	while (tmp)
+// 	{
+// 		if (tmp->next && ft_strcmp(tmp->next->key, str) == 0)
+// 		{
+// 			if (tmp->next->next)
+// 				tmp1 = tmp->next->next;
+// 			free(tmp->next->env);
+// 			free(tmp->next->value);
+// 			free(tmp->next->key);
+// 			free(tmp->next);
+// 			tmp->next = tmp1;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
+
+// void	search_to_unset(t_env **begin_list, char *str)
+// {
+// 	t_env	*cur;
+
+// 	if (begin_list == NULL || *begin_list == NULL)
+// 		return;
+
+// 	cur = *begin_list;
+
+// 	if (ft_strcmp(cur->key, str) == 0)
+// 	{
+// 		*begin_list = cur->next;
+// 		free(cur->env);
+// 		cur->env = NULL;
+// 		free(cur->value);
+// 		cur->value = NULL;
+// 		free(cur->key);
+// 		cur->key = NULL;
+// 		free(cur);
+// 		cur = NULL;
+// 		search_to_unset(begin_list, str);
+// 	}
+// 	else
+// 	{
+// 		search_to_unset(&cur->next, str);
+// 	}
+// }
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void	search_to_unset(t_env **head, char *str)
+{
+	t_env	*current;
+	t_env	*prev;
+
+	if (!head || !*head) // Handle empty list
+		return;
+
+	current = *head;
+	prev = NULL;
+
+	// Iterate through the list
+	while (current)
+	{
+		if (ft_strcmp(current->key, str) == 0) // Match found
+		{
+			if (prev == NULL) // The node to delete is the head
+				*head = current->next;
+			else
+				prev->next = current->next; // Bypass the current node
+
+			// Free the current node
+			if (current->env)
+			{
+				free(current->env);
+				current->env = NULL;
+			}
+			if (current->value)
+			{
+				free(current->value);
+				current->value = NULL;
+			}
+			if (current->key)
+			{
+				free(current->key);
+				current->key = NULL;
+			}
+			free(current);
+			current = NULL;
+
+			break; // Exit after deleting one node
+		}
+		prev = current;
+		current = current->next; // Move to the next node
+	}
+	
+	t_env *tmp = *head;
 	while (tmp)
 	{
-		if (tmp->next && ft_strcmp(tmp->next->key, str) == 0)
-		{
-			if (tmp->next->next)
-				tmp1 = tmp->next->next;
-			free(tmp->next->env);
-			free(tmp->next->value);
-			free(tmp->next->key);
-			free(tmp->next);
-			tmp->next = tmp1;
-		}
+		printf("env: %s. %s=%s\n", tmp->env, tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -204,9 +288,16 @@ int	ft_unset(t_info *info, char **args, int i)
 		else if (ft_strcmp(args[i], " ") != 0)
 		{
 			tmp = info->envp_list;
-			search_to_unset(tmp, args[i]);
+			printf("%s\n", args[i]);
+			search_to_unset(&tmp, args[i]);
 		}
 		i++;
+	}
+	t_env *tmp1 = info->envp_list;
+	while (tmp1)
+	{
+		printf("env: %s. %s=%s\n", tmp1->env, tmp1->key, tmp1->value);
+		tmp1 = tmp1->next;
 	}
 	return (return_value);
 }

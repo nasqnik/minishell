@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 10:36:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:06:17 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	ft_cd(t_info *info, char **args, int i)
 	char	*str;
 	char	*sub;
 	char	*home;
+	char	buf[1024];
 
+	if (getcwd(buf, sizeof(buf)) == NULL) // for oldpwd
+		return 1;
 	str = NULL;
 	sub = NULL;
 	if (!(args[i]))
@@ -76,7 +79,7 @@ int	ft_cd(t_info *info, char **args, int i)
 	// free(str); // <i should free but thisw make problems for a reason>
 	if (args[i])
 		return (handle_error(info, args[i - 1], 0, 0), 1);
-	return (change_pwd_in_env(info), 0);
+	return (change_pwd_in_env(info, buf), 0);
 }
 
 int	ft_env(t_info *info, char **args, int i)
@@ -88,10 +91,11 @@ int	ft_env(t_info *info, char **args, int i)
 		return (handle_error(info, args[i], 0, 0), 1);
 	i = 0;
 	fd = 1;
+	// char	*find_path(char *command, t_info *info, flag);
 	tmp = info->envp_list;
 	while (tmp)
 	{
-		if (tmp->flag == 1)
+		if (tmp->env && tmp->flag == 1)
 		{
 			ft_putstr_fd(tmp->key, fd);
 			ft_putchar_fd('=', fd);

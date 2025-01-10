@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 16:58:22 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:05:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,17 @@ char **ft_allocate_env(char **env)
 	int i = 0;
 	char **env_array;
 
+	if (!env || !(*env))
+	{
+		printf("return null\n");
+		return (NULL);
+	}
+	
 	while (env[i])
+	{
+		printf("env[i]: %s\n", env[i]);
 		i++;
+	}
 	env_array = malloc(sizeof(char *) * (i + 1));
 	if (!env_array)
 		return NULL;
@@ -57,6 +66,27 @@ char **ft_allocate_env(char **env)
 	env_array[i] = NULL;
 	return (env_array);
 }
+
+char **create_non_existing_env(void)
+{
+	char **new_env;
+
+	new_env = malloc(sizeof(char *) * 4);
+	if (!new_env)
+	{
+		perror("malloc failed in create_non_existing_env");
+    	exit(EXIT_FAILURE);
+	}
+	char	buf[1024];
+	if (getcwd(buf, sizeof(buf)) == NULL) // for oldpwd
+		return NULL;
+	new_env[0] = ft_strjoin("PWD=", buf);
+	new_env[1] = ft_strdup("SHLVL=1");
+	new_env[2] = ft_strdup("OLDPWD");
+	new_env[3] = NULL;
+	return(new_env);	
+}
+
 
 void	initialize(t_info *info, char **env)
 {
@@ -73,11 +103,21 @@ void	initialize(t_info *info, char **env)
     	perror("dup failed");
     	exit(EXIT_FAILURE);
 	}
-    
+	if (!info->envp_array)
+	{
+		info->envp_array = create_non_existing_env();
+		env_to_list(info, 0);
+	}
+	else if (info->envp_array)
+	{		
+		env_to_list(info, 1);
+	}
+	// if (info->envp_list)
+	// 	printf("loll:info->envp_list[0]: %s\n", info->envp_list->env);
+	
 	// f->last_arg = "empty";
 	// signal(SIGINT, handle_signal);
 	// signal(SIGQUIT, SIG_IGN);
-	env_to_list(info);
 }
 
 int	ft_is(int c, char *str)

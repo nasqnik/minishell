@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 10:38:42 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/10 17:42:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ int	invalid_identifier(char *str, int flag)
 	return (0);
 }
 
-void	change_pwd_in_env(t_info *f)
+void	change_pwd_in_env(t_info *f, char *oldpwd)
 {
 	char	buf[1024];
 	t_env	*tmp;
 	char	*tmp_old;
 	int flag = 0;
+	int flago = 0;
 
 	if (getcwd(buf, sizeof(buf)) == NULL)
 		return ;
@@ -57,12 +58,15 @@ void	change_pwd_in_env(t_info *f)
 	{
 		if (ft_strcmp(tmp->key, "PWD") == 0)
 		{
+			flago = 1;
 			tmp_old = ft_strdup(tmp->value);
 			free(tmp->value);
 			tmp->value = ft_strdup(buf);
+			break;
 		}
 		tmp = tmp->next;
 	}
+	printf("flago%d", flago);
 	tmp = f->envp_list;
 	while (tmp)
 	{
@@ -71,11 +75,15 @@ void	change_pwd_in_env(t_info *f)
 			flag = 1;
 			free(tmp->value);
 			tmp->value = tmp_old;
+			break;
 		}
 		tmp = tmp->next;
 	}
 	if (flag == 0)
+	{
+		new_env(f, ft_strdup("OLDPWD"), ft_strdup(oldpwd), 1);
 		free(tmp_old);
+	}
 }
 
 int	ft_meow(t_info *info, char **args, int i, int j)
@@ -140,8 +148,9 @@ void print_export(t_env *export_tmp)
 void env_sort(t_info *info, t_env *envp_list)
 {
     t_env *tmp = envp_list;
-    while (tmp)
+    while (tmp && tmp->env)
     {
+		printf("affff\n");
         // Create a new node for the sorted list
         t_env *new_node = env_lstnew(tmp->env, tmp->flag);
         if (!new_node)
