@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 17:06:17 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/11 15:57:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,20 @@ int	ft_env(t_info *info, char **args, int i)
 	{
 		if (tmp->env && tmp->flag == 1)
 		{
-			ft_putstr_fd(tmp->key, fd);
-			ft_putchar_fd('=', fd);
-			if (tmp->value)
-				ft_putstr_fd(tmp->value, fd);
-			ft_putchar_fd('\n', fd);	
+			
+			// printf("            aysha flag = |%d|\n", tmp->flag);
+			// printf("            aysha env = |%s|\n", tmp->env);
+			// printf("            aysha key = |%s|\n", tmp->key);
+			// printf("            aysha value = |%s|\n", tmp->value);
+			// if (tmp->value != NULL)
+			// {
+				ft_putstr_fd(tmp->key, fd);
+				ft_putchar_fd('=', fd);
+				if (tmp->value)
+					ft_putstr_fd(tmp->value, fd);
+				ft_putchar_fd('\n', fd);	
+			// }
+				// printf("          comes here\n");
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 17:08:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/11 10:56:06 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_env
     char *env;
     char *key;
     char *value;
-    int     flag; // 1 there // 0 not there
+    int     flag; // 1 there is = // 0 not there is not
     struct s_env *next;
 }       t_env;
 

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 16:25:12 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/11 11:13:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_env	*env_lstnew(char *env_var, int flag)
 	if (!env_var)
 		return NULL;
 	new = malloc((sizeof(t_env)));
+	if (!new)
+		return NULL;
 	if (new)
 	{
 		i = 0;
@@ -31,13 +33,10 @@ t_env	*env_lstnew(char *env_var, int flag)
 		if (env_var[i])
 			i++;
 		if (env_var[i])
-			new->value = ft_substr(env_var, i , ft_strlen(env_var) - i );
+			new->value = ft_substr(env_var, i , ft_strlen(env_var) - i);
 		else 
 			new->value = NULL;
-		if (flag)
-			new->flag = 1;
-		else
-			new->flag = 0;
+		new->flag = flag;
 		new->next = NULL;
 	}
 	return (new);

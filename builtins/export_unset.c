@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 18:21:36 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/11 16:12:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,60 +213,103 @@ int	ft_export(t_info *info, char **args, int i)
 #include <stdlib.h>
 #include <string.h>
 
-void	search_to_unset(t_env **head, char *str)
+// void	search_to_unset(t_env **head, char *str)
+// {
+// 	t_env	*current;
+// 	t_env	*prev;
+
+// 	if (!head || !*head) // Handle empty list
+// 		return;
+
+// 	current = *head;
+// 	prev = NULL;
+
+// 	// Iterate through the list
+// 	while (current)
+// 	{
+// 		if (ft_strcmp(current->key, str) == 0) // Match found
+// 		{
+// 			if (prev == NULL)
+// 				*head = current->next;
+// 			else
+// 				prev->next = current->next; // Bypass the current node
+// 			if (current->env)
+// 			{
+// 				free(current->env);
+// 				current->env = NULL;
+// 			}
+// 			if (current->value)
+// 			{
+// 				free(current->value);
+// 				current->value = NULL;
+// 			}
+// 			if (current->key)
+// 			{
+// 				free(current->key);
+// 				current->key = NULL;
+// 			}
+// 			free(current);
+// 			current = NULL;
+
+// 			break; // Exit after deleting one node
+// 		}
+// 		prev = current;
+// 		current = current->next; // Move to the next node
+// 	}
+	
+// 	t_env *tmp = *head;
+// 	while (tmp)
+// 	{
+// 		printf("env: %s. %s=%s\n", tmp->env, tmp->key, tmp->value);
+// 		tmp = tmp->next;
+// 	}
+// }
+// void *env1;
+// void *env2;
+
+void search_to_unset(t_env **env_list, char *arg)
 {
-	t_env	*current;
-	t_env	*prev;
+    t_env *current = *env_list;
+    t_env *previous = NULL;
 
-	if (!head || !*head) // Handle empty list
-		return;
-
-	current = *head;
-	prev = NULL;
-
-	// Iterate through the list
-	while (current)
-	{
-		if (ft_strcmp(current->key, str) == 0) // Match found
-		{
-			if (prev == NULL) // The node to delete is the head
-				*head = current->next;
-			else
-				prev->next = current->next; // Bypass the current node
-
-			// Free the current node
+    while (current != NULL)
+    {
+        if (ft_strcmp(current->key, arg) == 0)
+        {
+            if (previous == NULL)
+			{
+                *env_list = current->next;
+				// printf("env_list = %s\n", (*env_list)->env);
+			}
+            else
+                previous->next = current->next;
+			// current->flag = 0;
+			// if (current->key && ft_strcmp(current->key, "PATH") == 0)
+			// {
+			// 	ft_putendl_fd("aysha wants to check : ", 1);
+			// 	ft_putstr_fd(current->key, 1);
+			// 	ft_putstr_fd(current->value, 1);
+			// }
 			if (current->env)
 			{
-				free(current->env);
-				current->env = NULL;
-			}
-			if (current->value)
-			{
-				free(current->value);
+				if (current->value)
+					free(current->value);
 				current->value = NULL;
-			}
-			if (current->key)
-			{
 				free(current->key);
 				current->key = NULL;
+				free(current->env);
+				current->env = NULL;
+				// env1 = current;
+				// free(current);
+				// current = NULL;
 			}
-			free(current);
-			current = NULL;
-
-			break; // Exit after deleting one node
-		}
-		prev = current;
-		current = current->next; // Move to the next node
-	}
-	
-	t_env *tmp = *head;
-	while (tmp)
-	{
-		printf("env: %s. %s=%s\n", tmp->env, tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
 }
-
+#include "assert.h"
 int	ft_unset(t_info *info, char **args, int i)
 {
 	t_env *tmp;
@@ -293,11 +336,13 @@ int	ft_unset(t_info *info, char **args, int i)
 		}
 		i++;
 	}
-	t_env *tmp1 = info->envp_list;
-	while (tmp1)
-	{
-		printf("env: %s. %s=%s\n", tmp1->env, tmp1->key, tmp1->value);
-		tmp1 = tmp1->next;
-	}
+	// t_env *tmp1 = info->envp_list;
+	// while (tmp1)
+	// {
+	// 	// assert(tmp1 == env1);
+	// 	printf("env: %s. %s=%s\n", tmp1->env, tmp1->key, tmp1->value);
+	// 	tmp1 = tmp1->next;
+	// 	// env1 = env1.next
+	// }
 	return (return_value);
 }
