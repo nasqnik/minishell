@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/11 16:12:39 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 14:05:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,29 +279,23 @@ void search_to_unset(t_env **env_list, char *arg)
             if (previous == NULL)
 			{
                 *env_list = current->next;
-				// printf("env_list = %s\n", (*env_list)->env);
 			}
             else
                 previous->next = current->next;
-			// current->flag = 0;
-			// if (current->key && ft_strcmp(current->key, "PATH") == 0)
-			// {
-			// 	ft_putendl_fd("aysha wants to check : ", 1);
-			// 	ft_putstr_fd(current->key, 1);
-			// 	ft_putstr_fd(current->value, 1);
-			// }
 			if (current->env)
 			{
 				if (current->value)
 					free(current->value);
 				current->value = NULL;
-				free(current->key);
+				if (current->key)
+					free(current->key);
 				current->key = NULL;
-				free(current->env);
+				if (current->env)
+					free(current->env);
 				current->env = NULL;
-				// env1 = current;
-				// free(current);
-				// current = NULL;
+				if (current)
+					free(current);
+				current = NULL;
 			}
             return;
         }
@@ -309,10 +303,11 @@ void search_to_unset(t_env **env_list, char *arg)
         current = current->next;
     }
 }
+
 #include "assert.h"
 int	ft_unset(t_info *info, char **args, int i)
 {
-	t_env *tmp;
+	t_env **tmp;
 	int fd;
 	int return_value = 0;
 
@@ -330,19 +325,10 @@ int	ft_unset(t_info *info, char **args, int i)
 		}
 		else if (ft_strcmp(args[i], " ") != 0)
 		{
-			tmp = info->envp_list;
-			printf("%s\n", args[i]);
-			search_to_unset(&tmp, args[i]);
+			tmp = &info->envp_list;
+			search_to_unset(tmp, args[i]);
 		}
 		i++;
 	}
-	// t_env *tmp1 = info->envp_list;
-	// while (tmp1)
-	// {
-	// 	// assert(tmp1 == env1);
-	// 	printf("env: %s. %s=%s\n", tmp1->env, tmp1->key, tmp1->value);
-	// 	tmp1 = tmp1->next;
-	// 	// env1 = env1.next
-	// }
 	return (return_value);
 }

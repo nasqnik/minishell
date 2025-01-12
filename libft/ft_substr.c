@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:09:21 by meid              #+#    #+#             */
-/*   Updated: 2024/12/12 13:53:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 13:51:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	j = 0;
+    if (!s)
+	{
+        return NULL;
+	}
 	if (start >= (unsigned int)ft_strlen(s))
 		return (ft_strdup(""));
 	if ((size_t)ft_strlen(s + start) < len)

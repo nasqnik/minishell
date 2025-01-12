@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 17:05:39 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 12:32:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,32 @@ void free_and_set_null(t_info *info, int flag)
 
 char **ft_allocate_env(char **env)
 {
-	int i = 0;
-	char **env_array;
+    int i = 0;
+    char **env_array;
 
-	if (!env || !(*env))
-	{
-		printf("return null\n");
-		return (NULL);
-	}
-	
-	while (env[i])
-	{
-		printf("env[i]: %s\n", env[i]);
-		i++;
-	}
-	env_array = malloc(sizeof(char *) * (i + 1));
-	if (!env_array)
-		return NULL;
-	i = 0;
-	while (env[i])
-	{
-		env_array[i] = ft_strdup(env[i]);
-		i++;
-	}
-	env_array[i] = NULL;
-	return (env_array);
+    if (!env || !(*env))
+        return (NULL);
+
+    while (env[i])
+        i++;
+    env_array = malloc(sizeof(char *) * (i + 1));
+    if (!env_array)
+        return (NULL);
+    i = 0;
+    while (env[i])
+    {
+        env_array[i] = ft_strdup(env[i]);
+        if (!env_array[i]) // Handle strdup failure
+        {
+            while (--i >= 0)
+                free(env_array[i]);
+            free(env_array);
+            return (NULL);
+        }
+        i++;
+    }
+    env_array[i] = NULL;
+    return (env_array);
 }
 
 char **create_non_existing_env(void)
