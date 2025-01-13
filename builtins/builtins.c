@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 18:31:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 11:53:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_cd(t_info *info, char **args, int i)
 {
 	char	*str;
 	char	*sub;
-	char	*home;
+	char	*home = NULL;
 	char	buf[1024];
 
 	if (getcwd(buf, sizeof(buf)) == NULL) // for oldpwd
@@ -68,16 +68,18 @@ int	ft_cd(t_info *info, char **args, int i)
 	if (args[i][0] == '~')
 	{
 		home = search_in_env(info, "HOME");
-		sub = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
-		str = ft_strjoin(home, sub); // allocated
-		free(sub);
+		if (home)
+		{
+			sub = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
+			str = ft_strjoin(home, sub); // allocated
+			free(sub);
+		}
 	}
 	else
 		str = args[i];
 	i++;
 	if (chdir(str))
 		return (handle_error(info, str, 0, 0), 1);
-	// free(str); // <i should free but thisw make problems for a reason>
 	if (args[i])
 		return (handle_error(info, args[i - 1], 0, 0), 1);
 	return (change_pwd_in_env(info, buf), 0);
