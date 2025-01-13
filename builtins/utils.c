@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 18:38:37 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 19:29:26 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,30 @@ char	*search_in_env(t_info *info, char *key)
 int	invalid_identifier(char *str, int flag)
 {
 	int	i;
+	int len;
+	int flago;
 
 	i = 0;
+	flago = 0;
+	len = ft_strlen(str);
 	if (str[i] >= '0' && str[i] <= '9')
 		return (1);
 	while (str[i])
 	{
+		if ((str[i] == '+' && (!str[i + 1] || (str[i + 1] && str[i + 1] != '=')))
+			|| (str[i] == '=' && i == 0))
+			return (1);
 		if ((!(ft_isalnum(str[i])) && str[i] != '_' && str[i] != '=' && str[i] != '+')
-			|| (str[i] == '=' && flag == 2))
-			return (2);
+			|| (str[i] == '=' && flag == 2) || ((str[i] == '=' && len == 1)))
+			return (1);
+		if (str[i] != '=')
+			flago++;
+		if (str[i] == '=')
+			break ;
 		i++;
 	}
+	if (flag == 1 && flago == 0)
+		return (1);
 	return (0);
 }
 

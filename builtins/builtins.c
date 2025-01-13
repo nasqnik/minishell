@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 11:53:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 20:00:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	ft_echo(char **args, int i)
 
 int	ft_cd(t_info *info, char **args, int i)
 {
+	(void)i;
 	char	*str;
 	char	*sub;
 	char	*home = NULL;
@@ -63,9 +64,15 @@ int	ft_cd(t_info *info, char **args, int i)
 	info->pwd = buf;
 	str = NULL;
 	sub = NULL;
-	if (!(args[i]))
-		return (0);
-	if (args[i][0] == '~')
+	if (!(args[1]))
+	{
+		home = search_in_env(info, "HOME");
+		if (home)
+			str = ft_strdup(home);
+		else
+			return (handle_error(info, NULL, 0, 11), 1);
+	}
+	else if (args[1][0] == '~')
 	{
 		home = search_in_env(info, "HOME");
 		if (home)
@@ -76,12 +83,12 @@ int	ft_cd(t_info *info, char **args, int i)
 		}
 	}
 	else
-		str = args[i];
-	i++;
+		str = args[1];
+	// i++;
 	if (chdir(str))
 		return (handle_error(info, str, 0, 0), 1);
-	if (args[i])
-		return (handle_error(info, args[i - 1], 0, 0), 1);
+	// if (args[i])
+	// 	return (handle_error(info, args[i - 1], 0, 0), 1);
 	return (change_pwd_in_env(info, buf), 0);
 }
 

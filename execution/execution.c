@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 15:58:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 14:40:36 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 20:15:46 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void execute_command(t_info *info, t_tree *tree)
     
     if (!info || !tree)
         return;
-        
     expand_command(info, tree);
     return_builtin = strcmp_builtin(info, tree->args[0], tree->args);
     if (return_builtin == 0)

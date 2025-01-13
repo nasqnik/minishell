@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 09:26:45 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 19:23:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 15:55:18 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,20 @@ int	execute_binary(t_info *info, char *command, char **args, int fd)
 		ft_putstr_fd("minishell: ", fd);
 		ft_putstr_fd(args[0], fd);
 		if (flag == 1)
-			ft_putstr_fd("\033[31m: No such file or directory\033[00m", fd);
+			ft_putstr_fd("\033[31m: No such file or directory\033[00m\n", fd);
 		else
-			ft_putstr_fd("\033[31m: command not found\033[00m", fd);
-		ft_putchar_fd('\n', fd);
+			ft_putstr_fd("\033[31m: command not found\033[00m\n", fd);
 		return 127;
 	}
 	update_envp_array(info);
 	execve(command_path, args, info->envp_array);
+	if (ft_strcmp("..", command) == 0 || ft_strcmp(".", command) == 0 )
+	{
+		ft_putstr_fd("minishell: ", fd);
+		ft_putstr_fd(args[0], fd);
+		ft_putstr_fd("\033[31m: command not found\033[00m\n", fd);
+		return 127;
+	}
 	if (!stat(command_path, &directory))
 	{
 		handle_error(info, command_path, 0, 6);

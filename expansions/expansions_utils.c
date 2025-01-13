@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:46:25 by anikitin          #+#    #+#             */
-/*   Updated: 2024/12/30 13:52:24 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:30:41 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,15 @@ char	*get_var(char *data, int *i, t_env *envp_list)
 
 	start = *i;
 	var_name = NULL;
-	while (data[*i] && (ft_is(data[*i], "alnum") || data[*i] == '_'))
+	while (data[*i] && (ft_is(data[*i], "alnum") || data[*i] == '_'|| (data[start] == '$')))
+	{
+		if ((data[start] >= '0' && data[start] <= '9') || (data[start] == '$'))
+		{
+			(*i)++;
+			break;
+		}
 		(*i)++;
+	}
 	if (*i > start)
 	{
 		var_name = ft_substr(data, start, *i - start);

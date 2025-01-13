@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/08 18:24:39 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:18:34 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ char *process_expansion(char *arg, t_info *info)
 		free(tmp1);
 		free(tmp);
 	}
+	printf("result: %s\n", result);
 	return (result);
 }
 
 char *expand_variables(char *str, int *pos, t_info *info)
 {
 	char *result;
+	char *tmp;
+	char *tmp2;
 	int pov[2];
 
 	pov[0] = *pos;
@@ -49,8 +52,14 @@ char *expand_variables(char *str, int *pos, t_info *info)
 	result = ft_strdup("");
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
 	{
+		printf("Im here too\n");
 		if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
 			break ;
+		if (str[pov[0]] == '~')
+		{
+			result = tilda_string(info, str, pov);
+			pov[1] = pov[0];
+		}
 		if (str[pov[0]] == '$')
 		{
 			result = handle_variable(str, pov, result, info);
@@ -59,11 +68,20 @@ char *expand_variables(char *str, int *pos, t_info *info)
 		else
 			pov[0]++;
 	}
-	if (*result == '\0')
+	if (pov[1] < pov[0])
 	{
+		printf("I'm here\n");
+		tmp = ft_substr(str, pov[1], pov[0] - pov[1]);
+		tmp2 = ft_strjoin(result, tmp);
 		free(result);
-		result = ft_substr(str, pov[1], pov[0] - pov[1]);
+		free(tmp);
+		result = tmp2;
 	}
+	// if (*result == '\0') // fix it
+	// {
+	// 	free(result);
+	// 	result = ft_substr(str, pov[1], pov[0] - pov[1]);
+	// }
 	*pos = pov[0];
 	return (result);
 }
@@ -73,7 +91,7 @@ char *expand_d_quotes(char *str, int *pos, t_info *info)
 	char *result;
 	int pov[2];
 
-	pov[0] = *pos + 1;
+	pov[0] = *pos + 1; 
 	pov[1] = *pos;
 	result = ft_strdup("");
 	while (str[pov[0]] && str[pov[0]] != '\"')
@@ -86,7 +104,7 @@ char *expand_d_quotes(char *str, int *pos, t_info *info)
 		else
 			pov[0]++;
 	}
-	if (pov[1] < pov[0])
+	if (pov[1] < pov[0] || str[pov[0]] == '\"')
 		result = append_remaining_data(str, pov, result);
 	*pos = pov[0] + 1;
 	return (result);

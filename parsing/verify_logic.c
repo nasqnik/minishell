@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 09:33:26 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 15:42:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int subshell_rules(t_tokens *cursor, int flag)
             return (0);
         if (cursor->next->type == BRACKET)
             return (2);
-        if (!(cursor->next->type >= REDIRECT_IN && cursor->next->type <= LOGIC_OR))
+        if (!(cursor->next->type >= REDIRECT_IN && cursor->next->type <= HEREDOC))
             return (3);
     }
     if (flag == 0)
     {
         if (cursor->type == COMMAND)
             return (4);
-        if (!(cursor->type >= REDIRECT_IN && cursor->type <= LOGIC_OR))
+        if (!(cursor->type >= REDIRECT_IN && cursor->type <= HEREDOC))
             return (2);
     } 
     return (0);
@@ -77,11 +77,12 @@ int verify_logic(t_info *info)
     cursor = info->token_list;
     while (cursor)
     {
+        // printf("lol\n");
         if (cursor->type == LOGIC_OR || cursor->type == LOGIC_AND)
             i = 0;
         if (cursor->type >= PIPE && cursor->type <= LOGIC_OR)
             to_return = control_operators(cursor, i);
-        if (cursor->type >= REDIRECT_IN && cursor->type <= REDIRECT_APPEND)
+        if (cursor->type >= REDIRECT_IN && cursor->type <= HEREDOC)
             to_return = redirection_operators(cursor);
         if (cursor->type == BRACKET)
             to_return = subshell_rules(cursor, 1);

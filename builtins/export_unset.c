@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 11:36:43 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 20:03:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 		{
 			if (flago == 'n')
 			{
+				printf("flago = n\n");
+				tmp->flag = 1;
 				free(tmp->env);
 				tmpo = ft_strjoin(search_for, "=");
 				if (value)
@@ -81,8 +83,11 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 			}
 			else
 			{
-				
-				tmp_joined = ft_strjoin(tmp->value, value);
+				tmp->flag = 1;
+				if (tmp->value)
+					tmp_joined = ft_strjoin(tmp->value, value);
+				else
+					tmp_joined = ft_strdup(value);
 				free(tmp->value);
 				if (value)
 					free(value);
@@ -90,7 +95,6 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 				free(tmp->env);
 				tmpo = ft_strjoin(search_for, "=");
 				tmp->env = ft_strjoin(tmpo, tmp_joined);
-				// printf("%s\n", tmp->env);
 				free(tmpo);
 			}
 			free(search_for);
@@ -103,6 +107,7 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 
 int	ft_export(t_info *info, char **args, int i)
 {
+	printf("export\n");
 	char	*value;
 	int		j;
 	int		flag;
@@ -123,6 +128,7 @@ int	ft_export(t_info *info, char **args, int i)
 	}
 	while (args[i])
 	{
+		printf("what export gets:||%s||\n", args[i]);
 		if (handle_export_error(info, args[i]))
 		{
 			i++;
@@ -149,7 +155,10 @@ int	ft_export(t_info *info, char **args, int i)
 			if (args[i][j])
 				value = ft_substr(args[i], j, ft_strlen(args[i]) - j);
 			else
+			{
+				printf("the value is null\n");
 				value = NULL;
+			}
 			if (check_env_there(info, search_for, value, flago, flagoooo))
 				flag = 1;
 			if (flag == 0)
@@ -157,115 +166,8 @@ int	ft_export(t_info *info, char **args, int i)
 		}
 		i++;
 	}
-	// printf("return_value %d\n", return_value);
 	return (return_value);
 }
-
-// void	search_to_unset(t_env *tmp, char *str)
-// {
-// 	t_env	*tmp1;
-
-// 	tmp1 = NULL;
-// 	while (tmp)
-// 	{
-// 		if (tmp->next && ft_strcmp(tmp->next->key, str) == 0)
-// 		{
-// 			if (tmp->next->next)
-// 				tmp1 = tmp->next->next;
-// 			free(tmp->next->env);
-// 			free(tmp->next->value);
-// 			free(tmp->next->key);
-// 			free(tmp->next);
-// 			tmp->next = tmp1;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
-
-// void	search_to_unset(t_env **begin_list, char *str)
-// {
-// 	t_env	*cur;
-
-// 	if (begin_list == NULL || *begin_list == NULL)
-// 		return;
-
-// 	cur = *begin_list;
-
-// 	if (ft_strcmp(cur->key, str) == 0)
-// 	{
-// 		*begin_list = cur->next;
-// 		free(cur->env);
-// 		cur->env = NULL;
-// 		free(cur->value);
-// 		cur->value = NULL;
-// 		free(cur->key);
-// 		cur->key = NULL;
-// 		free(cur);
-// 		cur = NULL;
-// 		search_to_unset(begin_list, str);
-// 	}
-// 	else
-// 	{
-// 		search_to_unset(&cur->next, str);
-// 	}
-// }
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-// void	search_to_unset(t_env **head, char *str)
-// {
-// 	t_env	*current;
-// 	t_env	*prev;
-
-// 	if (!head || !*head) // Handle empty list
-// 		return;
-
-// 	current = *head;
-// 	prev = NULL;
-
-// 	// Iterate through the list
-// 	while (current)
-// 	{
-// 		if (ft_strcmp(current->key, str) == 0) // Match found
-// 		{
-// 			if (prev == NULL)
-// 				*head = current->next;
-// 			else
-// 				prev->next = current->next; // Bypass the current node
-// 			if (current->env)
-// 			{
-// 				free(current->env);
-// 				current->env = NULL;
-// 			}
-// 			if (current->value)
-// 			{
-// 				free(current->value);
-// 				current->value = NULL;
-// 			}
-// 			if (current->key)
-// 			{
-// 				free(current->key);
-// 				current->key = NULL;
-// 			}
-// 			free(current);
-// 			current = NULL;
-
-// 			break; // Exit after deleting one node
-// 		}
-// 		prev = current;
-// 		current = current->next; // Move to the next node
-// 	}
-	
-// 	t_env *tmp = *head;
-// 	while (tmp)
-// 	{
-// 		printf("env: %s. %s=%s\n", tmp->env, tmp->key, tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// }
-// void *env1;
-// void *env2;
 
 void search_to_unset(t_env **env_list, char *arg)
 {

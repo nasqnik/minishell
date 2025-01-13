@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/08 17:30:13 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:54:51 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd)
 {
 	(void)info;
 	ft_putstr_fd("\033[31mminicat: \033[00m", fd);
-	if (flag == 0)
+	if (flag == 0 || flag == 11)
 		ft_putstr_fd("\033[31mcd: \033[00m", fd);
 	if (flag == 10)
 		ft_putstr_fd("\033[31menv: \033[00m", fd);
@@ -58,6 +58,8 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd)
 		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
 	if (flag == 6)
 		ft_putstr_fd("\033[31m: it's a directory\033[00m", fd);
+	if (flag == 11)
+			ft_putstr_fd("\033[31mHOME not set\033[00m", fd);
 	if (flag != 100)
 		ft_putchar_fd('\n', fd);
 }

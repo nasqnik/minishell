@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 20:27:19 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 20:18:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ void	handle_sig(int sig);
 void	disable_echoctl(void);
 void minishell(t_info *info);
 void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
+char *tilda_string(t_info *info, char *str, int pov[2]);
 // char	*find_path(char *command, t_info *info, int *flag);
 // whildcard
 // // wildcard

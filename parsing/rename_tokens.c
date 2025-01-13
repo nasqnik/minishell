@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:37:22 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/08 16:54:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 14:49:02 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int *j)
     
     if (!(cursor->next))
         return (handle_error(info, "newline", 2, '\0'), NULL);
+    if ((cursor->next)
+        && (cursor->next->type >= REDIRECT_IN && cursor->next->type <= HEREDOC))
+        return (handle_error(info, cursor->next->data, 2, '\0'), NULL);
     cursor = cursor->next;
 	if (cursor && (cursor->type == WORD))
 	{
