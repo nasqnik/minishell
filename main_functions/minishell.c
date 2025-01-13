@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:27:53 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 17:17:00 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:18:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void minishell(t_info *info)
         info->buffer = readline("mini_cat😺$ ");
 		if (!info->buffer) // there is condtion that i did not understand (isatty(0))
 		{
-			printf("I'm here\n");
+			// printf("I'm here\n");
 			write (2, "exit\n", 5); // or write "mini_cat😺$ exit"
 			free_and_set_null(info, 2);
 			exit (1);

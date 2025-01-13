@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 13:55:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:17:41 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,15 @@ void env_lstadd_back(t_env **lst, t_env *new) {
     last->next = new;
 }
 
+
+// void special_env(t_env **envp_list)
+// {
+// 	char	buf[1024];
+// 	if (getcwd(buf, sizeof(buf)) == NULL)
+// 		return NULL;
+// 	env_lstadd_back(envp_list, env_lstnew(ft_strjoin("*7d!X@vE#9wq&Lp1R^jz(0Ko$8GtY5]Ma?c2mNU[Z3fQ)=", buf), 2));
+// }
+
 void env_to_list(t_info *info, int flag) {
     t_env *new_node;
     int k;
@@ -140,7 +149,7 @@ void env_to_list(t_info *info, int flag) {
     env_size = 0;
     new_node = NULL;
     if (!(info->envp_array) || !(*(info->envp_array))) {
-        printf("you did not create me\n");
+        // printf("you did not create me\n");
         return;
     }
     while (info->envp_array[env_size])
@@ -159,6 +168,7 @@ void env_to_list(t_info *info, int flag) {
         env_lstadd_back(&info->envp_list, new_node);
         k++;
     }
+	// special_env(&info->envp_list);
 }
 
 // void	env_to_list(t_info *info, int flag)
@@ -201,7 +211,7 @@ void	ft_clear_list(t_env **lst)
 	current = *lst;
 	while (current != NULL)
 	{
-		printf("clear\n");
+		// printf("clear\n");
 		tmp = current;
 		current = current->next;
 		free(tmp->env);

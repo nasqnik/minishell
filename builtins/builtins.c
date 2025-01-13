@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:48:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/11 15:57:58 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:31:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_cd(t_info *info, char **args, int i)
 
 	if (getcwd(buf, sizeof(buf)) == NULL) // for oldpwd
 		return 1;
+	info->pwd = buf;
 	str = NULL;
 	sub = NULL;
 	if (!(args[i]))

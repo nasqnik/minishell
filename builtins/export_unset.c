@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 14:05:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 11:36:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 				free(tmp->env);
 				tmpo = ft_strjoin(search_for, "=");
 				tmp->env = ft_strjoin(tmpo, tmp_joined);
-				printf("%s\n", tmp->env);
+				// printf("%s\n", tmp->env);
 				free(tmpo);
 			}
 			free(search_for);
@@ -157,7 +157,7 @@ int	ft_export(t_info *info, char **args, int i)
 		}
 		i++;
 	}
-	printf("return_value %d\n", return_value);
+	// printf("return_value %d\n", return_value);
 	return (return_value);
 }
 
@@ -304,7 +304,6 @@ void search_to_unset(t_env **env_list, char *arg)
     }
 }
 
-#include "assert.h"
 int	ft_unset(t_info *info, char **args, int i)
 {
 	t_env **tmp;

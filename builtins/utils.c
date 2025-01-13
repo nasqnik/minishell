@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/10 17:42:58 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:38:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,75 @@ void	change_pwd_in_env(t_info *f, char *oldpwd)
 {
 	char	buf[1024];
 	t_env	*tmp;
-	char	*tmp_old;
-	int flag = 0;
+	// char	*tmp_old;
+	// int flag = 0;
 	int flago = 0;
+	
+	(void)oldpwd;
+	static int pwd_is_not_there = 0;
 
+	// printf("1\n");
 	if (getcwd(buf, sizeof(buf)) == NULL)
 		return ;
+	f->pwd = buf;
 	tmp = f->envp_list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, "PWD") == 0)
 		{
+			// printf("pwd is there\n");
+			// printf("2\n");
 			flago = 1;
-			tmp_old = ft_strdup(tmp->value);
-			free(tmp->value);
+			// tmp_old = ft_strdup(tmp->value);
+			
+			if (tmp->value)
+				free(tmp->value);
+			tmp->flag = 1;
+			// printf(":::%s\n", buf);
 			tmp->value = ft_strdup(buf);
 			break;
 		}
 		tmp = tmp->next;
 	}
-	printf("flago%d", flago);
+	if (flago == 0)
+	{
+			// printf("3\n");
+		pwd_is_not_there++;
+	}
+	else
+		pwd_is_not_there = 0;
 	tmp = f->envp_list;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		if (ft_strcmp(tmp->key, "OLDPWD") == 0 && pwd_is_not_there == 1)
 		{
-			flag = 1;
-			free(tmp->value);
-			tmp->value = tmp_old;
+			// printf("the first time i did not see that pwd is not in env\n");
+				// printf("4\n");
+			// printf("llllllllll\n");
+			tmp->flag = 1;
+			if (tmp->value)
+				free(tmp->value);
+		}
+		else if (ft_strcmp(tmp->key, "OLDPWD") == 0)
+		{
+			tmp->flag = 1;
+			// printf("5\n");
+			if (tmp->value)
+				free(tmp->value);
+			// printf("flag: %d\n", tmp->flag);
+			// printf("the old pwd in cd function is : %s", oldpwd);
+			tmp->value = ft_strdup(oldpwd);
+			// if (!tmp->value)
+			// 	printf("it is null to here crazyyyy\n");
+			// printf("%s\n", tmp->value);
 			break;
 		}
 		tmp = tmp->next;
 	}
-	if (flag == 0)
+	if (pwd_is_not_there == 2)
 	{
-		new_env(f, ft_strdup("OLDPWD"), ft_strdup(oldpwd), 1);
-		free(tmp_old);
+		// printf("6\n");
+		pwd_is_not_there = 0;
 	}
 }
 
@@ -114,6 +147,24 @@ int	ft_meow(t_info *info, char **args, int i, int j)
 	return (0);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the_stack *array_to_linked_list(int *numbers,int count)
 // {
 //     the_stack *list = ft_lstnew(numbers[0]);
@@ -129,11 +180,14 @@ int	ft_meow(t_info *info, char **args, int i, int j)
 //     return (list);
 // }
 
-void print_export(t_env *export_tmp)
+void print_export(t_info *info)
 {
-	t_env *tmp1 = export_tmp;
+	t_env *tmp1 = info->envp_list;
 	while(tmp1)
 	{
+		// printf("flagggg : %d\n", tmp1->flag);
+		// 	if (!tmp1->value)
+		// 		printf("value is null\n");
 		printf("declare -x "); 
 		printf("%s", tmp1->key);
 		if (tmp1->flag == 1 && tmp1->value)
@@ -150,7 +204,7 @@ void env_sort(t_info *info, t_env *envp_list)
     t_env *tmp = envp_list;
     while (tmp && tmp->env)
     {
-		printf("affff\n");
+		// printf("affff\n");
         // Create a new node for the sorted list
         t_env *new_node = env_lstnew(tmp->env, tmp->flag);
         if (!new_node)
@@ -165,7 +219,7 @@ void env_sort(t_info *info, t_env *envp_list)
         *current = new_node;
         tmp = tmp->next;
     }
-	print_export(info->export_tmp);
+	print_export(info);
 	ft_clear_list(&info->export_tmp);
 	info->export_tmp = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 13:50:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 20:27:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <termios.h>
 # include <sys/stat.h> 
 
-// int rl_replace_line(const char *text, int clear_undo);
+int rl_replace_line(const char *text, int clear_undo);
 
 // extern int sig;
 
@@ -97,6 +97,7 @@ typedef struct s_info
     int stdout;
     int stdin;
     char        *temporary;
+    char        *pwd;
 
     // int			error_flag;
     // t_w_tmp       *tmp;
@@ -305,5 +306,15 @@ void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
 // int str_cmp_builtin(t_first *f, char *command, char **args);
 // void	get_file(t_first *f);
 
+#include "assert.h"
+// anas was explaining from this is was great
 
+// max 100
+// 1.92×10 
+// 196
+ 
+// is 42
+// 2.02×10 
+// 82
+ 
 #endif

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/07 18:40:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/13 09:33:26 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int control_operators(t_tokens *cursor, int index)
 {
     if (!cursor->next || (cursor->next
-    && (cursor->next->type >= PIPE && cursor->next->type <= LOGIC_OR))
-    || (index == 0))
+    && (cursor->next->type >= PIPE && cursor->next->type <= LOGIC_OR)))
         return(1);
+    if (index == 0)
+        return (6);
     return (0);
 }
 
@@ -76,6 +77,8 @@ int verify_logic(t_info *info)
     cursor = info->token_list;
     while (cursor)
     {
+        if (cursor->type == LOGIC_OR || cursor->type == LOGIC_AND)
+            i = 0;
         if (cursor->type >= PIPE && cursor->type <= LOGIC_OR)
             to_return = control_operators(cursor, i);
         if (cursor->type >= REDIRECT_IN && cursor->type <= REDIRECT_APPEND)
@@ -85,9 +88,9 @@ int verify_logic(t_info *info)
         if (cursor->next && cursor->next->type == BRACKET)
             to_return = subshell_rules(cursor, 0);
         // to_return_function(to_return, cursor);
-        if (to_return == 1)
+        if (to_return == 1 || to_return == 6)
         {
-            if (cursor->next)
+            if (cursor->next && to_return != 6)
                 return(handle_error(info, cursor->next->data, 2, '\0'), to_return);
             return(handle_error(info, cursor->data, 2, '\0'), to_return);
         }

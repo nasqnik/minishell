@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 12:32:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 19:17:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ void	initialize(t_info *info, char **env)
 	info->export_tmp = NULL;
 	info->stdout = dup(STDOUT_FILENO);
 	info->stdin = dup(STDIN_FILENO);
+	char	buf[1024];
+	if (getcwd(buf, sizeof(buf)) == NULL) // for oldpwd
+		return ;
+	info->pwd = buf;
 	if (info->stdout == -1 || info->stdin == -1) {
     	perror("dup failed");
     	exit(EXIT_FAILURE);

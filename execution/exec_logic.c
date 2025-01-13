@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/09 16:59:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:15:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,42 @@
 
 void  execution(t_info *info, t_tree *tree)
 {
-    printf("execution: 1\n");
+    // printf("execution: 1\n");
     if (!info->ast_tree || !tree)
 		return ;
     if (tree->type == LOGIC_AND)
     {
-        printf("execution: LOGIC_AND\n");
+        // printf("execution: LOGIC_AND\n");
         execution(info, tree->left);
         if (our_static("exit status", -1) == 0)
             execution(info, tree->right);
     }
     else if (tree->type == LOGIC_OR)
     {
-        printf("execution: LOGIC_OR\n");
+        // printf("execution: LOGIC_OR\n");
         execution(info, tree->left);
         if (our_static("exit status", -1) != 0)
             execution(info, tree->right);
     }
     else if (tree->type == PIPE)
     {
-        printf("execution: PIPE\n");
+        // printf("execution: PIPE\n");
         execution_pipe(info, tree);
     }
     else if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
     {
-        printf("execution: redirection\n");
+        // printf("execution: redirection\n");
         // printf("redirection <><><>\n");
         execution_redirection(info, tree);
     }
     else if (tree->type == COMMAND)
     {
-        printf("execution: COMMAND\n");
+        // printf("execution: COMMAND\n");
         execute_command(info, tree);
     }
     else if (tree->type == BRACKET)
     {
-        printf("execution: BRACKET\n");
+        // printf("execution: BRACKET\n");
         subshell(info, tree);
     }
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:28:10 by meid              #+#    #+#             */
-/*   Updated: 2025/01/11 16:00:19 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/12 18:19:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int main(int ac, char **av, char **env)
     initialize(&info, env);
 	minishell(&info);
 	free_and_set_null(&info, 2);
-	
 	if (close(info.stdout) != -1)
 		printf("%d, is closed\n", info.stdout);
 	else
