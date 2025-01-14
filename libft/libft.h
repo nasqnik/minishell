@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 07:57:33 by meid              #+#    #+#             */
-/*   Updated: 2024/12/21 19:32:04 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 16:38:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int ft_close(int c);
 int ft_isop(int c);
 int ft_isoperator(int c);
 int ft_isbrackets(int c);
+int	ft_arraylen(char **array);
 
 int ft_strfind(char *str, char find);
 

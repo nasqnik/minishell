@@ -6,12 +6,12 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 19:54:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 13:02:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// if what_am_i = 0 builtins   else if == 1 binary  else normail msg 
+
 void	handle_error(t_info *info, char *msg, int what_am_i, int flag)
 {
 	if (what_am_i == 0)
@@ -19,8 +19,8 @@ void	handle_error(t_info *info, char *msg, int what_am_i, int flag)
 		our_static("exit status", 1);
 		print_the_error(info, msg, flag, 1);
 	}
-	else if (what_am_i == 1) // make sure where are you using that 
-		perror("minicat"); //  so we can chose the exit status
+	else if (what_am_i == 1)
+		perror("minicat");
 	else if (what_am_i == 2)
 	{
 		our_static("exit status", 258);
@@ -30,7 +30,26 @@ void	handle_error(t_info *info, char *msg, int what_am_i, int flag)
 	}
 }
 
-void	print_the_error(t_info *info ,char *args, int flag, int fd)
+void	print_after_arg(t_info *info, int flag, int fd)
+{
+	(void)info;
+	if (flag == 2)
+		ft_putstr_fd("\033[31m: ambiguous redirect\033[00m", fd);
+	if (flag == 0 || flag == 10 || flag == 12)
+		ft_putstr_fd("\033[31m: no such file or directory\033[00m", fd);
+	if (flag == 3)
+		ft_putstr_fd("\033[31m': not an identifier\033[00m", fd);
+	if (flag == 5)
+		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
+	if (flag == 6)
+		ft_putstr_fd("\033[31m: it's a directory\033[00m", fd);
+	if (flag == 11)
+		ft_putstr_fd("\033[31mHOME not set\033[00m", fd);
+	if (flag != 100)
+		ft_putchar_fd('\n', fd);
+}
+
+void	print_the_error(t_info *info, char *args, int flag, int fd)
 {
 	(void)info;
 	ft_putstr_fd("\033[31mminicat: \033[00m", fd);
@@ -48,20 +67,7 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd)
 		ft_putstr_fd("\033[31mexit: \033[00m", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
-	if (flag == 2)
-		ft_putstr_fd("\033[31m: ambiguous redirect\033[00m", fd);
-	if (flag == 0 || flag == 10)
-		ft_putstr_fd("\033[31m: no such file or directory\033[00m", fd);
-	if (flag == 3)
-		ft_putstr_fd("\033[31m': not an identifier\033[00m", fd);
-	if (flag == 5)
-		ft_putstr_fd("\033[31m: numeric argument required\033[00m", fd);
-	if (flag == 6)
-		ft_putstr_fd("\033[31m: it's a directory\033[00m", fd);
-	if (flag == 11)
-			ft_putstr_fd("\033[31mHOME not set\033[00m", fd);
-	if (flag != 100)
-		ft_putchar_fd('\n', fd);
+	print_after_arg(info, flag, fd);
 }
 
 const char	*token_type_to_string(t_token_type type)
@@ -84,35 +90,6 @@ const char	*token_type_to_string(t_token_type type)
 	}
 }
 
-// void	print_after_expansions(t_first *f)
-// {
-// 	t_tokens	*tmp;
-// 	t_w_tmp		*tmp_data;
-
-// 	tmp = f->token_list;
-// 	tmp_data = NULL;
-// 	printf("\nAFTER EXPANSIONS\n");
-// 	while (tmp)
-// 	{
-// 		if (tmp->data_type == 's')
-// 			printf("string :   #%s#  \n", (char *)tmp->data);
-// 		if (tmp->data_type == 'l')
-// 		{
-// 			if (tmp->data != NULL)
-// 			{
-// 				tmp_data = (t_w_tmp *)tmp->data;
-// 				while (tmp_data)
-// 				{
-// 					printf("list :   #%s#  ", tmp_data->data);
-// 					tmp_data = tmp_data->next;
-// 				}
-// 			}
-// 		}
-// 		printf("	  type: %s\n", token_type_to_string(tmp->type));
-// 		tmp = tmp->next;
-// 	}
-// }
-
 void	print_list(t_tokens	*list)
 {
 	t_tokens	*tmp;
@@ -129,25 +106,45 @@ void	print_list(t_tokens	*list)
 	}
 }
 
-// void	print_env(t_first *f, int flag)
-// {
-// 	t_list	*tmp;
-// 	int		i;
-
-// 	tmp = f->envp_list;
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		if (flag == 0)
-// 			printf("%s\n", f->envp_array[i]);
-// 		else
-// 		{
-// 			printf("key: %s\n", tmp->key);
-// 			printf("value: %s\n", tmp->value);
-// 		}
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// }
-
-
+void	print_ast(t_tree *node, int depth, char *flag)
+{
+	int i;
+	
+	i = 0;
+	if (!node)
+	{
+		printf("there is no nodes\n");
+		return ;
+	}
+	printf("\n");
+	while (i < depth)
+	{
+		printf("  ");
+		i++;
+	}
+	printf("\033[95mflag :%s \033[00m\n", flag);
+	printf("\033[95m Node type: %s\033[00m\n",
+			token_type_to_string(node->type));
+	printf("\033[95m depth: %d\033[00m\n", depth);
+	if (node->type == COMMAND)
+	{
+		char **str = node->args;
+		int j = 0;
+		if (str[j])
+		{
+			printf("command: %s\n", str[j]);
+			j++;
+		}
+		while (str[j])
+		{
+			printf("arg: |%s|\n", str[j]);
+			j++;
+		}
+	}
+	if (node->type >= REDIRECT_IN && node->type <= HEREDOC)
+		printf("file %s\n", node->file);
+	if (node->type == BRACKET)
+		printf("bracket %s\n", node->file);
+	print_ast(node->left, depth + 1, "left");
+	print_ast(node->right, depth + 1, "right");
+}

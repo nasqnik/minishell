@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/13 19:18:34 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:25:21 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,23 @@ char *expand_variables(char *str, int *pos, t_info *info)
 	result = ft_strdup("");
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
 	{
-		printf("Im here too\n");
 		if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
 			break ;
 		if (str[pov[0]] == '~')
 		{
-			result = tilda_string(info, str, pov);
+			result = tilda_string(info, str, pov, result);
 			pov[1] = pov[0];
 		}
-		if (str[pov[0]] == '$')
+		else if (str[pov[0]] == '$')
 		{
 			result = handle_variable(str, pov, result, info);
 			pov[1] = pov[0];
 		}
 		else
+		{
+			printf("hihihi\n");
 			pov[0]++;
+		}
 	}
 	if (pov[1] < pov[0])
 	{

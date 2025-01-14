@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/13 19:16:57 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:42:32 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ char	*handle_variable(char *data, int pov[2], char *result, t_info *info)
 	char	*var_value;
 	char	*tmp;
 
+	before_var = NULL;
+	tmp = NULL;
+	var_value = NULL;
 	before_var = ft_substr(data, pov[1], pov[0] - pov[1]);
 	printf("before_var: %s\n", before_var);
 	var_value = handle_var_value(data, pov, info);
 	printf("var_value: %s\n", var_value);
+	if (before_var == NULL)
+		before_var = ft_strdup("");
 	tmp = ft_strjoin(result, before_var);
 	free(result);
 	result = ft_strjoin(tmp, var_value);
@@ -32,13 +37,13 @@ char	*handle_variable(char *data, int pov[2], char *result, t_info *info)
 	return (result);
 }
 
-char *tilda_string(t_info *info, char *str, int pov[2])
+char *tilda_string(t_info *info, char *str, int pov[2], char *result)
 {
 	char *home = NULL;
 	char *sub = NULL;
-	char *result = NULL;
 	int i;
 	
+	printf("bonjour\n");
 	i = 1;
 	if (str[0] == '~' && (ft_strlen(str) == 1
 		|| (str[1] && (str[1] == '/' || str[1] == '+' || str[1] == '-'))))
@@ -59,25 +64,36 @@ char *tilda_string(t_info *info, char *str, int pov[2])
 		{
 			printf("home: %s\n", home);
 			printf("lalala\n");
-			pov[0] = i;
+			// pov[0] = i;
 			while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"' && str[pov[0]] != '$')
 				pov[0]++;
 			sub = ft_substr(str, i, pov[0] - i);
+			if (sub == NULL)
+				sub = ft_strdup("");
+			free(result);
 			result = ft_strjoin(home, sub);
 			if (sub)
 				free(sub);
-			printf("result: %s\n", result);
+			printf("result1: %s\n", result);
 			return (result);
 		}
 	}
 	pov[0]++;
+	if (pov[1] < pov[0])
+	{
+		home = ft_substr(str, pov[1], pov[0] - pov[1]);
+		sub = ft_strjoin(result, home);
+		printf("sub: %s\n", sub);
+		free(result);
+		free(home);
+		return (sub);
+	}
+	free(result);
 	return (ft_strdup("~"));
 }
 char *handle_var_value(char *data, int pov[2], t_info *info)
 {	
-	int counter;
-	counter = 1;
-	
+
 	if (data[pov[0] + 1])
 		(pov[0])++;
 	else

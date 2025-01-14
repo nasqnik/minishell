@@ -6,25 +6,24 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:28:10 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 18:19:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 13:07:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    t_info info;
-    
-    (void)av;
-	// (*env) = NULL;
-    
-    if (ac != 1)
+	t_info	info;
+
+	(void)av;
+	if (ac != 1)
 	{
-		printf("\033[31mminicat: %s:no such file or directory\033[00m\n", av[1]);
-		exit (127);
+		printf("\033[31mminicat: %s:no such file or directory\033[00m\n",
+			av[1]);
+		exit(127);
 	}
-    initialize(&info, env);
+	initialize(&info, env);
 	minishell(&info);
 	free_and_set_null(&info, 2);
 	if (close(info.stdout) != -1)

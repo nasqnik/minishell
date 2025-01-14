@@ -6,11 +6,36 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:35:25 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/02 12:28:42 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 11:48:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	check_operator_type(int flag, char cur)
+{
+	if (flag == 'o')
+	{
+		if (cur == '|')
+			return (PIPE);
+		else if (cur == '>')
+			return (REDIRECT_OUT);
+		else if (cur == '<')
+			return (REDIRECT_IN);
+	}
+	else
+	{
+		if (cur == '&')
+			return (LOGIC_AND);
+		else if (cur == '|')
+			return (LOGIC_OR);
+		else if (cur == '>')
+			return (REDIRECT_APPEND);
+		else if (cur == '<')
+			return (HEREDOC);
+	}
+	return (0);
+}
 
 t_tokens	*operators_token(char *str, t_info *info, int len)
 {
@@ -33,7 +58,8 @@ t_tokens	*operators_token(char *str, t_info *info, int len)
 	return (ft_create_token(info, len, type, str));
 }
 
-static int	find_bracket_positions(char *str, t_info *info, int *start, int *end)
+static int	find_bracket_positions(char *str, t_info *info, int *start,
+		int *end)
 {
 	int	stack;
 
@@ -79,15 +105,18 @@ t_tokens	*bracket_token(char *str, t_info *info, int len)
 
 t_tokens	*word_token(char *str, t_info *info, int len)
 {
-	char close;
+	char	close;
 
 	while (str[info->i])
 	{
-		while (str[info->i] && ft_isspace(str[info->i]) == 0 && str[info->i] != '\'' && str[info->i] != '\"'
-			&& ft_isoperator(str[info->i]) == 0 && str[info->i] != ')' && str[info->i] != '(')
+		while (str[info->i] && ft_isspace(str[info->i]) == 0
+			&& str[info->i] != '\'' && str[info->i] != '\"'
+			&& ft_isoperator(str[info->i]) == 0 && str[info->i] != ')'
+			&& str[info->i] != '(')
 			info->i++;
-		if ((str[info->i] && (ft_isoperator(str[info->i]) == 1 || str[info->i] == ')'
-			|| str[info->i] == '(' || ft_isspace(str[info->i]) == 1)) || str[info->i] == '\0')
+		if ((str[info->i] && (ft_isoperator(str[info->i]) == 1
+					|| str[info->i] == ')' || str[info->i] == '('
+					|| ft_isspace(str[info->i]) == 1)) || str[info->i] == '\0')
 			break ;
 		close = str[info->i];
 		info->i++;
@@ -97,12 +126,7 @@ t_tokens	*word_token(char *str, t_info *info, int len)
 			info->i++;
 		else
 			return (handle_error(info, "newline", 2, '\0'), NULL);
-	} 
+	}
 	len = info->i - len;
-    if (len == 0) // Ensure non-empty token
-	{
-		printf("there is somthing weird\n");
-		// return (handle_error(info, "Empty token detected", 2, '\0'), NULL);
-	}  
 	return (ft_create_token(info, len, WORD, str));
 }

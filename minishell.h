@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 20:18:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 16:41:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,75 @@ typedef struct s_info
     // // int     error_signal;
 }           t_info;
 
+//--------------------------------------main_functions-----------------------------------------//
+
+//-----------minishell.c-----------//
+void	minishell(t_info *info);
+
+//-----------initialize.c-----------//
+void	initialize(t_info *info, char **env);
+char	**ft_allocate_env(char **env);
+char	**create_non_existing_env(void);
+void	env_to_list(t_info *info, int flag);
+
+//-----------env_utils.c-----------//
+t_env *env_lstnew(char *env_var, int flag);
+void env_lstadd_back(t_env **lst, t_env *new);
+void	ft_clear_list(t_env **lst);
+
+//-----------update_envp_array.c-----------//
+void update_envp_array(t_info *info);
+
+//-----------print_error.c-----------//
+void	handle_error(t_info *info, char *msg, int what_am_i, int flag);
+void	print_the_error(t_info *info ,char *args, int flag, int fd);
+const char	*token_type_to_string(t_token_type type); //----------------------- to delete
+void	print_list(t_tokens	*list); //----------------------------------------- to delete
+void print_ast(t_tree *node, int depth, char *flag); //------------------------ to delete
+
+//-----------signals.c-----------//
+void	castom_signals(void);
+void	handle_sig(int sig);
+void	disable_echoctl(void);
+
+//-----------utils.c-----------//
+void free_and_set_null(t_info *info, int flag);
+int	ft_is(int c, char *str);
+int our_static(char *str, int set);
+
+
+//--------------------------------------parsing-----------------------------------------//
+
+//-----------parsing.c-----------//
+
+int parsing(t_info *info);
+int lexer(t_info *info, char *str);
+
+//----------rename_tokens.c-----------//
+int rename_tokens(t_info *info);
+t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int *j);
+
+//-----------token_list.c-----------//
+t_tokens	*ft_lstlast_token(t_tokens *lst);
+t_tokens	*ft_create_token(t_info *info, int len, int type, char *str);
+void	add_back_token(t_tokens **lst, t_tokens *new);
+void	ft_clear_tokens(t_tokens **token_list);
+
+//-----------token_types.c-----------//
+t_tokens	*operators_token(char *str, t_info *info, int len);
+t_tokens	*bracket_token(char *str, t_info *info, int len);
+t_tokens	*word_token(char *str, t_info *info, int len);
+
+//-----------verify_logic.c-----------//
+int print_error_from_return_value(t_info *info, int to_return, t_tokens *cursor);
+int verify_logic(t_info *info);
+
+//-----------verify_logic02.c-----------//
+int control_operators(t_tokens *cursor, int index);
+int redirection_operators(t_tokens *cursor);
+int subshell_rules(t_tokens *cursor, int flag);
+
+
 void	free_array(char **array);
 // env_list.c
 void	env_to_list(t_info *info, int flag);
@@ -136,9 +205,6 @@ void	ft_clear_tokens(t_tokens **lst);
 int parsing(t_info *info);
 int lexer(t_info *info, char *str);
 
-// token_utils.c
-// int check_brackets(char *str, t_info *info);
-int check_operator_type(int flag, char cur);
 
 // print.c
 void	handle_error(t_info *info, char *msg, int what_am_i, int flag);
@@ -268,7 +334,7 @@ void	handle_sig(int sig);
 void	disable_echoctl(void);
 void minishell(t_info *info);
 void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
-char *tilda_string(t_info *info, char *str, int pov[2]);
+char *tilda_string(t_info *info, char *str, int pov[2], char *result);
 // char	*find_path(char *command, t_info *info, int *flag);
 // whildcard
 // // wildcard
