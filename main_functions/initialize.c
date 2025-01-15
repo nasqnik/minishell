@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:32:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 13:10:57 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/15 15:44:00 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	initialize(t_info *info, char **env)
 	info->export_tmp = NULL;
 	info->stdout = dup(STDOUT_FILENO);
 	info->stdin = dup(STDIN_FILENO);
+	info->temporary = NULL;
 	if (info->stdout == -1 || info->stdin == -1)
 	{
 		perror("dup failed");

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 11:49:25 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/15 16:01:06 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	control_operators(t_tokens *cursor, int index)
 
 int	redirection_operators(t_tokens *cursor)
 {
-	if (!cursor->next || (cursor->next && ((cursor->type == HEREDOC
-					&& cursor->next->type != DELIMITER)
-				|| (cursor->next->type != FILENAME))))
+	if (!cursor->next || (cursor->next
+			&& ((cursor->type == HEREDOC && cursor->next->type != DELIMITER)
+				|| (cursor->type != HEREDOC
+					&& cursor->next->type != FILENAME))))
 		return (5);
 	return (0);
 }

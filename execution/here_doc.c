@@ -6,11 +6,35 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/08 16:57:28 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/15 16:05:25 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	read_and_expand(t_info *info, int read_from, int fd)
+{
+	char	*buffer;
+	char	*tmp;
+
+	while (1)
+	{
+		buffer = get_next_line(read_from);
+		if (!buffer)
+			break ;
+		tmp = buffer;
+		buffer = process_expansion_heredoc(buffer, info);
+		free(tmp);
+		if (*buffer == '\0')
+		{
+			tmp = ft_strdup("\n");
+			free(buffer);
+			buffer = tmp;
+		}
+		ft_putstr_fd(buffer, fd);
+		free(buffer);
+	}
+}
 
 int	here_docs_ahead(t_tree *tree)
 {
@@ -46,7 +70,6 @@ static void	read_write(char *limiter, int write_to)
 				break ;
 			}
 			new_line = ft_strjoin(line, "\n");
-			// new_line = env_expansion(new_line, env, shl); // ana, do expansions
 			write(write_to, new_line, ft_strlen(new_line));
 			free(new_line);
 			new_line = NULL;
@@ -61,7 +84,7 @@ static void	handle_heredoc_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// g_signal_caught = SIGINT;
+		our_static("exit status", 1);
 		close(STDIN_FILENO);
 	}
 }
@@ -69,12 +92,11 @@ static void	handle_heredoc_sig(int sig)
 int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
 {
 	pid_t	pid;
-	int status;
-	int	doc_pipe[2];
+	int		status;
+	int		doc_pipe[2];
 
-	// printf("limiter: %s", limiter);
 	if (pipe(doc_pipe) == -1)
-		return (1); //error pipe
+		return (1);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -82,7 +104,6 @@ int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
 		close(doc_pipe[0]);
 		return (1);
 	}
-		// (free_array(shl->env), nuke(shl, TNT), print_exit(ERR_FORK));
 	if (pid == 0)
 	{
 		signal(SIGINT, handle_heredoc_sig);
@@ -90,7 +111,7 @@ int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
 		read_write(limiter, doc_pipe[1]);
 		close(doc_pipe[0]);
 		free_and_set_null(info, 2);
-		exit (0);
+		exit(0);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
@@ -98,37 +119,28 @@ int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
 		if (WEXITSTATUS(status) == 1)
 		{
 			our_static("exit status", 1);
-			printf("\nheloooooooooooooOOOOOOO\n");
 			return (close(tree->fd), FALSE);
 		}
 	}
 	close(doc_pipe[1]);
-	// free(limiter); // fixed
-	// printf("fd doc_pipe: %d\n", doc_pipe[0]);
 	return (doc_pipe[0]);
 }
 
 int	find_docs(t_info *info, t_tree *tree)
 {
-	int		result;
+	int	result;
 
 	result = 1;
-	
 	if (!tree)
-		return (0); 
+		return (0);
 	if (tree && tree->type == HEREDOC)
 	{
 		tree->fd = ft_hdoc(info, tree->file, tree);
-		// printf("fd in find_docs: %d\n", tree->fd);
 		if (tree->left != NULL)
 			if (here_docs_ahead(tree->left) == TRUE)
 			{
-				// printf("\nthats true\n");
-				// printf("\ntree fd:%d", tree->fd);
 				close(tree->fd);
 				tree->fd = -1;
-				// printf("\ntree fd:%d", tree->fd);
-
 			}
 	}
 	if (tree->left)

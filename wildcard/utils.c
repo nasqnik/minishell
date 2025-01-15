@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/01 10:59:03 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/15 15:24:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_there_wildcard(char *str)
 {
-	int	i;
-	char close;
+	int		i;
+	char	close;
 
 	i = 0;
 	while (str[i])
@@ -36,19 +36,15 @@ int	ft_there_wildcard(char *str)
 	return (-1);
 }
 
-char	*clean_wildcard(char *data)
+static void	process_wildcards(const char *data, char *result)
 {
-	char	*result;
-	int		i;
-	int		j;
-	int		wildcard_found;
+	int	i;
+	int	j;
+	int	wildcard_found;
 
-	result = malloc(ft_strlen(data) + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
 	wildcard_found = 0;
+	j = 0;
+	i = 0;
 	while (data[i])
 	{
 		if (data[i] == '*')
@@ -67,6 +63,16 @@ char	*clean_wildcard(char *data)
 		i++;
 	}
 	result[j] = '\0';
+}
+
+char	*clean_wildcard(const char *data)
+{
+	char	*result;
+
+	result = malloc(ft_strlen(data) + 1);
+	if (!result)
+		return (NULL);
+	process_wildcards(data, result);
 	return (result);
 }
 
@@ -94,14 +100,16 @@ void	prossing_files(t_info *info, struct dirent *entry)
 	}
 }
 
-int who_many_wildcard(char *str)
+int	who_many_wildcard(char *str)
 {
-    int i = 0;
-    int count = 0;
-	char close;
+	int		i;
+	int		count;
+	char	close;
 
-    while (str[i])
-    {		
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			close = str[i];
@@ -109,9 +117,9 @@ int who_many_wildcard(char *str)
 			while (str[i] && str[i] != close)
 				i++;
 		}
-        if (str[i] == '*')
-            count++;
-        i++;
-    }
-    return (count);
+		if (str[i] == '*')
+			count++;
+		i++;
+	}
+	return (count);
 }

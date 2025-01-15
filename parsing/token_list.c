@@ -66,7 +66,7 @@ void	ft_clear_tokens(t_tokens **token_list)
 			next = current->next;
 		else
 			next = NULL;
-		if(current->data)
+		if (current->data)
 			free(current->data);
 		current->data = NULL;
 		free(current);

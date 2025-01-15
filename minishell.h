@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 16:41:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/15 16:23:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,66 @@ int control_operators(t_tokens *cursor, int index);
 int redirection_operators(t_tokens *cursor);
 int subshell_rules(t_tokens *cursor, int flag);
 
+//--------------------------------------execution-----------------------------------------//
+
+//-----------exec_logic.c-----------//
+void  execution(t_info *info, t_tree *tree);
+
+//-----------exec_pipe.c-----------//
+void execution_pipe(t_info *info, t_tree *tree);
+pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+
+//-----------exec_command.c-----------//
+void execute_command(t_info *info, t_tree *tree);
+
+//-----------exec_binary_command.c-----------//
+void	binary(t_info *info, t_tree *tree);
+int	execute_binary(t_info *info, char *command, char **args, int fd);
+
+//-----------exec_redirection.c-----------//
+void execution_redirection(t_info *info, t_tree *tree);
+void handle_redirect_in(t_info *info, t_tree *tree);
+void handle_redirect_out(t_info *info, t_tree *tree);
+void handle_redirect_append(t_info *info, t_tree *tree);
+int	get_file(int read_from, t_tree *tree, t_info *info);
+
+//-----------here_doc.c-----------//
+void read_and_expand(t_info *info, int read_from, int fd);
+int	here_docs_ahead(t_tree *tree);
+int	ft_hdoc(t_info *info, char *limiter, t_tree *tree);
+int	find_docs(t_info *info, t_tree *tree);
+
+//-----------subshell.c-----------//
+void subshell(t_info *info, t_tree *tree);
+
+//--------------------------------------wildcard-----------------------------------------//
+
+//-----------wildcard.c-----------//
+int	is_matching_quote(char *wildcard, char *file, int *wc, int i);
+int	wildcard(t_info *info, char **exp_res);
+
+//-----------matchy.c-----------//
+int	ft_matchy(char *file, char *wildcard, char *tmp_file);
+int	ft_end_with(char *str, char *end);
+int	ft_strat_with(char *str, char *start);
+int ft_mid_with(char *file, char *wildcard, int wc);
+
+//-----------mid_part.c-----------//
+int ft_mid_with(char *file, char *wildcard, int wc);
+//-----------end_part.c-----------//
+char *end_sub(char *wildcard, int *i, int *j);
+//-----------start_part.c-----------//
+char *start_sub(char *wildcard, int *i, int *j);
+
+//-----------utils.c-----------//
+int     who_many_wildcard(char *str);
+void	prossing_files(t_info *info, struct dirent *entry);
+char	*clean_wildcard(const char *data);
+int     ft_there_wildcard(char *str);
+
+//--------------------------------------wildcard-----------------------------------------//
+
 
 void	free_array(char **array);
 // env_list.c
@@ -200,29 +260,6 @@ t_tokens *ft_lstlast_token(t_tokens *lst);
 t_tokens *ft_create_token(t_info *info, int len, int type, char *str);
 void	add_back_token(t_tokens **lst, t_tokens *new);
 void	ft_clear_tokens(t_tokens **lst);
-
-// parsing.c
-int parsing(t_info *info);
-int lexer(t_info *info, char *str);
-
-
-// print.c
-void	handle_error(t_info *info, char *msg, int what_am_i, int flag);
-const char *token_type_to_string(t_token_type type);
-void	print_list(t_tokens	*list);
-void	print_the_error(t_info *info ,char *args, int flag, int fd);
-
-// void	print_after_expansions(t_info *info);
-// void open_the_shell(t_info *info);
-// void handle_calc(t_info *info);
-// void check_parenthesis(t_info *info);
-// void handle_the_input(t_info *info);
-
-
-
-// rename_tokens.c
-int rename_tokens(t_info *info);
-t_tokens	*tokens_after_redirect(t_info *info, t_tokens *cursor, int *j);
 
 // create_tree
 t_tree *create_ast_tree(t_tokens **token);
@@ -259,37 +296,9 @@ void	change_pwd_in_env(t_info *f, char *oldpwd);
 int	invalid_identifier(char *str, int flag);
 void env_sort(t_info *info, t_env *envp_list);
 
-// execution_logic
-void execution(t_info *info, t_tree *tree);
-void execution_pipe(t_info *info, t_tree *tree);
-pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2]);
-pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2]);
-void execution_redirection(t_info *info, t_tree *tree);
-void handle_redirect_in(t_info *info, t_tree *tree);
-void handle_redirect_out(t_info *info, t_tree *tree);
-void handle_redirect_append(t_info *info, t_tree *tree);
 // void	get_file(t_info *info);
 int	get_file(int read_from, t_tree *tree, t_info *info);
 
-// wildcard
-int wildcard(t_info *info, char **exp_res);
-//wildcard/utils
-int	ft_there_wildcard(char *str);
-int	who_many_wildcard(char *str);
-char	*clean_wildcard(char *data);
-void	prossing_files(t_info *info, struct dirent *entry);
-int	ft_matchy(char *file, char *wildcard);
-// // env_list.c
-// void env_to_list(t_info *info);
-// char *search_in_env(t_info *info, char *key);
-// void print_env(t_info *info, int flag);
-// void ft_clear_list(t_list **lst);
-
-
-
-// /*RIP*/
-
-// int do_op(char *str, t_info *info);
 
 void expand_command(t_info *info, t_tree *tree);
 char *process_expansion(char *arg, t_info *info);
@@ -319,59 +328,8 @@ char *substring_without_quotes(char *result, int count);
 
 void free_and_set_null(t_info *info, int flag);
 
-// verify_logic.c
-int control_operators(t_tokens *cursor, int index);
-int redirection_operators(t_tokens *cursor);
-int verify_logic(t_info *info);
-
-// subshell
-void subshell(t_info *info, t_tree *tree);
-int	find_docs(t_info *info, t_tree *tree);
-
-void	initialize(t_info *info, char **env);
-void	castom_signals(void);
-void	handle_sig(int sig);
-void	disable_echoctl(void);
-void minishell(t_info *info);
 void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
 char *tilda_string(t_info *info, char *str, int pov[2], char *result);
-// char	*find_path(char *command, t_info *info, int *flag);
-// whildcard
-// // wildcard
-// void	ft_clear_tmp(t_w_tmp **lst);
-// void	free_array(char **array);
-
-// int ft_there_wildcard(char *str);
-// int who_many_wildcard(char *str);
-// char *clean_wildcard(char *data);
-// void prossing_files(t_first *f, struct dirent *entry);
-
-// void wildcard_str(t_first *f);
-
-// t_w_tmp	*ft_data_lstnew(char *con);
-
-// // remove_spaces
-// void	remove_spaces(t_first *f);
-
-// // verify_logic
-// int verify_logic(t_first *f);
-
-
-
-
-
-// int invalid_identifier(char *str, int flag);
-
-// void print_the_error(char *args, int flag, int fd);
-// void change_pwd_in_env(t_first *f);
-// void execution(t_first *f, t_tree *tree);
-// int execute_redirections(t_first *f, int tree_type);
-// int	handle_here_doc(t_first *f);
-// int	open_file(char *filepath, char mode, t_first *f);
-// void	handle_dup2(int input_fd, int output_fd);
-
-// int str_cmp_builtin(t_first *f, char *command, char **args);
-// void	get_file(t_first *f);
 
 #include "assert.h"
 // anas was explaining from this is was great

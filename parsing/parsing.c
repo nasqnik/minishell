@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/14 13:30:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/14 17:35:52 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	parsing(t_info *info)
 	free(info->buffer);
 	info->buffer = NULL;
 	// printf("1\n");
-	// print_list(info->token_list);
+	print_list(info->token_list);
 	if (rename_tokens(info))
 		return (1);
 	// printf("2\n");
-	// print_list(info->token_list);
+	print_list(info->token_list);
 	if (verify_logic(info))
 		return (1);
 	// printf("3\n");
