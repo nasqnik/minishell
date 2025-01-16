@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_unset.c                                     :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 20:30:05 by meid              #+#    #+#             */
-/*   Updated: 2025/01/13 20:03:41 by meid             ###   ########.fr       */
+/*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
+/*   Updated: 2025/01/16 19:45:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	handle_export_error(t_info *info, char *str)
-{
-	if (invalid_identifier(str, 1))
-	{
-		print_the_error(info, str, 3, 1);
-		our_static("exit status", 1);
-		return (1);
-	}
-	return (0);
-}
 
 void	new_env(t_info *info, char *search_for, char *value, int flagoooo)
 {
@@ -53,6 +42,7 @@ void	new_env(t_info *info, char *search_for, char *value, int flagoooo)
 		env_lstadd_back(&info->envp_list, env_lstnew(the_str, 0));
 	free(the_str);
 }
+
 int	check_env_there(t_info *info, char *search_for, char *value, char flago, int flagoooo)
 {
 	(void)flago;
@@ -107,15 +97,16 @@ int	check_env_there(t_info *info, char *search_for, char *value, char flago, int
 
 int	ft_export(t_info *info, char **args, int i)
 {
-	printf("export\n");
 	char	*value;
 	int		j;
 	int		flag;
 	char	*search_for;
-	char flago;
-	int flagoooo = 0; 
-	int return_value = 0;
+	char	flago;
+	int		flagoooo;
+	int		return_value;
 
+	return_value = 0;
+	flagoooo = 0; 
 	value = NULL;
 	j = 0;
 	flag = 0;
@@ -133,7 +124,7 @@ int	ft_export(t_info *info, char **args, int i)
 		{
 			i++;
 			return_value = 1;
-			continue;
+			continue ;
 		}
 		else if (ft_strcmp(args[i], " ") != 0)
 		{
@@ -163,71 +154,6 @@ int	ft_export(t_info *info, char **args, int i)
 				flag = 1;
 			if (flag == 0)
 				new_env(info, search_for, value, flagoooo);
-		}
-		i++;
-	}
-	return (return_value);
-}
-
-void search_to_unset(t_env **env_list, char *arg)
-{
-    t_env *current = *env_list;
-    t_env *previous = NULL;
-
-    while (current != NULL)
-    {
-        if (ft_strcmp(current->key, arg) == 0)
-        {
-            if (previous == NULL)
-			{
-                *env_list = current->next;
-			}
-            else
-                previous->next = current->next;
-			if (current->env)
-			{
-				if (current->value)
-					free(current->value);
-				current->value = NULL;
-				if (current->key)
-					free(current->key);
-				current->key = NULL;
-				if (current->env)
-					free(current->env);
-				current->env = NULL;
-				if (current)
-					free(current);
-				current = NULL;
-			}
-            return;
-        }
-        previous = current;
-        current = current->next;
-    }
-}
-
-int	ft_unset(t_info *info, char **args, int i)
-{
-	t_env **tmp;
-	int fd;
-	int return_value = 0;
-
-	tmp = NULL;
-	fd = 1;
-	while (args[i])
-	{
-		if (invalid_identifier(args[i], 2))
-		{
-			print_the_error(info, args[i], 3, fd);
-			printf("our_static: %d\n", our_static("exit status", 1));
-			return_value = 1;
-			i++;
-			continue ;
-		}
-		else if (ft_strcmp(args[i], " ") != 0)
-		{
-			tmp = &info->envp_list;
-			search_to_unset(tmp, args[i]);
 		}
 		i++;
 	}

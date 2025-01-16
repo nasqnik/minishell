@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 16:23:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/16 19:42:57 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,34 @@ void	prossing_files(t_info *info, struct dirent *entry);
 char	*clean_wildcard(const char *data);
 int     ft_there_wildcard(char *str);
 
-//--------------------------------------wildcard-----------------------------------------//
+//--------------------------------------builtins-----------------------------------------//
+
+//-----------cd.c-----------//
+int	ft_cd(t_info *info, char **args, int i);
+
+//-----------exit.c-----------//
+int	ft_exit(t_info *info, char **args, int i, int j);
+
+//-----------echo_pwd_env.c-----------//
+int	ft_echo(char **args, int i);
+int	ft_pwd(void);
+int	ft_env(t_info *info, char **args, int i);
+
+//-----------export_utils.c-----------//
+int	handle_export_error(t_info *info, char *str);
+void	print_export(t_info *info);
+void	env_sort(t_info *info, t_env *envp_list);
+
+//-----------export.c-----------//
+int	ft_export(t_info *info, char **args, int i);
+
+//-----------unset.c-----------//
+int	ft_unset(t_info *info, char **args, int i);
+
+//-----------utils.c-----------//
+int	ft_meow(t_info *info, char **args, int i, int j);
+int	invalid_identifier(char *str, int flag);
+char	*search_in_env(t_info *info, char *key);
 
 
 void	free_array(char **array);
@@ -242,12 +269,6 @@ void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_clear_list(t_env **lst);
 t_env	*env_lstnew(char *env_var, int flag);
 void	env_lstadd_back(t_env **lst, t_env *new);
-
-void update_envp_array(t_info *info);
-
-//utils
-int ft_is(int c, char *str);
-int our_static(char *str, int set);
 
 // // token_types.c
 t_tokens *operators_token(char *str, t_info *info , int len);
@@ -280,21 +301,6 @@ int execute_binary(t_info *info, char *command, char **args, int fd);
 void execute_command(t_info *info, t_tree *tree);
 int	strcmp_builtin(t_info *info, char *command, char **args);
 // void	execute_binary(t_info *info, char *command, char **args, int fd);
-
-// builtins
-int ft_echo(char **args, int i);
-int ft_cd(t_info *info, char **args, int i);
-int ft_export(t_info *info, char **args, int i);
-int ft_unset(t_info *info, char **args, int i);
-int ft_env(t_info *info, char **args, int i);
-int ft_exit(t_info *info, char **args, int i, int j);
-int ft_pwd();
-int ft_meow(t_info *info, char **args, int i, int j);
-
-char	*search_in_env(t_info *info, char *key);
-void	change_pwd_in_env(t_info *f, char *oldpwd);
-int	invalid_identifier(char *str, int flag);
-void env_sort(t_info *info, t_env *envp_list);
 
 // void	get_file(t_info *info);
 int	get_file(int read_from, t_tree *tree, t_info *info);

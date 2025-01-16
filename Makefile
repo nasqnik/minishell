@@ -14,11 +14,11 @@ SRC = main_functions/env_utils.c \
 	ast_tree/clear_tree.c ast_tree/create_tree.c ast_tree/tree_command.c ast_tree/tree_redirections.c\
 	execution/exec_logic.c execution/exec_command.c execution/exec_pipe.c execution/exec_binary_command.c \
 	execution/exec_redirection.c execution/here_doc.c execution/subshell.c\
-	builtins/builtins.c builtins/export_unset.c builtins/utils.c \
 	expansions/expansions_dquotes.c expansions/expansions.c expansions/expansions_utils.c expansions/expand_command.c expansions/expand_redirection.c\
 	wildcard/wildcard.c wildcard/utils.c wildcard/matchy.c wildcard/mid_part.c wildcard/start_part.c wildcard/end_part.c \
 	main_functions/main.c main_functions/initialize.c main_functions/minishell.c main_functions/print_error.c main_functions/signals.c \
-	main_functions/update_envp_array.c main_functions/utils.c
+	main_functions/update_envp_array.c main_functions/utils.c \
+	builtins/cd.c builtins/exit.c builtins/echo_pwd_env.c builtins/export_utils.c builtins/unset.c builtins/utils.c builtins/export.c
 
 OBJ = $(SRC:.c=.o)
 
