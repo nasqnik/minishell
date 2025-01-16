@@ -6,11 +6,39 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:31 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 18:11:11 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/16 20:22:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	new_env(t_info *info, char *search_for, char *value, int flagoooo)
+{
+	char	*the_str;
+	char	*tmpo;
+
+	the_str = NULL;
+	tmpo = NULL;
+	if (flagoooo == 1)
+		tmpo = ft_strjoin(search_for, "=");
+	else
+		tmpo = ft_strdup(search_for);
+	free(search_for);
+	if (flagoooo == 1)
+	{
+		if (value)
+			the_str = ft_strjoin(tmpo, value);
+		else
+			the_str = ft_strdup(tmpo);
+	}
+	else
+		the_str = ft_strdup(tmpo);
+	if (value)
+		free(value);
+	free(tmpo);
+	env_lstadd_back(&info->envp_list, env_lstnew(the_str, flagoooo));
+	free(the_str);
+}
 
 int	handle_export_error(t_info *info, char *str)
 {

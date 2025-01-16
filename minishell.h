@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 19:42:57 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/16 20:21:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,7 @@ int	ft_env(t_info *info, char **args, int i);
 int	handle_export_error(t_info *info, char *str);
 void	print_export(t_info *info);
 void	env_sort(t_info *info, t_env *envp_list);
+void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
 
 //-----------export.c-----------//
 int	ft_export(t_info *info, char **args, int i);
