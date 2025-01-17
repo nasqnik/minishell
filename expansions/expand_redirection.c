@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:21 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/09 14:57:14 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 12:39:10 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char *expand_quotes_heredoc(char *str, int *pos, t_info *info)
 			pov[0]++;
 	}
 	if (pov[1] < pov[0])
-		result = append_remaining_data(str, pov, result);
+		result = append_remaining_data(str, pov, result, 1);
 	*pos = pov[0] + 1;
 	return (result);
 }

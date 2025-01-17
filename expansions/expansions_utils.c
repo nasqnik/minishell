@@ -6,7 +6,7 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:46:25 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/13 16:30:41 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:34:49 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ char	*get_var(char *data, int *i, t_env *envp_list)
 
 	start = *i;
 	var_name = NULL;
-	while (data[*i] && (ft_is(data[*i], "alnum") || data[*i] == '_'|| (data[start] == '$')))
+	while (data[*i] && (ft_is(data[*i], "alnum") 
+			|| data[*i] == '_'|| (data[start] == '$')))
 	{
 		if ((data[start] >= '0' && data[start] <= '9') || (data[start] == '$'))
 		{
@@ -103,8 +104,13 @@ char	*get_var_value(char *var_name, t_env *envp_list)
 	while (cursor)
 	{
 		if (!ft_strncmp(var_name, cursor->key, ft_strlen(var_name))
-			&& ft_strlen(var_name) == ft_strlen(cursor->key))
-			return (ft_strdup(cursor->value));
+			&& ft_strlen(var_name) == ft_strlen(cursor->key) && cursor->value)
+			{
+				// if (flag)
+				// 	*flag = 0;
+				return (ft_strdup(cursor->value));
+			}
+			
 		cursor = cursor->next;
 	}
 	return (ft_strdup(""));

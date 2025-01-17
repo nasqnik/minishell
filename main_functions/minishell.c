@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:27:53 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 13:06:49 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 16:36:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	minishell(t_info *info)
 		castom_signals();
 		free_and_set_null(info, 1);
 		info->buffer = readline("mini_cat😺$ ");
-		if (!info->buffer)
 		// there is condtion that i did not understand (isatty(0))
+		if (!info->buffer)
 		{
 			write(2, "exit\n", 5);
 			free_and_set_null(info, 2);
@@ -36,6 +36,7 @@ void	minishell(t_info *info)
 			info->buffer = NULL;
 			find_docs(info, info->ast_tree);
 			execution(info, info->ast_tree);
+			printf ("exit status: %d\n", our_static("exit status", -1));
 		}
 	}
 }

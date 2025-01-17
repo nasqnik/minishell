@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:10:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 17:45:45 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <termios.h>
 # include <sys/stat.h> 
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 // extern int sig;
 
@@ -140,6 +140,7 @@ int	ft_is(int c, char *str);
 int our_static(char *str, int set);
 
 //-----------initialize_utils.c-----------//
+char	*add_quotes(char *str);
 char	**ft_allocate_env(char **env);
 char	**create_non_existing_env(void);
 void	env_to_list(t_info *info, int flag);
@@ -194,9 +195,9 @@ int	execute_binary(t_info *info, char *command, char **args, int fd);
 
 //-----------exec_redirection.c-----------//
 void execution_redirection(t_info *info, t_tree *tree);
-void handle_redirect_in(t_info *info, t_tree *tree);
-void handle_redirect_out(t_info *info, t_tree *tree);
-void handle_redirect_append(t_info *info, t_tree *tree);
+int handle_redirect_in(t_info *info, t_tree *tree);
+int handle_redirect_out(t_info *info, t_tree *tree);
+int handle_redirect_append(t_info *info, t_tree *tree);
 int	get_file(int read_from, t_tree *tree, t_info *info);
 
 //-----------here_doc.c-----------//
@@ -265,6 +266,8 @@ int	invalid_identifier(char *str, int flag);
 char	*search_in_env(t_info *info, char *key);
 
 
+
+
 void	free_array(char **array);
 // env_list.c
 void	env_to_list(t_info *info, int flag);
@@ -320,7 +323,7 @@ int expand_redirection(t_info *info, t_tree *tree);
 char	*handle_variable(char *data, int pov[2], char *result, t_info *info);
 char    *handle_var_value(char *data, int pov[2], t_info *info);
 char    *handle_exit_status(char *data, int pov[2], t_info *info);
-char	*append_remaining_data(char *data, int pov[2], char *result);
+char	*append_remaining_data(char *data, int pov[2], char *result, int flag);
 char    *clean_quotes(char *result);
 
 char *process_expansion_heredoc(char *arg, t_info *info);
@@ -341,14 +344,5 @@ void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
 char *tilda_string(t_info *info, char *str, int pov[2], char *result);
 
 #include "assert.h"
-// anas was explaining from this is was great
-
-// max 100
-// 1.92×10 
-// 196
- 
-// is 42
-// 2.02×10 
-// 82
  
 #endif

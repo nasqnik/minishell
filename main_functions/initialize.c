@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:32:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:09:47 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 17:25:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	add_default_env_empty_oldpwd(t_info *info)
 			tmp->flag = 0;
 			if (tmp->value)
 				free(tmp->value);
+			tmp->value = NULL;
 		}
 		tmp = tmp->next;
 	}

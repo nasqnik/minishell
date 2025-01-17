@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:08:37 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 13:35:31 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 17:13:30 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ static int	ft_ascii_to_exitcode(t_info *info, char *str)
 		}
 		i++;
 	}
-	while (res < 0)
+	res = sign * res;
+	while ((int)res < 0)
 		res += 256;
 	if (res > 255)
 		res = res % 255;
-	return (sign * (int)res);
+	return ((int)res);
 }
 
 int	ft_exit(t_info *info, char **args, int i, int j)

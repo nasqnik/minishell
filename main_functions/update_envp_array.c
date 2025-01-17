@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:49:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 12:05:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 18:27:56 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void update_envp_array(t_info *info)
 		j = 0;
 		x = 0;
 		c_key = ft_strlen(env_cur->key);
-		c_val = ft_strlen(env_cur->value);
+		c_val = 0;
+		if (env_cur->value)
+			c_val = ft_strlen(env_cur->value);
 		new_env_array[i] = malloc((c_key + c_val + 2) * sizeof(char));
 		while (x < c_key)
 			new_env_array[i][j++] = env_cur->key[x++];

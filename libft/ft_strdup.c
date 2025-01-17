@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 10:46:31 by meid              #+#    #+#             */
-/*   Updated: 2025/01/12 13:51:18 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 14:35:06 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
-    if (!s1)
+	if (!s1)
 	{
-        return NULL;
+		return (NULL);
 	}
 	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + 1));
 	if (!str)

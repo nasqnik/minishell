@@ -6,11 +6,27 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:09:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:09:44 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 14:45:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*add_quotes(char *str)
+{
+	int		len;
+	char	*result;
+
+	len = ft_strlen(str);
+	result = (char *)malloc(len + 3);
+	if (!result)
+		return (NULL);
+	result[0] = '"';
+	ft_strcpy(result + 1, str);
+	result[len + 1] = '"';
+	result[len + 2] = '\0';
+	return (result);
+}
 
 char	**ft_allocate_env(char **env)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/14 13:25:21 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:15:31 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ char *process_expansion(char *arg, t_info *info)
 	
 	j = 0;
 	result = ft_strdup("");
-	if (!result)
-		return NULL;
+	tmp = NULL;
+	tmp1 = NULL;
+	// if (!result) // error to malloc in ft_strdup
+	// 	return NULL;
 	while (arg[j])
 	{
 		if (arg[j] == '\"')	
@@ -31,59 +33,54 @@ char *process_expansion(char *arg, t_info *info)
 		 	tmp = expand_s_quotes(arg, &j);
 		else
 			tmp = expand_variables(arg, &j, info);
+		// if (tmp == NULL) // what are we doing when it's NULL
+		// 	tmp = ft_strdup("");
 		tmp1 = result;
 		result = ft_strjoin(tmp1, tmp);
 		free(tmp1);
 		free(tmp);
 	}
-	printf("result: %s\n", result);
 	return (result);
+}
+
+char *process_var_char(char *str, int pov[2], char *result, t_info *info)
+{
+	// if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
+	// 		break ;
+    if (str[pov[0]] == '~')
+    {
+        result = tilda_string(info, str, pov, result);
+        pov[1] = pov[0];
+    }
+    else if (str[pov[0]] == '$')
+    {
+        result = handle_variable(str, pov, result, info);
+        pov[1] = pov[0];
+    }
+    else
+        pov[0]++;
+    return (result);
 }
 
 char *expand_variables(char *str, int *pos, t_info *info)
 {
 	char *result;
-	char *tmp;
-	char *tmp2;
+	// char *tmp;
+	// char *tmp2;
 	int pov[2];
 
 	pov[0] = *pos;
 	pov[1] = *pos;
+	// tmp = NULL;
+	// tmp2 = NULL;
 	result = ft_strdup("");
+	// if (!result) // error to malloc in ft_strdup
+	// 	return NULL;
+	
 	while (str[pov[0]] && str[pov[0]] != '\'' && str[pov[0]] != '\"')
-	{
-		if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
-			break ;
-		if (str[pov[0]] == '~')
-		{
-			result = tilda_string(info, str, pov, result);
-			pov[1] = pov[0];
-		}
-		else if (str[pov[0]] == '$')
-		{
-			result = handle_variable(str, pov, result, info);
-			pov[1] = pov[0];
-		}
-		else
-		{
-			printf("hihihi\n");
-			pov[0]++;
-		}
-	}
+		result = process_var_char(str, pov, result, info);
 	if (pov[1] < pov[0])
-	{
-		printf("I'm here\n");
-		tmp = ft_substr(str, pov[1], pov[0] - pov[1]);
-		tmp2 = ft_strjoin(result, tmp);
-		free(result);
-		free(tmp);
-		result = tmp2;
-	}
-	// if (*result == '\0') // fix it
-	// {
-	// 	free(result);
-	// 	result = ft_substr(str, pov[1], pov[0] - pov[1]);
-	// }
+		result = append_remaining_data(str, pov, result, 0);
 	*pos = pov[0];
 	return (result);
 }
@@ -107,7 +104,7 @@ char *expand_d_quotes(char *str, int *pos, t_info *info)
 			pov[0]++;
 	}
 	if (pov[1] < pov[0] || str[pov[0]] == '\"')
-		result = append_remaining_data(str, pov, result);
+		result = append_remaining_data(str, pov, result, 1);
 	*pos = pov[0] + 1;
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 12:05:32 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 17:25:27 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,31 @@ static void	free_function(void **one, void **two, void **three, void **four)
 
 int	set_value_and_flag(char *env_var, int flag, t_env **new, int *i)
 {
+	char	*tmp;
+
+	tmp = NULL;
 	while (env_var[(*i)] && env_var[(*i)] != '=')
 		(*i)++;
 	(*new)->key = ft_substr(env_var, 0, (*i));
 	if (!(*new)->key)
-	{
-		free_function((void **)&((*new)->env), (void **)&(*new), NULL, NULL);
-		return (1);
-	}
+		return (free_function((void **)&((*new)->env), (void **)&(*new),
+				NULL, NULL), 1);
 	if (env_var[(*i)])
 		(*i)++;
 	if (env_var[(*i)])
 	{
 		(*new)->value = ft_substr(env_var, (*i), ft_strlen(env_var) - (*i));
 		if (!(*new)->value)
-		{
-			free_function((void **)&((*new)->key), (void **)&((*new)->env),
-				(void **)&(*new), NULL);
-			return (1);
-		}
+			return (free_function((void **)&((*new)->key),
+					(void **)&((*new)->env), (void **)&(*new), NULL), 1);
+		tmp = add_quotes((*new)->value);
+		free((*new)->value);
+		(*new)->value = tmp;
 	}
 	else
 		(*new)->value = NULL;
 	(*new)->flag = flag;
-	(*new)->next = NULL;
-	return (0);
+	return ((*new)->next = NULL, 0);
 }
 
 t_env	*env_lstnew(char *env_var, int flag)
@@ -121,7 +121,8 @@ void	ft_clear_list(t_env **lst)
 		current = current->next;
 		free(tmp->env);
 		free(tmp->key);
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 	}
 	*lst = NULL;

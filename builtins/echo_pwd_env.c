@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:06:41 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 18:32:21 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 14:51:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,35 @@ int	ft_pwd(void)
 	return (0);
 }
 
+static void	print_without_first_and_last(char *str)
+{
+	int	i;
+
+	i = 1;
+	while (str[i + 1] != '\0')
+	{
+		ft_putchar_fd(str[i], 1);
+		i++;
+	}
+}
+
 int	ft_env(t_info *info, char **args, int i)
 {
-	int		fd;
 	t_env	*tmp;
 
 	if (args[i] != NULL)
 		return (handle_error(info, args[i], 0, 0), 1);
 	i = 0;
-	fd = 1;
 	tmp = info->envp_list;
 	while (tmp)
 	{
 		if (tmp->env && tmp->flag == 1)
 		{
-			ft_putstr_fd(tmp->key, fd);
-			ft_putchar_fd('=', fd);
+			ft_putstr_fd(tmp->key, 1);
+			ft_putchar_fd('=', 1);
 			if (tmp->value)
-				ft_putstr_fd(tmp->value, fd);
-			ft_putchar_fd('\n', fd);
+				print_without_first_and_last(tmp->value);
+			ft_putchar_fd('\n', 1);
 		}
 		tmp = tmp->next;
 	}

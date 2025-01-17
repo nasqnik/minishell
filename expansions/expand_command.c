@@ -6,79 +6,74 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:56 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/08 17:10:12 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:02:46 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void expand_command(t_info *info, t_tree *tree)
+static void merge_expanded_arrays(char **orig, char **wildcard, char **new_array, int i)
 {
-	int i;
-	int wildcard_flag;
-	char *result;
+	int point;
+	int j;
+	
+	point = 0;
+	while (point < i)
+	{
+		new_array[point] = ft_strdup(orig[point]);
+		point++;
+	}
+	j = 0;
+	while (wildcard && wildcard[j])
+		new_array[point++] = ft_strdup(wildcard[j++]);
+	j = i + 1;
+	while (orig[j])
+		new_array[point++] = ft_strdup(orig[j++]);
+	new_array[point] = NULL;
+}
 
-
+static void handle_wildcard(char ***args, char *result, int *i)
+{
+	int new_array_size;
 	char **wildcard_array;
 	char **new_array;
+	int wildcard_count;
+
+	wildcard_array = ft_split(result, ' ');
+	wildcard_count =  ft_arraylen(wildcard_array);
+	new_array_size = wildcard_count + ft_arraylen(*args);
+	new_array = malloc(sizeof(char *) * (new_array_size + 1));
+	// if (!new_array)
+	// free_array(wildcard_array);
+	//handle_error
+	merge_expanded_arrays(*args, wildcard_array, new_array, *i);
+	free_array(*args);
+	*args = new_array;
+	free_array(wildcard_array);
+	*i += wildcard_count;
+}
+
+void	expand_command(t_info *info, t_tree *tree)
+{
+	int	i;
+	char *result;
 
 	i = 0;
-	wildcard_flag = 0;
-	wildcard_array = NULL;
+	result = NULL;
 	while (tree->args[i])
 	{
 		result = process_expansion(tree->args[i], info);
-		wildcard_flag = wildcard(info, &result);
-		// printf("result: %s\n", result);
-		if (wildcard_flag == 0)
+		if (wildcard(info, &result) == 0)
 		{
 			result = clean_quotes(result);
 			free(tree->args[i]);
 			tree->args[i] = ft_strdup(result);
 		}
 		else
-		{
-			int wildcard_count;
-			int arg_count;
-			int new_array_size = 0;
-
-			wildcard_array = ft_split(result, ' ');
-			wildcard_count = 0;
-
-			while (wildcard_array[wildcard_count])
-				wildcard_count++;
-
-			arg_count = 0;
-			while(tree->args[arg_count])
-				arg_count++;
-
-			new_array_size = arg_count + wildcard_count;
-			new_array = malloc(sizeof(char *) * (new_array_size));
-			new_array[new_array_size - 1] = NULL;
-
-			int point;
-			point = 0;
-			while (point < i)
-			{
-				new_array[point] = ft_strdup(tree->args[point]);
-				point++;
-			}
-			int j = 0;
-
-			while (wildcard_array[j])
-				new_array[point++] = ft_strdup(wildcard_array[j++]);
-
-			j = i + 1;
-			while (tree->args[j])
-				new_array[point++] = ft_strdup(tree->args[j++]);
-			new_array[point] = NULL; 
-			free_array(tree->args);
-			tree->args = new_array;
-			free_array(wildcard_array);
-			i += wildcard_count;
-		}
-		free(result);
-		if (!tree->args[i])
+			handle_wildcard(&tree->args, result, &i);
+		if (result && *result != '\0')
+			free(result);
+		if (!tree->args[i]) 
 			return;
 		i++;
 	}

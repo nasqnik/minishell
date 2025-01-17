@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:06:14 by meid              #+#    #+#             */
-/*   Updated: 2024/12/19 09:19:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 15:39:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_strcmp_end(char *s1, char *s2)
 
 	i = ft_strlen(s1) - 1;
 	j = ft_strlen(s2) - 1;
-	
 	while (j >= 0)
 	{
 		if (i < 0 || s1[i] != s2[j])
@@ -46,15 +45,16 @@ int	ft_strcmp_end(char *s1, char *s2)
 	return (1);
 }
 
-int ft_strfind(char *str, char find)
+int	ft_strfind(char *str, char find)
 {
-    int i = 0;
+	int	i;
 
-    while(str[i])
-    {
-        if (str[i] == find)
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == find)
+			return (1);
+		i++;
+	}
+	return (0);
 }

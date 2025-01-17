@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 12:28:14 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 16:41:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	change_pwd_in_env(t_info *info, char *oldpwd)
 int	ft_cd(t_info *info, char **args)
 {
 	char	*str;
-	char	*sub;
 	char	*home;
 	char	buf[1024];
 
@@ -90,7 +89,6 @@ int	ft_cd(t_info *info, char **args)
 		return (1);
 	info->pwd = buf;
 	str = NULL;
-	sub = NULL;
 	if (!(args[1]))
 	{
 		home = search_in_env(info, "HOME");

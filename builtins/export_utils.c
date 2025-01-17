@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:31 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 20:22:01 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 14:46:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_export(t_info *info)
 		printf("declare -x ");
 		printf("%s", tmp1->key);
 		if (tmp1->flag == 1 && tmp1->value)
-			printf("=\"%s\"", tmp1->value);
+			printf("=%s", tmp1->value);
 		if (tmp1->flag == 1 && !(tmp1->value))
 			printf("=\"\"");
 		printf("\n");
