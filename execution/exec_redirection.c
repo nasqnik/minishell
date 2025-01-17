@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 16:03:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/16 20:25:22 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,52 +100,9 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 		fd = open(".tmp", O_RDONLY, 0777);
 		dup2(fd, 0);
 		close(fd);
-		unlink(".tmp"); // unlink
+		unlink(".tmp");
 		fd = -1;
 		tree->fd = -1;
 	}
 	return (0);
 }
-// {
-// 	char	*buffer;
-// 	char	*limiter;
-// 	int		file;
-
-// 	buffer = NULL;
-// 	limiter = ft_strjoin(info->ast_tree->file, "\n");
-// 	file = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-// 	if (file == -1 || limiter == NULL)
-// 	{
-// 		perror("Error opening file or allocating limiter");
-// 		free(limiter);
-// 		return ;
-// 	}
-// 	while (1)
-// 	{
-// 		write(1, "heredoc> ", 9);
-// 		buffer = get_next_line(0);
-//         if (!buffer)
-//         {
-//             perror("Error reading from stdin");
-//             break ;
-//         }
-// 		if (ft_strncmp(limiter, buffer, ft_strlen(limiter)) == 0)
-//         {
-//             free(buffer);
-//             break ;
-//         }
-// 		ft_putstr_fd(buffer, file);
-// 		free(buffer);
-// 	}
-// 	free(buffer);
-// 	free(limiter);
-// 	close(file);
-// 	file = open("here_doc", O_RDONLY);
-// 	dup2(file, STDIN_FILENO);
-//     if (unlink("here_doc") == -1)
-//         perror("Error unlinking here_doc");
-// }
-
-// start with heredoc
-// if the command is not right it should stop exe
-//

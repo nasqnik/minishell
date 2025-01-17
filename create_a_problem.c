@@ -3,7 +3,6 @@
 // Segmentation fault: 11
 int main(void)
 {
-	// printf("lol\n");
 	int *ptr = NULL;
 	*ptr = 42;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 12:09:19 by meid              #+#    #+#             */
-/*   Updated: 2024/07/15 05:51:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 11:24:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + (str[i] - 48);
+		if (sign == -1 && res >= 9223372036854775808LLU)
+			return (1);
+		if (res == __LONG_LONG_MAX__)
+			return (0);
+		if (res > __LONG_LONG_MAX__ && sign != -1)
+			return (1);
 		i++;
 	}
-	if (sign == -1 && res >= 9223372036854775808LLU)
-		return (0);
-	if (res >= __LONG_LONG_MAX__ && sign != -1)
-		return (-1);
 	return (sign * (int)res);
 }

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 20:21:44 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 14:10:15 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,6 @@ void	minishell(t_info *info);
 
 //-----------initialize.c-----------//
 void	initialize(t_info *info, char **env);
-char	**ft_allocate_env(char **env);
-char	**create_non_existing_env(void);
-void	env_to_list(t_info *info, int flag);
 
 //-----------env_utils.c-----------//
 t_env *env_lstnew(char *env_var, int flag);
@@ -142,6 +139,10 @@ void free_and_set_null(t_info *info, int flag);
 int	ft_is(int c, char *str);
 int our_static(char *str, int set);
 
+//-----------initialize_utils.c-----------//
+char	**ft_allocate_env(char **env);
+char	**create_non_existing_env(void);
+void	env_to_list(t_info *info, int flag);
 
 //--------------------------------------parsing-----------------------------------------//
 
@@ -235,10 +236,11 @@ int     ft_there_wildcard(char *str);
 //--------------------------------------builtins-----------------------------------------//
 
 //-----------cd.c-----------//
-int	ft_cd(t_info *info, char **args, int i);
+int	ft_cd(t_info *info, char **args);
 
 //-----------exit.c-----------//
 int	ft_exit(t_info *info, char **args, int i, int j);
+void	skip_and_set_sign(char **str, int *i, int *sign);
 
 //-----------echo_pwd_env.c-----------//
 int	ft_echo(char **args, int i);

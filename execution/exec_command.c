@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:48 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 16:23:33 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 12:28:34 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	strcmp_builtin(t_info *info, char *command, char **args)
 	if (ft_strcmp(command, "echo") == 0)
 		return (ft_echo(args, i));
 	if (ft_strcmp(command, "cd") == 0)
-		return (ft_cd(info, args, i));
+		return (ft_cd(info, args));
 	if (ft_strcmp(command, "pwd") == 0)
 		return (ft_pwd());
 	if (ft_strcmp(command, "export") == 0)

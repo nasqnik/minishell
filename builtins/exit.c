@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:08:37 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 19:40:21 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/17 13:35:31 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	skip_and_set_sign(char **str, int *i, int *sign)
 	}
 }
 
-int	ft_ascii_to_exitcode(t_info *info, char *str)
+static int	ft_ascii_to_exitcode(t_info *info, char *str)
 {
 	int					i;
 	int					sign;
