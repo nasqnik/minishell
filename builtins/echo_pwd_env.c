@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:06:41 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:51:42 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/19 08:54:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	ft_echo(char **args, int i)
 	}
 	while (args[i])
 	{
-		ft_putchar_fd(' ', fd);
+		if (*args[i])
+			ft_putchar_fd(' ', fd);
 		ft_putstr_fd(args[i], fd);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:45:45 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 12:23:29 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,20 @@
 # include <sys/types.h> //waitpid flags
 # include <sys/wait.h>  //wait, waitpid
 # include <termios.h>
-# include <sys/stat.h> 
+# include <sys/stat.h>
+# include <errno.h>
+#include "assert.h"
 
-// int rl_replace_line(const char *text, int clear_undo);
+// valgrind --trace-children=yes -s --suppressions=_notes/ignore_readline_leaks.txt  --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
-// extern int sig;
+int rl_replace_line(const char *text, int clear_undo);
 
 #define TRUE 1
 #define FALSE 0
+
+# ifndef ARG_MAX
+#  define ARG_MAX 262144
+# endif
 
 typedef enum e_token_type
 {
@@ -60,12 +66,6 @@ typedef struct s_tokens
 }           t_tokens;
 
 
-// typedef struct s_export
-// {
-//     char *data;
-//     struct s_tmp *next;
-// }       t_export;
-
 typedef struct s_tree
 {
     int type;
@@ -74,14 +74,14 @@ typedef struct s_tree
     int fd;
     struct s_tree *left;
     struct s_tree *right;
-    //int *level;
 }           t_tree;
+
 typedef struct s_env
 {
     char *env;
     char *key;
     char *value;
-    int     flag; // 1 there is = // 0 not there is not
+    int     flag;
     struct s_env *next;
 }       t_env;
 
@@ -98,12 +98,6 @@ typedef struct s_info
     int stdin;
     char        *temporary;
     char        *pwd;
-
-    // int			error_flag;
-    // t_w_tmp       *tmp;
-    // int			env_size;
-    // char        *last_arg;
-    // // int     error_signal;
 }           t_info;
 
 //--------------------------------------main_functions-----------------------------------------//
@@ -120,7 +114,8 @@ void env_lstadd_back(t_env **lst, t_env *new);
 void	ft_clear_list(t_env **lst);
 
 //-----------update_envp_array.c-----------//
-void update_envp_array(t_info *info);
+void	update_envp_array(t_info *info, t_env *env_cur, int counter);
+int		ft_lstsize(t_env *lst);
 
 //-----------print_error.c-----------//
 void	handle_error(t_info *info, char *msg, int what_am_i, int flag);
@@ -132,7 +127,10 @@ void print_ast(t_tree *node, int depth, char *flag); //------------------------ 
 //-----------signals.c-----------//
 void	castom_signals(void);
 void	handle_sig(int sig);
-void	disable_echoctl(void);
+void	disable_echoctl(void);//----------------------------------------------- to delete
+void    castom_ing(void);
+void    castom_dfl(void);
+void	handle_heredoc_sig(int sig);
 
 //-----------utils.c-----------//
 void free_and_set_null(t_info *info, int flag);
@@ -191,7 +189,7 @@ void execute_command(t_info *info, t_tree *tree);
 
 //-----------exec_binary_command.c-----------//
 void	binary(t_info *info, t_tree *tree);
-int	execute_binary(t_info *info, char *command, char **args, int fd);
+int	execute_binary(t_info *info, char *command, char **args);
 
 //-----------exec_redirection.c-----------//
 void execution_redirection(t_info *info, t_tree *tree);
@@ -201,13 +199,19 @@ int handle_redirect_append(t_info *info, t_tree *tree);
 int	get_file(int read_from, t_tree *tree, t_info *info);
 
 //-----------here_doc.c-----------//
-void read_and_expand(t_info *info, int read_from, int fd);
-int	here_docs_ahead(t_tree *tree);
 int	ft_hdoc(t_info *info, char *limiter, t_tree *tree);
 int	find_docs(t_info *info, t_tree *tree);
 
+//-----------here_doc02.c-----------//
+void    read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
+int	here_docs_ahead(t_tree *tree);
+
 //-----------subshell.c-----------//
 void subshell(t_info *info, t_tree *tree);
+
+//-----------utils.c-----------//
+int check_permissions(const char *file, int mode);
+void	signals_exit_statue(int status);
 
 //--------------------------------------wildcard-----------------------------------------//
 
@@ -266,83 +270,54 @@ int	invalid_identifier(char *str, int flag);
 char	*search_in_env(t_info *info, char *key);
 
 
+//--------------------------------------expansions-----------------------------------------//
 
+//-----------expand_command.c-----------//
+void	expand_command(t_info *info, t_tree *tree);
 
-void	free_array(char **array);
-// env_list.c
-void	env_to_list(t_info *info, int flag);
-void	ft_lstadd_front(t_env **lst, t_env *new);
-void	ft_clear_list(t_env **lst);
-t_env	*env_lstnew(char *env_var, int flag);
-void	env_lstadd_back(t_env **lst, t_env *new);
+//-----------expand_heredoc.c-----------//
+char *process_expansion_heredoc(char *arg, t_info *info, char **tmp_to_clean);
 
-// // token_types.c
-t_tokens *operators_token(char *str, t_info *info , int len);
-t_tokens *bracket_token(char *str, t_info *info , int len);
-t_tokens	*word_token(char *str, t_info *info, int len);
+//-----------expand_redirection.c-----------//
+int expand_redirection(t_info *info, t_tree *tree);
 
+//-----------expansions_dquotes.c-----------//
+char *handle_d_var_value(char *data, int pov[2], t_info *info);
+char	*handle_d_variable(char *data, int pov[2], char *result, t_info *info);
 
-// token_list.c
-t_tokens *ft_lstlast_token(t_tokens *lst);
-t_tokens *ft_create_token(t_info *info, int len, int type, char *str);
-void	add_back_token(t_tokens **lst, t_tokens *new);
-void	ft_clear_tokens(t_tokens **lst);
+//-----------expansions_tilde.c-----------//
+char *tilda_string(t_info *info, char *str, int pov[2], char *result);
 
-// create_tree
+//-----------expansions_utils.c-----------//
+char *append_remaining_data(char *data, int pov[2], char *result, int flag);
+char *clean_quotes(char *result);
+
+//-----------expansions_var.c-----------//
+char	*handle_variable(char *data, int pov[2], char *result, t_info *info) ;
+char *handle_var_value(char *data, int pov[2], t_info *info);
+char	*get_var(char *data, int *i, t_env *envp_list);
+char *handle_exit_status(char *data, int pov[2]);
+
+//-----------expansions.c-----------//
+char *process_expansion(char *arg, t_info *info);
+char *expand_variables(char *str, int *pos, t_info *info);
+
+//--------------------------------------ast_tree-----------------------------------------//
+
+//-----------clear_tree.c-----------//
+void ft_clear_tree(t_tree *node);
+
+//-----------create_tree.c-----------//
 t_tree *create_ast_tree(t_tokens **token);
 t_tree *create_ast_and(t_tokens **tokens);
 t_tree *create_ast_or(t_tokens **tokens);
 t_tree *create_ast_pipe(t_tokens **tokens);
-t_tree *create_ast_redirections(t_tokens **tokens);
+
+//-----------tree_command.c-----------//
 t_tree *create_ast_command(t_tokens **tokens);
-// t_tree *create_ast_heredoc(t_tokens **tokens);
-void print_ast(t_tree *node, int depth, char *flag);
 
-// clear_tree
-void ft_clear_tree(t_tree *node);
-
-// // execution
-// char	*find_path(char *command, t_first *f);
-int execute_binary(t_info *info, char *command, char **args, int fd);
-void execute_command(t_info *info, t_tree *tree);
-int	strcmp_builtin(t_info *info, char *command, char **args);
-// void	execute_binary(t_info *info, char *command, char **args, int fd);
-
-// void	get_file(t_info *info);
-int	get_file(int read_from, t_tree *tree, t_info *info);
-
-
-void expand_command(t_info *info, t_tree *tree);
-char *process_expansion(char *arg, t_info *info);
-char *expand_d_quotes(char *str, int *pos, t_info *info);
-char *expand_s_quotes(char *str, int *pos);
-char *expand_variables(char *str, int *pos, t_info *info);
-int expand_redirection(t_info *info, t_tree *tree);
-
-// expansions_dquotes.c
-char	*handle_variable(char *data, int pov[2], char *result, t_info *info);
-char    *handle_var_value(char *data, int pov[2], t_info *info);
-char    *handle_exit_status(char *data, int pov[2], t_info *info);
-char	*append_remaining_data(char *data, int pov[2], char *result, int flag);
-char    *clean_quotes(char *result);
-
-char *process_expansion_heredoc(char *arg, t_info *info);
-char *expand_quotes_heredoc(char *str, int *pos, t_info *info);
-char	*handle_variable_heredoc(char *data, int pov[2], char *result, t_info *info);
-char *expand_variables_heredoc(char *str, int *pos, t_info *info);
-
-// expansions_utils.c
-
-char	*get_var(char *data, int *i, t_env *envp_list);
-char	*get_var_value(char *var_name, t_env *envp_list);
-void count_without_quotes(char *result, int *count);
-char *substring_without_quotes(char *result, int count);
-
-void free_and_set_null(t_info *info, int flag);
-
-void	new_env(t_info *info, char *search_for, char *value, int flagoooo);
-char *tilda_string(t_info *info, char *str, int pov[2], char *result);
-
-#include "assert.h"
+//-----------tree_redirections.c-----------//
+t_tree *create_ast_redirections(t_tokens **tokens);
  
+void	free_array(char **array);
 #endif

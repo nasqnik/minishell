@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:32:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:25:23 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:51:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,9 @@ void	initialize(t_info *info, char **env)
 	info->envp_list = NULL;
 	info->i = 0;
 	info->export_tmp = NULL;
-	info->stdout = dup(STDOUT_FILENO);
-	info->stdin = dup(STDIN_FILENO);
+	info->stdout = -1;
+	info->stdin = -1;
 	info->temporary = NULL;
-	if (info->stdout == -1 || info->stdin == -1)
-	{
-		perror("dup failed");
-		exit(EXIT_FAILURE);
-	}
 	if (!info->envp_array)
 	{
 		info->envp_array = create_non_existing_env();

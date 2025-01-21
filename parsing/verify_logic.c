@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 17:36:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:14:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	print_error_from_return_value(t_info *info, int to_return, t_tokens *cursor)
 	{
 		if (cursor->next && to_return != 6)
 			return (handle_error(info, cursor->next->data, 2, '\0'), to_return);
-		return (handle_error(info, cursor->data, 2, '\0'), to_return);
+		return (handle_error(info, cursor->data, 2, '\0'), 1);
 	}
 	if (to_return == 5)
 	{
@@ -62,7 +62,7 @@ int	print_error_from_return_value(t_info *info, int to_return, t_tokens *cursor)
 	if (to_return == 3)
 		return (handle_error(info, cursor->next->data, 2, '\0'), 1);
 	if (to_return == 4)
-		return (return_four(info, cursor));
+		return (return_four(info, cursor), 1);
 	return (0);
 }
 
@@ -85,7 +85,6 @@ int	verify_logic(t_info *info)
 			to_return = subshell_rules(cursor, 1);
 		if (cursor->next && cursor->next->type == BRACKET)
 			to_return = subshell_rules(cursor, 0);
-		printf("to_return: %d\n", to_return);
 		if (print_error_from_return_value(info, to_return, cursor))
 			return (1);
 		cursor = cursor->next;

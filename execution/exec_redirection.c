@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:47:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 12:22:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	execution_redirection(t_info *info, t_tree *tree)
 {
-	int flag;
-	
+	int	flag;
+
 	flag = 0;
 	if (tree->type != HEREDOC)
 	{
@@ -35,17 +35,9 @@ void	execution_redirection(t_info *info, t_tree *tree)
 		flag = handle_redirect_append(info, tree);
 	if (tree->left && flag == 0)
 		execution(info, tree->left);
-	else
-	{
-		if (dup2(info->stdout, STDOUT_FILENO) == -1
-            || dup2(info->stdin, STDIN_FILENO) == -1)
-		{
-			perror("dup2 failed during cleanup");
-		}
-	}
 }
 
-int		handle_redirect_in(t_info *info, t_tree *tree)
+int	handle_redirect_in(t_info *info, t_tree *tree)
 {
 	int	file;
 
@@ -53,18 +45,23 @@ int		handle_redirect_in(t_info *info, t_tree *tree)
 	file = open(tree->file, O_RDONLY);
 	if (file == -1)
 	{
+		if (check_permissions(tree->file, R_OK) == -1)
+		{
+			handle_error(info, tree->file, 0, 13);
+			return (1);
+		}
 		handle_error(info, tree->file, 0, 12);
 		return (1);
 	}
 	if (dup2(file, STDIN_FILENO) == -1)
-	// {
-	// 	perror("Error duplicating file descriptor");
-	// }
+	{
+		perror("Error duplicating file descriptor");
+	}
 	close(file);
 	return (0);
 }
 
-int		handle_redirect_out(t_info *info, t_tree *tree)
+int	handle_redirect_out(t_info *info, t_tree *tree)
 {
 	int	file;
 
@@ -72,6 +69,11 @@ int		handle_redirect_out(t_info *info, t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file == -1)
 	{
+		if (check_permissions(tree->file, W_OK) == -1)
+		{
+			handle_error(info, tree->file, 0, 13);
+			return (1);
+		}
 		handle_error(info, tree->file, 0, 12);
 		return (1);
 	}
@@ -80,7 +82,7 @@ int		handle_redirect_out(t_info *info, t_tree *tree)
 	return (0);
 }
 
-int		handle_redirect_append(t_info *info, t_tree *tree)
+int	handle_redirect_append(t_info *info, t_tree *tree)
 {
 	int	file;
 
@@ -88,6 +90,11 @@ int		handle_redirect_append(t_info *info, t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file == -1)
 	{
+		if (check_permissions(tree->file, W_OK) == -1)
+		{
+			handle_error(info, tree->file, 0, 13);
+			return (1);
+		}
 		handle_error(info, tree->file, 0, 12);
 		return (1);
 	}
@@ -103,7 +110,7 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 	if (read_from != -1)
 	{
 		fd = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		read_and_expand(info, read_from, fd);
+		read_and_expand(info, read_from, fd, tree);
 		close(fd);
 		close(read_from);
 		fd = open(".tmp", O_RDONLY, 0777);

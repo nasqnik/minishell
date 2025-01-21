@@ -6,17 +6,17 @@
 /*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:46:25 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/17 14:34:49 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:27:06 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void count_without_quotes(char *result, int *count)
+static void	count_without_quotes(char *result, int *count)
 {
-	int i;
-	char close;
-	
+	int		i;
+	char	close;
+
 	i = 0;
 	while (result[i])
 	{
@@ -39,12 +39,12 @@ void count_without_quotes(char *result, int *count)
 	}
 }
 
-char *substring_without_quotes(char *result, int count)
+static char	*substring_without_quotes(char *result, int count)
 {
-	char *end_result;
-	int i;
-	char close;
-	
+	char	*end_result;
+	int		i;
+	char	close;
+
 	end_result = malloc(count + 1);
 	if (!end_result)
 		return (NULL);
@@ -57,7 +57,7 @@ char *substring_without_quotes(char *result, int count)
 			close = result[i++];
 			while (result[i] && result[i] != close)
 				end_result[count++] = result[i++];
-			if (result[i] == close) 
+			if (result[i] == close)
 				i++;
 		}
 		else
@@ -67,51 +67,28 @@ char *substring_without_quotes(char *result, int count)
 	return (end_result);
 }
 
-char	*get_var(char *data, int *i, t_env *envp_list)
+char	*append_remaining_data(char *data, int pov[2], char *result, int flag)
 {
-	char	*var_name;
-	char	*var_value;
-	int		start;
+	char	*remaining_part;
+	char	*new_result;
 
-	start = *i;
-	var_name = NULL;
-	while (data[*i] && (ft_is(data[*i], "alnum") 
-			|| data[*i] == '_'|| (data[start] == '$')))
-	{
-		if ((data[start] >= '0' && data[start] <= '9') || (data[start] == '$'))
-		{
-			(*i)++;
-			break;
-		}
-		(*i)++;
-	}
-	if (*i > start)
-	{
-		var_name = ft_substr(data, start, *i - start);
-		var_value = get_var_value(var_name, envp_list);
-		free(var_name);
-	}
-	else
-		var_value = ft_strdup("$");
-	return (var_value);
+	remaining_part = ft_substr(data, pov[1], pov[0] - pov[1] + flag);
+	if (!remaining_part)
+		remaining_part = ft_strdup("");
+	new_result = ft_strjoin(result, remaining_part);
+	free(result);
+	free(remaining_part);
+	return (new_result);
 }
 
-char	*get_var_value(char *var_name, t_env *envp_list)
+char	*clean_quotes(char *result)
 {
-	t_env	*cursor;
+	char	*end_result;
+	int		count;
 
-	cursor = envp_list;
-	while (cursor)
-	{
-		if (!ft_strncmp(var_name, cursor->key, ft_strlen(var_name))
-			&& ft_strlen(var_name) == ft_strlen(cursor->key) && cursor->value)
-			{
-				// if (flag)
-				// 	*flag = 0;
-				return (ft_strdup(cursor->value));
-			}
-			
-		cursor = cursor->next;
-	}
-	return (ft_strdup(""));
+	count = 0;
+	count_without_quotes(result, &count);
+	end_result = substring_without_quotes(result, count);
+	free(result);
+	return (end_result);
 }

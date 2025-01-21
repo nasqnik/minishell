@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:08:37 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:13:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/19 12:02:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_exit(t_info *info, char **args, int i, int j)
 	while (args[i])
 	{
 		if (i > 1)
-			return (print_the_error(info, NULL, 4, 1), 0);
+			return (print_the_error(info, NULL, 4, 2), 0);
 		while (args[i][j])
 		{
 			if (!((args[i][j] >= '0' && args[i][j] <= '9')

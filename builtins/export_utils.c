@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:31 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:46:44 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/19 12:01:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	handle_export_error(t_info *info, char *str)
 {
 	if (invalid_identifier(str, 1))
 	{
-		print_the_error(info, str, 3, 1);
+		print_the_error(info, str, 3, 2);
 		our_static("exit status", 1);
 		return (1);
 	}

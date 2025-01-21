@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:20:18 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 12:23:03 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,24 @@ static char	*find_command_path(t_info *info, char first_c, char *arg, int *flag)
 		return (arg);
 }
 
-int	execute_binary(t_info *info, char *command, char **args, int fd)
+int	execute_binary(t_info *info, char *command, char **args)
 {
 	struct stat	directory;
 	char		*command_path;
 	int			flag;
 
 	flag = 0;
+	ft_str_tolower(&args[0]);
 	command_path = find_command_path(info, command[0], args[0], &flag);
 	if (!command_path || access(command_path, X_OK) == -1)
 	{
-		ft_putstr_fd("minishell: ", fd);
-		ft_putstr_fd(args[0], fd);
 		if (flag == 1)
-			ft_putstr_fd("\033[31m: No such file or directory\033[00m", fd);
+			handle_error(info, args[0], 0, 12);
 		else
-			ft_putstr_fd("\033[31m: command not found\033[00m", fd);
-		ft_putchar_fd('\n', fd);
+			handle_error(info, args[0], 0, 14);
 		return (127);
 	}
-	update_envp_array(info);
+	update_envp_array(info, info->envp_list, ft_lstsize(info->envp_list));
 	execve(command_path, args, info->envp_array);
 	if (!stat(command_path, &directory))
 	{
@@ -78,38 +76,35 @@ int	execute_binary(t_info *info, char *command, char **args, int fd)
 	return (1);
 }
 
-static void	signals_exit_statue(int status)
+void	child_pro(t_info *info, t_tree *tree)
 {
-	char	*massage;
+	int		exit_status;
 
-	if (WIFEXITED(status))
-		our_static("exit status", WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
+	if (info->stdout != -1)
 	{
-		if (WTERMSIG(status) == SIGQUIT || WTERMSIG(status) == SIGSEGV)
-		{
-			if (WTERMSIG(status) == SIGQUIT)
-				write(2, "Quit: ", 7);
-			else
-			{
-				write(2, "Segmentation fault: ", 20);
-				massage = ft_itoa(WTERMSIG(status));
-				write(2, massage, ft_strlen(massage));
-				write(2, "\n", 1);
-			}
-			our_static("exit status", WTERMSIG(status) + 128);
-		}
+		close(info->stdout);
+		info->stdout = -1;
 	}
+	if (info->stdin != -1)
+	{
+		close(info->stdin);
+		info->stdin = -1;
+	}
+	castom_dfl();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	exit_status = execute_binary(info, tree->args[0], tree->args);
+	free_and_set_null(info, 2);
+	if (exit_status != 0)
+		exit(exit_status);
 }
 
 void	binary(t_info *info, t_tree *tree)
 {
 	int		status;
 	pid_t	pid;
-	int		exit_status;
 
-	close(info->stdin);
-	close(info->stdout);
+	castom_ing();
 	pid = fork();
 	if (pid == -1)
 	{
@@ -118,13 +113,9 @@ void	binary(t_info *info, t_tree *tree)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		exit_status = execute_binary(info, tree->args[0], tree->args, 1);
-		free_and_set_null(info, 2);
-		if (exit_status != 0)
-			exit(exit_status);
+		child_pro(info, tree);
 	}
 	waitpid(pid, &status, 0);
+	castom_signals();
 	signals_exit_statue(status);
 }

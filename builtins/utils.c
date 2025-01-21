@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 18:22:30 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/19 12:00:46 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,17 @@ int	invalid_identifier(char *str, int flag)
 
 int	ft_meow(t_info *info, char **args, int i, int j)
 {
-	int	fd;
 	int	count;
 
-	fd = 1;
 	count = 1;
 	while (args[i])
 	{
 		if (i > 1)
-			return (print_the_error(info, NULL, 4, fd), 0);
+			return (print_the_error(info, NULL, 4, 2), 0);
 		while (args[i][j])
 		{
 			if (!(args[i][j] >= '0' && args[i][j] <= '9'))
-				return (print_the_error(info, args[1], 5, fd), 0);
+				return (print_the_error(info, args[1], 5, 2), 0);
 			j++;
 		}
 		count = ft_atoi(args[i]);
@@ -77,7 +75,7 @@ int	ft_meow(t_info *info, char **args, int i, int j)
 	}
 	while (count > 0)
 	{
-		ft_putstr_fd("meow 😺\n", fd);
+		ft_putstr_fd("meow 😺\n", 2);
 		count--;
 	}
 	return (0);

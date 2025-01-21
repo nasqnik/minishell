@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expand_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:56 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/16 19:02:46 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:24:00 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void merge_expanded_arrays(char **orig, char **wildcard, char **new_array, int i)
+static void	merge_expanded_arrays(char **orig, char **wildcard,
+		char **new_array, int i)
 {
-	int point;
-	int j;
-	
+	int	point;
+	int	j;
+
 	point = 0;
 	while (point < i)
 	{
@@ -32,31 +33,31 @@ static void merge_expanded_arrays(char **orig, char **wildcard, char **new_array
 	new_array[point] = NULL;
 }
 
-static void handle_wildcard(char ***args, char *result, int *i)
+static void	handle_wildcard(char ***args, char *result, int *i)
 {
-	int new_array_size;
-	char **wildcard_array;
-	char **new_array;
-	int wildcard_count;
+	int		new_array_size;
+	char	**wildcard_array;
+	char	**new_array;
+	int		wildcard_count;
 
 	wildcard_array = ft_split(result, ' ');
-	wildcard_count =  ft_arraylen(wildcard_array);
+	wildcard_count = ft_arraylen(wildcard_array);
 	new_array_size = wildcard_count + ft_arraylen(*args);
 	new_array = malloc(sizeof(char *) * (new_array_size + 1));
-	// if (!new_array)
-	// free_array(wildcard_array);
-	//handle_error
 	merge_expanded_arrays(*args, wildcard_array, new_array, *i);
 	free_array(*args);
 	*args = new_array;
 	free_array(wildcard_array);
 	*i += wildcard_count;
 }
+	// if (!new_array)
+	// free_array(wildcard_array);
+	//handle_error // they was in the function up
 
 void	expand_command(t_info *info, t_tree *tree)
 {
-	int	i;
-	char *result;
+	int		i;
+	char	*result;
 
 	i = 0;
 	result = NULL;
@@ -73,8 +74,8 @@ void	expand_command(t_info *info, t_tree *tree)
 			handle_wildcard(&tree->args, result, &i);
 		if (result && *result != '\0')
 			free(result);
-		if (!tree->args[i]) 
-			return;
+		if (!tree->args[i])
+			return ;
 		i++;
 	}
 }

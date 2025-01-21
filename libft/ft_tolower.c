@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:13:01 by meid              #+#    #+#             */
-/*   Updated: 2024/07/15 05:57:35 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:52:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,17 @@ int	ft_tolower(int c)
 	while (c >= 'A' && c <= 'Z')
 		c += 32;
 	return (c);
+}
+
+void	ft_str_tolower(char **str)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] >= 'A' && (*str)[i] <= 'Z')
+			(*str)[i] += 32;
+		i++;
+	}
 }

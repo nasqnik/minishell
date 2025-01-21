@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:07 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 16:06:42 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/20 18:31:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	execution_pipe(t_info *info, t_tree *tree)
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(pipe_left, &status_left, 0);
+	castom_signals();
 	waitpid(pipe_right, &status_right, 0);
+	castom_signals();
 	if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
 		our_static("exit status", WEXITSTATUS(status_left));
 	else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)
@@ -42,6 +44,7 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	pid_t	pid;
 
 	(void)info;
+	castom_ing();
 	pid = fork();
 	if (pid == -1)
 	{
@@ -50,6 +53,7 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	}
 	if (pid == 0)
 	{
+		castom_dfl();
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
@@ -64,6 +68,7 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 {
 	pid_t	pid;
 
+	castom_ing();
 	pid = fork();
 	if (pid == -1)
 	{
@@ -72,6 +77,7 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	}
 	if (pid == 0)
 	{
+		castom_dfl();
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);

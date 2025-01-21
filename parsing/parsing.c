@@ -6,11 +6,9 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/14 17:35:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:14:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// echo <<HEREDOC 1<2<3 "hi"'howareyou'$USER | ejrhgb e;rojg ||erbg && en
 
 #include "../minishell.h"
 
@@ -19,29 +17,23 @@ int	parsing(t_info *info)
 	t_tokens	*tokens;
 
 	info->i = 0;
-	if (lexer(info, info->buffer))
+	if (lexer(info, info->buffer) || !info->token_list)
+	{
+		free(info->buffer);
+		info->buffer = NULL;
 		return (1);
-	if (!info->token_list)
-		return (1);
+	}
 	free(info->buffer);
 	info->buffer = NULL;
-	// printf("1\n");
-	print_list(info->token_list);
 	if (rename_tokens(info))
 		return (1);
-	// printf("2\n");
-	print_list(info->token_list);
 	if (verify_logic(info))
 		return (1);
-	// printf("3\n");
-	print_list(info->token_list);
 	tokens = info->token_list;
 	info->ast_tree = create_ast_tree(&tokens);
 	if (info->ast_tree == NULL)
 		return (handle_error(info, "creat_tree", 2, '\0'), 1);
-		// meybe we dont need that
 	ft_clear_tokens(&info->token_list);
-	print_ast(info->ast_tree, 5, "head");
 	return (0);
 }
 

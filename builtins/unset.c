@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:01:59 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 18:05:09 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/19 12:01:04 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,15 @@ void	search_to_unset(t_env **env_list, char *arg)
 int	ft_unset(t_info *info, char **args, int i)
 {
 	t_env	**tmp;
-	int		fd;
 	int		return_value;
 
 	return_value = 0;
 	tmp = NULL;
-	fd = 1;
 	while (args[i])
 	{
 		if (invalid_identifier(args[i], 2))
 		{
-			print_the_error(info, args[i], 3, fd);
+			print_the_error(info, args[i], 3, 2);
 			printf("our_static: %d\n", our_static("exit status", 1));
 			return_value = 1;
 			i++;

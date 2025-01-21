@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:28:10 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 15:53:19 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:02:48 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,5 @@ int	main(int ac, char **av, char **env)
 	initialize(&info, env);
 	minishell(&info);
 	free_and_set_null(&info, 2);
-	if (close(info.stdout) != -1)
-		printf("%d, is closed\n", info.stdout);
-	else
-		printf("i am not closed, Regards, stdout\n");
-	if (close(info.stdin) != -1)
-		printf("%d, is closed\n", info.stdin);
-	else
-		printf("i am not closed, Regards, stdin\n");
 	ft_clear_list(&(info.envp_list));
 }

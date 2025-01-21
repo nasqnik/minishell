@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 07:57:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 15:43:04 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 12:27:50 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strcpy(char *dest, const char *src);
+int		ft_str_cmd_cmp(char *s1, const char *s2);
+void	ft_str_tolower(char **str);
 // t_list	*ft_lstnew(void *content);
 // void	ft_lstadd_front(t_list **lst, t_list *new);
 // int		ft_lstsize(t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:42:37 by meid              #+#    #+#             */
-/*   Updated: 2024/07/15 05:57:44 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 11:51:55 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,17 @@ int	ft_toupper(int c)
 	while (c >= 'a' && c <= 'z')
 		c -= 32;
 	return (c);
+}
+
+void	ft_str_toupper(char **str)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] >= 'a' && (*str)[i] <= 'z')
+			(*str)[i] -= 32;
+		i++;
+	}
 }
