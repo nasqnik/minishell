@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 12:23:03 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/21 16:23:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	child_pro(t_info *info, t_tree *tree)
 	}
 	if (info->stdin != -1)
 	{
+		write(2, "closing\n", 8);
 		close(info->stdin);
 		info->stdin = -1;
 	}

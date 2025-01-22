@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 16:01:06 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/22 10:11:21 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	control_operators(t_tokens *cursor, int index)
 {
-	if (!cursor->next || (cursor->next && (cursor->next->type >= PIPE
-				&& cursor->next->type <= LOGIC_OR)))
+	if (!cursor->next || (cursor->next && ((cursor->next->type >= PIPE
+					&& cursor->next->type <= LOGIC_OR))))
 		return (1);
 	if (index == 0)
 		return (6);
@@ -48,8 +48,8 @@ int	subshell_rules(t_tokens *cursor, int flag)
 	{
 		if (cursor->type == COMMAND)
 			return (4);
-		if (!(cursor->type >= REDIRECT_IN && cursor->type <= HEREDOC))
-			return (2);
 	}
 	return (0);
 }
+		// if (!(cursor->type >= REDIRECT_IN && cursor->type <= HEREDOC))
+		// 	return (2);

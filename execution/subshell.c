@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:20:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 20:27:14 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/22 13:54:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_tree	*parsing_subshell(t_info *info)
 	new_buffer = ft_strtrim_sides(info->buffer);
 	free(info->buffer);
 	info->buffer = NULL;
+	info->i = 0;
 	if (lexer(info, new_buffer))
 		return (NULL);
 	free(new_buffer);

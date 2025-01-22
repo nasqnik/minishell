@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 12:23:29 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/22 13:48:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 // valgrind --trace-children=yes -s --suppressions=_notes/ignore_readline_leaks.txt  --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 #define TRUE 1
 #define FALSE 0
@@ -297,6 +297,11 @@ char	*handle_variable(char *data, int pov[2], char *result, t_info *info) ;
 char *handle_var_value(char *data, int pov[2], t_info *info);
 char	*get_var(char *data, int *i, t_env *envp_list);
 char *handle_exit_status(char *data, int pov[2]);
+
+//-----------expand_var_heredoc.c-----------//
+char	*handle_hd_var_value(char *data, int pov[2], t_info *info);
+char	*handle_hd_variable(char *data, int pov[2], char *result, t_info *info);
+
 
 //-----------expansions.c-----------//
 char *process_expansion(char *arg, t_info *info);

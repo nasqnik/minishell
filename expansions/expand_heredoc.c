@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:22:09 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/21 12:12:48 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/22 13:47:31 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*handle_variable_heredoc(char *data, int pov[2],
 	char	*tmp;
 
 	before_var = ft_substr(data, pov[1], pov[0] - pov[1]);
-	var_value = handle_d_var_value(data, pov, info);
+	var_value = handle_hd_var_value(data, pov, info);
 	tmp = ft_strjoin(result, before_var);
 	free(result);
 	result = ft_strjoin(tmp, var_value);
@@ -79,7 +79,7 @@ char	*expand_variables_heredoc(char *str, int *pos, t_info *info)
 			break ;
 		if (str[pov[0]] == '$')
 		{
-			result = handle_d_variable(str, pov, result, info);
+			result = handle_hd_variable(str, pov, result, info);
 			pov[1] = pov[0];
 		}
 		else

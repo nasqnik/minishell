@@ -163,3 +163,9 @@ echo "test" && || echo "error"
 
 # Command 5: Complex chaining with multiple priorities
 ((echo "First" && echo "Second") || echo "Skipped") && (echo "Final success" || echo "Final failure")
+
+cat << 1 > 2 | cat 2
+> $PWD
+> "PWD"
+> "$PWD"
+> '$PWD'

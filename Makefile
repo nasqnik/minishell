@@ -19,7 +19,7 @@ SRC = main_functions/env_utils.c \
 	main_functions/update_envp_array.c main_functions/utils.c main_functions/initialize_utils.c\
 	builtins/cd.c builtins/exit.c builtins/echo_pwd_env.c builtins/export_utils.c builtins/unset.c builtins/utils.c builtins/export.c \
 	expansions/expansions_dquotes.c expansions/expansions.c expansions/expansions_utils.c expansions/expand_command.c expansions/expand_redirection.c\
- 	expansions/expansions_tilde.c expansions/expand_heredoc.c expansions/expansions_var.c
+ 	expansions/expansions_tilde.c expansions/expand_heredoc.c expansions/expansions_var.c expansions/expand_var_heredoc.c
 
 OBJ = $(SRC:.c=.o)
 
