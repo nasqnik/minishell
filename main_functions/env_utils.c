@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 17:25:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 18:19:34 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ int	set_value_and_flag(char *env_var, int flag, t_env **new, int *i)
 			return (free_function((void **)&((*new)->key),
 					(void **)&((*new)->env), (void **)&(*new), NULL), 1);
 		tmp = add_quotes((*new)->value);
+		if (!tmp)
+		{
+			free((*new)->value);
+			return (free_function((void **)&((*new)->key),
+					(void **)&((*new)->env), (void **)&(*new), NULL), 1);
+		}
 		free((*new)->value);
 		(*new)->value = tmp;
 	}

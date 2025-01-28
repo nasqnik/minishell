@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:56 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/21 12:24:00 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 17:50:35 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	expand_command(t_info *info, t_tree *tree)
 		}
 		else
 			handle_wildcard(&tree->args, result, &i);
-		if (result && *result != '\0')
+		if (result)
 			free(result);
 		if (!tree->args[i])
 			return ;

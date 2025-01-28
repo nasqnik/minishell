@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:09:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 14:45:44 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 18:22:55 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*add_quotes(char *str)
 	len = ft_strlen(str);
 	result = (char *)malloc(len + 3);
 	if (!result)
+	{
+		printf("i am null\n");
 		return (NULL);
+	}
 	result[0] = '"';
 	ft_strcpy(result + 1, str);
 	result[len + 1] = '"';

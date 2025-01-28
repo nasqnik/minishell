@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:46:25 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/22 09:59:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 17:52:07 by anikitin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*substring_without_quotes(char *result, int count)
 	int		i;
 	char	close;
 
-	end_result = malloc(count + 1);
+	end_result = malloc(sizeof(char) * (count + 1));
 	if (!end_result)
 		return (NULL);
 	i = 0;
