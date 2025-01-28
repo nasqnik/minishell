@@ -6,31 +6,42 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
-/*   Updated: 2025/01/16 20:22:10 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 21:31:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// add free for all of the errors
+
 void	add_to_the_value(char *search_for, char *value, t_env **tmp)
 {
 	char	*tmpo;
 	char	*tmp_joined;
+	char	*without_quotes;
 
 	tmp_joined = NULL;
 	tmpo = NULL;
+	without_quotes = NULL;
 	(*tmp)->flag = 1;
 	if ((*tmp)->value)
-		tmp_joined = ft_strjoin((*tmp)->value, value);
+	{
+		without_quotes = ft_strtrim_sides((*tmp)->value);
+		tmp_joined = ft_strjoin(without_quotes, value);
+		free(without_quotes);
+		free((*tmp)->value);
+	}
 	else
 		tmp_joined = ft_strdup(value);
-	free((*tmp)->value);
 	if (value)
 		free(value);
-	(*tmp)->value = tmp_joined;
+	(*tmp)->value = add_quotes(tmp_joined);
+	if (!((*tmp)->value))
+		return ;
 	free((*tmp)->env);
 	tmpo = ft_strjoin(search_for, "=");
 	(*tmp)->env = ft_strjoin(tmpo, tmp_joined);
+	free(tmp_joined);
 	free(tmpo);
 }
 

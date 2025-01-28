@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 17:51:41 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:12:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ int	here_docs_ahead(t_tree *tree);
 
 //-----------subshell.c-----------//
 void subshell(t_info *info, t_tree *tree);
+char	*ft_strtrim_sides(char *str);
 
 //-----------utils.c-----------//
 int check_permissions(const char *file, int mode);

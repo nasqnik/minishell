@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 16:41:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/28 21:15:46 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,17 @@ int	ft_cd(t_info *info, char **args)
 	{
 		home = search_in_env(info, "HOME");
 		if (home)
-			str = ft_strdup(home);
+			str = ft_strtrim_sides(home);
 		else
 			return (handle_error(info, NULL, 0, 11), 1);
 	}
 	else
-		str = args[1];
+		str = ft_strdup(args[1]);
 	if (chdir(str))
+	{
+		free(str);
 		return (handle_error(info, str, 0, 0), 1);
+	}
+	free(str);
 	return (change_pwd_in_env(info, buf), 0);
 }

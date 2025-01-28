@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 18:19:34 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:43:09 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ t_env	*env_lstnew(char *env_var, int flag)
 		return (NULL);
 	}
 	if (set_value_and_flag(env_var, flag, &new, &i))
+	{
+		free_function((void **)&new->env, (void **)&new, NULL, NULL);
 		return (NULL);
+	}
 	return (new);
 }
 
