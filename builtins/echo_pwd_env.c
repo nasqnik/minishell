@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:06:41 by meid              #+#    #+#             */
-/*   Updated: 2025/01/19 08:54:19 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/29 20:23:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,25 @@ void	check_new_line(char **args, int *i, int *j, int *line_flag)
 int	ft_echo(char **args, int i)
 {
 	int	line_flag;
-	int	fd;
 	int	j;
 
 	line_flag = 0;
-	fd = 1;
 	j = 2;
 	check_new_line(args, &i, &j, &line_flag);
 	if (args[i])
 	{
-		ft_putstr_fd(args[i], fd);
+		printf("%s", args[i]);
 		i++;
 	}
 	while (args[i])
 	{
 		if (*args[i])
-			ft_putchar_fd(' ', fd);
-		ft_putstr_fd(args[i], fd);
+			printf(" ");
+		printf("%s", args[i]);
 		i++;
 	}
 	if (line_flag == 0)
-		ft_putstr_fd("\n", fd);
+		printf("\n");
 	return (0);
 }
 

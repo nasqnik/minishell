@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 21:15:46 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/29 17:14:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ int	ft_cd(t_info *info, char **args)
 	else
 		str = ft_strdup(args[1]);
 	if (chdir(str))
-	{
-		free(str);
-		return (handle_error(info, str, 0, 0), 1);
-	}
+		return (handle_error(info, str, 0, 0), free(str), 1);
 	free(str);
 	return (change_pwd_in_env(info, buf), 0);
 }
