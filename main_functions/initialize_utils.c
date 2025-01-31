@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:09:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 19:46:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 13:15:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ char	*add_quotes(char *str)
 	len = ft_strlen(str);
 	result = (char *)malloc(len + 3);
 	if (!result)
-	{
-		// printf("i am null\n");
 		return (NULL);
-	}
 	result[0] = '"';
 	ft_strcpy(result + 1, str);
 	result[len + 1] = '"';

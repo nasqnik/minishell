@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:28:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 12:14:05 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 13:16:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("i dot a c signal\n");
 		write(2, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

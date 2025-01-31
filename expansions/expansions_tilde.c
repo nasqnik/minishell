@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_tilde.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anikitin <anikitin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:37:41 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/17 19:26:26 by anikitin         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:02:19 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static char	*sub_after_tilde(char *str, int pov[2], int i)
 		&& str[pov[0]] != '$')
 		pov[0]++;
 	sub = ft_substr(str, i, pov[0] - i);
-	printf("sub: %s\n", sub);
-	printf("i: %c\n", str[i]);
 	if (!sub)
 		sub = ft_strdup("");
 	return (sub);
@@ -84,7 +82,6 @@ static char	*get_home(t_info *info, char *str, int *i)
 	if ((str[1] == '+' || str[1] == '-')
 		&& (str[2] == '\0' || str[2] == '/'))
 	{
-		printf("i in get_home: %c\n", str[*i]);
 		if (str[1] == '+')
 			home = search_in_env(info, "PWD");
 		else

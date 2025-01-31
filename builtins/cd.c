@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/01/29 17:14:12 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 13:05:36 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,33 @@ void	change_pwd_in_env(t_info *info, char *oldpwd)
 int	ft_cd(t_info *info, char **args)
 {
 	char	*str;
-	char	*home;
+	char	*env_search;
 	char	buf[1024];
 
-	home = NULL;
+	env_search = NULL;
 	if (getcwd(buf, sizeof(buf)) == NULL)
 		return (1);
 	info->pwd = buf;
 	str = NULL;
 	if (!(args[1]))
 	{
-		home = search_in_env(info, "HOME");
-		if (home)
-			str = ft_strtrim_sides(home);
+		env_search = search_in_env(info, "HOME");
+		if (env_search)
+			str = ft_strtrim_sides(env_search);
 		else
 			return (handle_error(info, NULL, 0, 11), 1);
+	}
+	else if (args[1] && args[1][0] == '\0')
+		return (0);
+	else if (args[1] && args[1][0] == '-')
+	{
+		env_search = search_in_env(info, "OLDPWD");
+		if (env_search)
+			str = ft_strtrim_sides(env_search);
+		else if (args[1][1] != '\0')
+			return (handle_error(info, args[1], 0, 15), 1);
+		else
+			return (handle_error(info, NULL, 0, 16), 1);
 	}
 	else
 		str = ft_strdup(args[1]);

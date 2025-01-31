@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:08:37 by meid              #+#    #+#             */
-/*   Updated: 2025/01/19 12:02:01 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 14:02:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ static int	ft_ascii_to_exitcode(t_info *info, char *str)
 {
 	int					i;
 	int					sign;
-	unsigned long long	res;
+	size_t	res;
+	int j;
 
+	j = 0; 
 	i = 0;
 	sign = 1;
 	res = 0;
@@ -38,19 +40,29 @@ static int	ft_ascii_to_exitcode(t_info *info, char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + (str[i] - 48);
-		if ((sign == 1 && res > 9223372036854775808ULL)
-			|| (sign != -1 && res > 9223372036854775807ULL))
+		if ((sign == 1 && res > 9223372036854775807)
+			|| (sign != -1 && res > 9223372036854775807))
 		{
 			handle_error(info, str, 0, 5);
 			return (255);
 		}
 		i++;
 	}
-	res = sign * res;
+	printf("res m: %zu\n", res);
+	printf("sign: %d\n", sign);
+	res *= sign;
+	printf("res k: %zu\n", res);
 	while ((int)res < 0)
+	{
+			printf("res: %zu\n", res);
 		res += 256;
+		j++;
+	}
+	printf("res: %zu\n", res);
 	if (res > 255)
 		res = res % 255;
+	printf("res: %zu\n", res);
+	printf("res: %d\n", (int)res);
 	return ((int)res);
 }
 
@@ -79,5 +91,6 @@ int	ft_exit(t_info *info, char **args, int i, int j)
 		i++;
 	}
 	free_and_set_null(info, 2);
+	printf("exit: %d\n", exit_code);
 	exit(exit_code);
 }

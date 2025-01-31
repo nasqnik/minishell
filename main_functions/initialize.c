@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:32:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 11:51:37 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 12:56:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_ato_shlvl(char *str)
 	if ((sign == 1 && res > 9223372036854775807ULL)
 		|| (sign == -1 && res > 9223372036854775808ULL))
 		return (ft_strdup("1"));
-	return (ft_strdup(ft_itoa(sign * (int)res)));
+	return (add_quotes(ft_itoa(sign * (int)res)));
 }
 
 char	*shlvl_value(char *value)
@@ -48,7 +48,7 @@ char	*shlvl_value(char *value)
 	{
 		if (!((value[i] >= '0' && value[i] <= '9')
 				|| (value[0] == '-') || (value[0] == '+')))
-			return (ft_strdup("1"));
+			return (ft_strdup("\"1\""));
 		i++;
 	}
 	return (ft_ato_shlvl(value));
@@ -67,7 +67,7 @@ void	shlvl(t_info *info)
 		{
 			tmp->flag = 1;
 			if (!(tmp->value))
-				tmp->value = ft_strdup("1");
+				tmp->value = ft_strdup("\"1\"");
 			else
 			{
 				tmp_str = shlvl_value(tmp->value);
@@ -78,7 +78,7 @@ void	shlvl(t_info *info)
 		tmp = tmp->next;
 	}
 	if (search_in_env(info, "SHLVL") == NULL)
-		new_env(info, ft_strdup("SHLVL"), ft_strdup("1"), 1);
+		new_env(info, ft_strdup("SHLVL"), ft_strdup("\"1\""), 1);
 }
 
 void	add_default_env_empty_oldpwd(t_info *info)

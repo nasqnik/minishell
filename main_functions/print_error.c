@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 20:04:31 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 13:01:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	print_after_arg(t_info *info, int flag, int fd)
 		ft_putstr_fd("\033[31m: Permission denied\033[00m", fd);
 	if (flag == 14)
 		ft_putstr_fd("\033[31m: command not found\033[00m", fd);
+	if (flag == 15)
+		ft_putstr_fd("\033[31m: invalid option\033[00m", fd);
+	if (flag == 16)
+		ft_putstr_fd("\033[31mOLDPWD not set\033[00m", fd);
 	if (flag != 100)
 		ft_putchar_fd('\n', fd);
 }
@@ -57,7 +61,7 @@ void	print_the_error(t_info *info, char *args, int flag, int fd)
 {
 	(void)info;
 	ft_putstr_fd("\033[31mminicat: \033[00m", fd);
-	if (flag == 0 || flag == 11)
+	if (flag == 0 || flag == 11 || flag == 15 || flag == 16)
 		ft_putstr_fd("\033[31mcd: \033[00m", fd);
 	if (flag == 10)
 		ft_putstr_fd("\033[31menv: \033[00m", fd);

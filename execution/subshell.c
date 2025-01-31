@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:20:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/22 13:54:20 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 13:15:43 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ t_tree	*parsing_subshell(t_info *info)
 	if (rename_tokens(info))
 		return (NULL);
 	if (verify_logic(info))
-	{
-		printf("the error inside the subshell");
 		return (NULL);
-	}
 	tokens = info->token_list;
 	subshell = create_ast_tree(&tokens);
 	if (info->ast_tree == NULL)
