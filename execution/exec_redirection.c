@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 15:59:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 20:23:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,17 @@ int	handle_redirect_in(t_info *info, t_tree *tree)
 	int	file;
 
 	(void)info;
+	file = 0;
+	if (access(tree->file, F_OK) == -1)
+	{
+		handle_error(info, tree->file, 0, 12);
+		return (1);
+	}
 	file = open(tree->file, O_RDONLY);
 	if (file == -1)
 	{
-		if (check_permissions(tree->file, R_OK) == -1)
-		{
-			handle_error(info, tree->file, 0, 13);
-			return (1);
-		}
+		if (access(tree->file, R_OK) == -1)
+			return (handle_error(info, tree->file, 0, 13), 1);
 		handle_error(info, tree->file, 0, 12);
 		return (1);
 	}
@@ -69,7 +72,7 @@ int	handle_redirect_out(t_info *info, t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file == -1)
 	{
-		if (check_permissions(tree->file, W_OK) == -1)
+		if (access(tree->file, W_OK) == -1)
 		{
 			handle_error(info, tree->file, 0, 13);
 			return (1);
@@ -90,7 +93,7 @@ int	handle_redirect_append(t_info *info, t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file == -1)
 	{
-		if (check_permissions(tree->file, W_OK) == -1)
+		if (access(tree->file, W_OK) == -1)
 		{
 			handle_error(info, tree->file, 0, 13);
 			return (1);
@@ -107,8 +110,10 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 {
 	int	fd;
 
+	printf("here doc1\n");
 	if (read_from != -1)
 	{
+		printf("here doc: 2\n");
 		fd = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		read_and_expand(info, read_from, fd, tree);
 		close(fd);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 13:05:36 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 19:49:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_pwd(t_info *info, char *buf, int *flago)
 			if (tmp->value)
 				free(tmp->value);
 			tmp->flag = 1;
-			tmp->value = ft_strdup(buf);
+			tmp->value = add_quotes(buf);
 			break ;
 		}
 		tmp = tmp->next;
@@ -50,7 +50,7 @@ void	set_oldpwd(t_info *info, char *oldpwd, int pwd_is_not_there)
 			tmp->flag = 1;
 			if (tmp->value)
 				free(tmp->value);
-			tmp->value = ft_strdup(oldpwd);
+			tmp->value = add_quotes(oldpwd);
 			break ;
 		}
 		tmp = tmp->next;
@@ -108,6 +108,8 @@ int	ft_cd(t_info *info, char **args)
 			return (handle_error(info, args[1], 0, 15), 1);
 		else
 			return (handle_error(info, NULL, 0, 16), 1);
+		if (str)
+			printf("%s\n", str);
 	}
 	else
 		str = ft_strdup(args[1]);

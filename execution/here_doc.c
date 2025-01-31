@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/21 12:20:57 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 21:12:34 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,13 @@ int	find_docs(t_info *info, t_tree *tree)
 		return (0);
 	if (tree && tree->type == HEREDOC)
 	{
+		// printf("lol");
 		tree->fd = ft_hdoc(info, tree->file, tree);
 		if (tree->left != NULL)
 		{
 			if (here_docs_ahead(tree->left) == TRUE)
 			{
+				// printf("(close)\n");
 				close(tree->fd);
 				tree->fd = -1;
 			}

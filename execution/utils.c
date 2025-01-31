@@ -6,27 +6,21 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 09:22:31 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 12:23:11 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 19:31:10 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_permissions(const char *file, int mode)
-{
-	struct stat	file_stat;
+// int	check_permissions(const char *file, int mode)
+// {
+// 	int	fd;
 
-	if (stat(file, &file_stat) == -1)
-	{
-		perror("stat error");
-		return (-1);
-	}
-	if (mode == R_OK && !(file_stat.st_mode & S_IRUSR))
-		return (-1);
-	if (mode == W_OK && !(file_stat.st_mode & S_IWUSR))
-		return (-1);
-	return (0);
-}
+// 	fd = 0;
+// 	if (mode == 'R' && access(file, R_OK) == -1)
+// 		// error
+	
+// }
 
 void	signals_exit_statue(int status)
 {

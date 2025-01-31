@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/01/20 18:56:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 20:49:17 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	execution(t_info *info, t_tree *tree)
 {
 	if (!info->ast_tree || !tree)
 		return ;
+	printf("%s\n",token_type_to_string(tree->type));
 	if (tree->type == LOGIC_AND)
 	{
 		execution(info, tree->left);

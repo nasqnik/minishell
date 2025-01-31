@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/01/29 17:25:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 19:14:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	execute_binary(t_info *info, char *command, char **args)
 	command_path = find_command_path(info, command[0], args[0], &flag);
 	if (!command_path || access(command_path, X_OK) == -1)
 	{
-		if (flag == 1)
+		if (flag == 0 && (command[0] == '/' || (command[0] == '.'
+					&& command[1] == '/')))
 			handle_error(info, args[0], 0, 12);
 		else
 			handle_error(info, args[0], 0, 14);
@@ -68,6 +69,8 @@ int	execute_binary(t_info *info, char *command, char **args)
 	}
 	update_envp_array(info, info->envp_list, ft_lstsize(info->envp_list));
 	execve(command_path, args, info->envp_array);
+	if (command[0] == '.' && command[1] == '\0')
+		return (handle_error(info, args[0], 0, 17), 2);
 	if (!stat(command_path, &directory))
 	{
 		handle_error(info, command_path, 0, 6);

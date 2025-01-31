@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/21 12:11:46 by meid             ###   ########.fr       */
+/*   Updated: 2025/01/31 21:11:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,11 @@ void	read_and_expand(t_info *info, int read_from, int fd, t_tree *tree)
 
 int	here_docs_ahead(t_tree *tree)
 {
-	int	result;
-
-	result = FALSE;
+	if (!tree)
+		return (FALSE);
+	// print_ast(&tree, 5, "head");
 	if (tree->type == HEREDOC)
-		result = TRUE;
-	if (tree->left != NULL)
-		result = here_docs_ahead(tree->left);
-	if (!result)
-		if (tree->right != NULL)
-			result = here_docs_ahead(tree->right);
-	return (result);
+		return (TRUE);
+	return (here_docs_ahead(tree->left) || here_docs_ahead(tree->right));
 }
+
