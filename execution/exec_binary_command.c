@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 19:14:20 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:17:33 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ int	execute_binary(t_info *info, char *command, char **args)
 	if (command[0] == '.' && command[1] == '\0')
 		return (handle_error(info, args[0], 0, 17), 2);
 	if (!stat(command_path, &directory))
-	{
-		handle_error(info, command_path, 0, 6);
-		return (126);
-	}
+		return (handle_error(info, command_path, 0, 6), 126);
 	return (1);
 }
 

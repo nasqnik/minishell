@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_02.c                                      :+:      :+:    :+:   */
+/*   here_doc04.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/31 21:11:47 by meid             ###   ########.fr       */
+/*   Created: 2025/02/03 08:41:30 by meid              #+#    #+#             */
+/*   Updated: 2025/02/03 09:08:02 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ void	read_and_expand(t_info *info, int read_from, int fd, t_tree *tree)
 	}
 }
 
-int	here_docs_ahead(t_tree *tree)
+int	here_docs_ahead(t_tokens *list)
 {
-	if (!tree)
-		return (FALSE);
-	// print_ast(&tree, 5, "head");
-	if (tree->type == HEREDOC)
-		return (TRUE);
-	return (here_docs_ahead(tree->left) || here_docs_ahead(tree->right));
+	while (list)
+	{
+		if (list->type == LOGIC_AND || list->type == LOGIC_OR)
+			return (0);
+		if (list->type == HEREDOC)
+			return (1);
+		list = list->next;
+	}
+	return (0);
 }
-

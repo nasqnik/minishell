@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 19:43:09 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:16:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,41 @@ static void	free_function(void **one, void **two, void **three, void **four)
 	}
 }
 
-int	set_value_and_flag(char *env_var, int flag, t_env **new, int *i)
+int	set_new_var(t_env **new, char *env_var, int *i)
 {
 	char	*tmp;
 
-	tmp = NULL;
+	(*new)->value = ft_substr(env_var, (*i), ft_strlen(env_var) - (*i));
+	if (!(*new)->value)
+		return (free_function((void **)&((*new)->key),
+				(void **)&((*new)->env), (void **)&(*new), NULL), 1);
+	tmp = add_quotes((*new)->value);
+	if (!tmp)
+	{
+		free((*new)->value);
+		return (free_function((void **)&((*new)->key),
+				(void **)&((*new)->env),
+				(void **)&(*new), NULL), 1);
+	}
+	free((*new)->value);
+	(*new)->value = tmp;
+	return (0);
+}
+
+int	set_value_and_flag(char *env_var, int flag, t_env **new, int *i)
+{
 	while (env_var[(*i)] && env_var[(*i)] != '=')
 		(*i)++;
 	(*new)->key = ft_substr(env_var, 0, (*i));
 	if (!(*new)->key)
-		return (free_function((void **)&((*new)->env), (void **)&(*new),
-				NULL, NULL), 1);
+		return (free_function((void **)&((*new)->env), (void **)&(*new), NULL,
+				NULL), 1);
 	if (env_var[(*i)])
 		(*i)++;
 	if (env_var[(*i)])
 	{
-		(*new)->value = ft_substr(env_var, (*i), ft_strlen(env_var) - (*i));
-		if (!(*new)->value)
-			return (free_function((void **)&((*new)->key),
-					(void **)&((*new)->env), (void **)&(*new), NULL), 1);
-		tmp = add_quotes((*new)->value);
-		if (!tmp)
-		{
-			free((*new)->value);
-			return (free_function((void **)&((*new)->key),
-					(void **)&((*new)->env), (void **)&(*new), NULL), 1);
-		}
-		free((*new)->value);
-		(*new)->value = tmp;
+		if (set_new_var(new, env_var, i))
+			return (1);
 	}
 	else
 		(*new)->value = NULL;
@@ -114,25 +121,4 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 	while (last->next)
 		last = last->next;
 	last->next = new;
-}
-
-void	ft_clear_list(t_env **lst)
-{
-	t_env	*current;
-	t_env	*tmp;
-
-	if (!lst)
-		return ;
-	current = *lst;
-	while (current != NULL)
-	{
-		tmp = current;
-		current = current->next;
-		free(tmp->env);
-		free(tmp->key);
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
-	}
-	*lst = NULL;
 }

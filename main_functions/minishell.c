@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:27:53 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 20:49:22 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 09:19:11 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	minishell(t_info *info)
 			}
 			free(info->buffer);
 			info->buffer = NULL;
-			find_docs(info, info->ast_tree);
 			execution(info, info->ast_tree);
 			dup_and_close(info);
 		}

@@ -35,6 +35,7 @@ t_tokens	*ft_create_token(t_info *info, int len, int type, char *str)
 		new->data = ft_substr(str, info->i - len, token_len);
 		new->type = type;
 		new->next = NULL;
+		new->fd = -1;
 	}
 	return (new);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   here_doc03.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/31 21:12:34 by meid             ###   ########.fr       */
+/*   Created: 2025/02/03 08:25:36 by meid              #+#    #+#             */
+/*   Updated: 2025/02/03 09:50:47 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	read_loop(char *line, char	*stop, int write_to, char *limiter)
+static void	read_loop(char *line, char *stop, int write_to, char *limiter)
 {
 	char	*new_line;
 
@@ -62,7 +62,8 @@ static void	read_write(char *limiter, int write_to)
 	close(write_to);
 }
 
-int	fork_here_doc(t_info *info, pid_t *pid, int doc_pipe[2], char *limiter)
+static int	fork_here_doc(t_info *info, pid_t *pid, int doc_pipe[2],
+		char *limiter)
 {
 	(*pid) = fork();
 	if ((*pid) == -1)
@@ -83,7 +84,7 @@ int	fork_here_doc(t_info *info, pid_t *pid, int doc_pipe[2], char *limiter)
 	return (0);
 }
 
-int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
+static int	handle_one_heredoc(t_info *info, char *limiter, t_tokens *list)
 {
 	pid_t	pid;
 	int		status;
@@ -101,37 +102,31 @@ int	ft_hdoc(t_info *info, char *limiter, t_tree *tree)
 		if (WEXITSTATUS(status) == 1)
 		{
 			our_static("exit status", 1);
-			return (close(tree->fd), FALSE);
+			return (close(list->fd), FALSE);
 		}
 	}
 	close(doc_pipe[1]);
 	return (doc_pipe[0]);
 }
 
-int	find_docs(t_info *info, t_tree *tree)
+void	here_doc(t_info *info, t_tokens *list)
 {
-	int	result;
+	t_tokens	*tmp;
 
-	result = 1;
-	if (!tree)
-		return (0);
-	if (tree && tree->type == HEREDOC)
+	tmp = list;
+	while (tmp)
 	{
-		// printf("lol");
-		tree->fd = ft_hdoc(info, tree->file, tree);
-		if (tree->left != NULL)
+		if (tmp && tmp->next && tmp->type == HEREDOC
+			&& tmp->next->type == DELIMITER)
 		{
-			if (here_docs_ahead(tree->left) == TRUE)
+			tmp->fd = handle_one_heredoc(info, tmp->next->data, tmp);
+			if (tmp->next->next && here_docs_ahead(tmp->next->next))
 			{
-				// printf("(close)\n");
-				close(tree->fd);
-				tree->fd = -1;
+				printf("close\n");
+				close(tmp->fd);
+				tmp->fd = -1;
 			}
 		}
+		tmp = tmp->next;
 	}
-	if (tree->left)
-		result = find_docs(info, tree->left);
-	if (tree->right)
-		result = find_docs(info, tree->right);
-	return (result);
 }

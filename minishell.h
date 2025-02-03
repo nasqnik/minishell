@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 21:12:26 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:16:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 // valgrind --trace-children=yes -s --suppressions=_notes/ignore_readline_leaks.txt  --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
-int rl_replace_line(const char *text, int clear_undo);
+// int rl_replace_line(const char *text, int clear_undo);
 
 #define TRUE 1
 #define FALSE 0
@@ -62,6 +62,7 @@ typedef struct s_tokens
 {
     char *data;
     int type;
+    int fd;
     struct s_tokens *next;    
 }           t_tokens;
 
@@ -111,7 +112,6 @@ void	initialize(t_info *info, char **env);
 //-----------env_utils.c-----------//
 t_env *env_lstnew(char *env_var, int flag);
 void env_lstadd_back(t_env **lst, t_env *new);
-void	ft_clear_list(t_env **lst);
 
 //-----------update_envp_array.c-----------//
 void	update_envp_array(t_info *info, t_env *env_cur, int counter);
@@ -142,6 +142,7 @@ char	*add_quotes(char *str);
 char	**ft_allocate_env(char **env);
 char	**create_non_existing_env(void);
 void	env_to_list(t_info *info, int flag);
+void	ft_clear_list(t_env **lst);
 
 //--------------------------------------parsing-----------------------------------------//
 
@@ -198,13 +199,19 @@ int handle_redirect_out(t_info *info, t_tree *tree);
 int handle_redirect_append(t_info *info, t_tree *tree);
 int	get_file(int read_from, t_tree *tree, t_info *info);
 
-//-----------here_doc.c-----------//
-int	ft_hdoc(t_info *info, char *limiter, t_tree *tree);
-int	find_docs(t_info *info, t_tree *tree);
+//-----------here_doc03.c-----------//
+void	here_doc(t_info *info, t_tokens *list);
 
-//-----------here_doc02.c-----------//
-void    read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
-int	here_docs_ahead(t_tree *tree);
+//-----------here_doc04.c-----------//
+void	read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
+int	here_docs_ahead(t_tokens *list);
+//-----------here_doc.c-----------//
+// int	ft_hdoc(t_info *info, char *limiter, t_tree *tree);
+// int	find_docs(t_info *info, t_tree *tree);
+
+// //-----------here_doc02.c-----------//
+// void    read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
+// int	here_docs_ahead(t_tree *tree);
 
 //-----------subshell.c-----------//
 void subshell(t_info *info, t_tree *tree);

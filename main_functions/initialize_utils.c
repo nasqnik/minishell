@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:09:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 13:15:54 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:14:57 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,25 @@ void	env_to_list(t_info *info, int flag)
 		env_lstadd_back(&info->envp_list, new_node);
 		k++;
 	}
+}
+
+void	ft_clear_list(t_env **lst)
+{
+	t_env	*current;
+	t_env	*tmp;
+
+	if (!lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		tmp = current;
+		current = current->next;
+		free(tmp->env);
+		free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+	}
+	*lst = NULL;
 }

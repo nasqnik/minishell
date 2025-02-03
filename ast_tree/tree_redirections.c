@@ -6,13 +6,12 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:59:07 by meid              #+#    #+#             */
-/*   Updated: 2025/01/17 16:19:10 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 09:12:25 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// cheackkkkkk the return heeeeear
 void	create_node_redir(t_tree **node, t_tokens **tokens, int *flag)
 {
 	(*flag) = 1;
@@ -21,6 +20,7 @@ void	create_node_redir(t_tree **node, t_tokens **tokens, int *flag)
 		return ;
 	(*node)->type = (*tokens)->type;
 	(*node)->args = NULL;
+	(*node)->fd = (*tokens)->fd;
 	*tokens = (*tokens)->next;
 	if (*tokens && ((*tokens)->type == FILENAME
 			|| (*tokens)->type == DELIMITER))
@@ -45,7 +45,6 @@ void	skip_cmd_arg(t_tree **cmd, t_tokens **tokens, t_tree **node)
 		*tokens = (*tokens)->next;
 	}
 	(*node)->right = NULL;
-	(*node)->fd = -1;
 }
 
 void	check_and_set_tmp(t_tree **tmp, t_tree **node, t_tree **first)

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 20:23:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 09:11:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,8 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 {
 	int	fd;
 
-	printf("here doc1\n");
 	if (read_from != -1)
 	{
-		printf("here doc: 2\n");
 		fd = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		read_and_expand(info, read_from, fd, tree);
 		close(fd);
@@ -124,6 +122,7 @@ int	get_file(int read_from, t_tree *tree, t_info *info)
 		unlink(".tmp");
 		fd = -1;
 		tree->fd = -1;
+		return (0);
 	}
-	return (0);
+	return (2);
 }

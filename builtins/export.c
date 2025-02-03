@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
-/*   Updated: 2025/01/28 21:31:53 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 10:24:49 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 // add free for all of the errors
 
-void	add_to_the_value(char *search_for, char *value, t_env **tmp)
+void	add_to_the_value(char *search_for, char *value, t_env **tmp, char *tmpo)
 {
-	char	*tmpo;
 	char	*tmp_joined;
 	char	*without_quotes;
 
 	tmp_joined = NULL;
-	tmpo = NULL;
 	without_quotes = NULL;
 	(*tmp)->flag = 1;
 	if ((*tmp)->value)
@@ -77,7 +75,7 @@ int	check_env_there(t_info *info, char *search_for, char *value, int flag[2])
 			if (flag[0] == 0)
 				set_new_value(search_for, value, &tmp);
 			else
-				add_to_the_value(search_for, value, &tmp);
+				add_to_the_value(search_for, value, &tmp, NULL);
 			free(search_for);
 			return (1);
 		}
