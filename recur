@@ -1,1 +1,0 @@
-cat recur | ./minishell | ./minishell
