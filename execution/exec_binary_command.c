@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 10:17:33 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 13:27:09 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	binary(t_info *info, t_tree *tree)
 	if (pid == -1)
 	{
 		perror("fork failed");
+		free_and_set_null(info, 2);
 		return ;
 	}
 	else if (pid == 0)

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 10:24:49 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 19:28:04 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,15 @@ int	ft_export(t_info *info, char **args, int i)
 	}
 	while (args[i])
 	{
+		flag[0] = 0;
+		flag[1] = 0;
 		if (handle_export_error(info, args[i]))
 		{
 			i++;
 			return_value = 1;
 			continue ;
 		}
-		else if (ft_strcmp(args[i], " ") != 0)
-			handle_export_str(info, args[i], flag, 0);
+		handle_export_str(info, args[i], flag, 0);
 		i++;
 	}
 	return (return_value);

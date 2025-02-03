@@ -86,4 +86,4 @@ re: fclean all
 valgrind: $(NAME)
 	sh ak.sh
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

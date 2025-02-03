@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:20:32 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 13:15:43 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 19:23:58 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,39 @@ char	*ft_strtrim_sides(char *str)
 {
 	char	*stro;
 
+	if (ft_strlen(str) == 2)
+	{
+		return (ft_strdup(""));
+	}
 	stro = ft_substr(str, 1, ft_strlen(str) - 2);
 	return (stro);
 }
 
-t_tree	*parsing_subshell(t_info *info)
+void	parsing_subshell(t_info *info, t_tree **subtree)
 {
 	char		*new_buffer;
 	t_tokens	*tokens;
-	t_tree		*subshell;
 
 	new_buffer = ft_strtrim_sides(info->buffer);
+	if (new_buffer[0] == '\0')
+		return (free(info->buffer), free(new_buffer));
 	free(info->buffer);
 	info->buffer = NULL;
 	info->i = 0;
 	if (lexer(info, new_buffer))
-		return (NULL);
+		return ;
 	free(new_buffer);
 	new_buffer = NULL;
 	if (rename_tokens(info))
-		return (NULL);
+		return ;
 	if (verify_logic(info))
-		return (NULL);
+		return ;
 	tokens = info->token_list;
-	subshell = create_ast_tree(&tokens);
+	here_doc(info, tokens);
+	(*subtree) = create_ast_tree(&tokens);
 	if (info->ast_tree == NULL)
-		return (handle_error(info, "creat_tree", 2, '\0'), NULL);
+		return (handle_error(info, "creat_tree", 2, '\0'));
 	ft_clear_tokens(&info->token_list);
-	return (subshell);
 }
 
 void	subshell(t_info *info, t_tree *tree)
@@ -53,10 +58,9 @@ void	subshell(t_info *info, t_tree *tree)
 	if (!tree || tree->type != BRACKET || !tree->file)
 		return ;
 	info->buffer = ft_strdup(tree->file);
-	subtree = parsing_subshell(info);
+	parsing_subshell(info, &subtree);
 	if (!subtree)
 		return ;
-	(void)subtree;
+	info->sub_tree = subtree;
 	execution(info, subtree);
-	ft_clear_tree(subtree);
 }

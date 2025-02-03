@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 09:11:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 19:25:49 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	handle_redirect_in(t_info *info, t_tree *tree)
 	if (dup2(file, STDIN_FILENO) == -1)
 	{
 		perror("Error duplicating file descriptor");
+		return (1);
 	}
 	close(file);
 	return (0);

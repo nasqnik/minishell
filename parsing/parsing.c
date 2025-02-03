@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 15:38:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/02/03 09:20:27 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 16:47:12 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	lexer(t_info *info, char *str)
 	int			len;
 	t_tokens	*current_token;
 
-	if (!str[info->i])
+	if (!str || !str[info->i])
 		return (1);
 	while (str[info->i])
 	{

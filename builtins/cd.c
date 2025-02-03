@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:40:08 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 09:50:09 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 14:39:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int	set_the_dir(t_info *info, char **str, char *arg, char **env_search)
 		return (0);
 	else if (arg && arg[0] == '-')
 	{
+		if (arg[1] != '\0')
+			return (handle_error(info, arg, 0, 15), 1);
 		(*env_search) = search_in_env(info, "OLDPWD");
 		if ((*env_search))
 			(*str) = ft_strtrim_sides((*env_search));
-		else if (arg[1] != '\0')
-			return (handle_error(info, arg, 0, 15), 1);
 		else
 			return (handle_error(info, NULL, 0, 16), 1);
 		if ((*str))

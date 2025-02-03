@@ -6,11 +6,18 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 11:14:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 19:38:24 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	null_(t_info *info)
+{
+	info->token_list = NULL;
+	info->ast_tree = NULL;
+	info->sub_tree = NULL;
+}
 
 void	free_and_set_null(t_info *info, int flag)
 {
@@ -18,6 +25,8 @@ void	free_and_set_null(t_info *info, int flag)
 		ft_clear_tokens(&(info->token_list));
 	if (info->ast_tree)
 		ft_clear_tree(info->ast_tree);
+	if (info->sub_tree)
+		ft_clear_tree(info->sub_tree);
 	if (flag != 1)
 	{
 		if (info->envp_array)
@@ -35,8 +44,7 @@ void	free_and_set_null(t_info *info, int flag)
 			info->stdin = -1;
 		}
 	}
-	info->token_list = NULL;
-	info->ast_tree = NULL;
+	null_(info);
 }
 
 int	ft_is(int c, char *str)

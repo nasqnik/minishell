@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:07 by meid              #+#    #+#             */
-/*   Updated: 2025/01/20 18:31:35 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 13:26:48 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	execution_pipe(t_info *info, t_tree *tree)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe failed");
+		free_and_set_null(info, 2);
 		return ;
 	}
 	pipe_left = handle_left_pipe(info, tree, pipefd);
@@ -49,6 +50,7 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	if (pid == -1)
 	{
 		perror("fork failed");
+		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
@@ -73,6 +75,7 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	if (pid == -1)
 	{
 		perror("fork failed");
+		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)

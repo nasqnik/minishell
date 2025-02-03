@@ -6,11 +6,30 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:28:56 by meid              #+#    #+#             */
-/*   Updated: 2025/01/14 12:50:38 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 19:20:01 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_clear_tre(t_tree *node)
+{
+	if (node->file)
+	{
+		free(node->file);
+		node->file = NULL;
+	}
+	if (node->fd != -1)
+	{
+		close(node->fd);
+		node->fd = -1;
+	}
+	if (node)
+	{
+		free(node);
+		node = NULL;
+	}
+}
 
 void	ft_clear_tree(t_tree *node)
 {
@@ -28,13 +47,11 @@ void	ft_clear_tree(t_tree *node)
 		while (node->args[i])
 		{
 			free(node->args[i]);
+			node->args[i] = NULL;
 			i++;
 		}
 		free(node->args);
+		node->args = NULL;
 	}
-	if (node->file)
-		free(node->file);
-	if (node->fd != -1)
-		close(node->fd);
-	free(node);
+	ft_clear_tre(node);
 }

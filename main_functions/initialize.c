@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:32:36 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 12:56:39 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 17:03:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	initialize(t_info *info, char **env)
 	info->stdout = -1;
 	info->stdin = -1;
 	info->temporary = NULL;
+	info->sub_tree = NULL;
 	if (!info->envp_array)
 	{
 		info->envp_array = create_non_existing_env();

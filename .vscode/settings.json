@@ -28,7 +28,8 @@
     "type_traits": "c",
     "atomic": "c",
     "locale": "c",
-    "ios": "c"
+    "ios": "c",
+    "readline.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",

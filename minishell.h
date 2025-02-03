@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 10:16:20 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/03 20:02:22 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@
 
 // valgrind --trace-children=yes -s --suppressions=_notes/ignore_readline_leaks.txt  --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./minishell
 
-// int rl_replace_line(const char *text, int clear_undo);
+# ifdef __APPLE__
+    int rl_replace_line(const char *text, int clear_undo);
+#endif
 
 #define TRUE 1
 #define FALSE 0
@@ -93,6 +95,7 @@ typedef struct s_info
     char		*buffer;
     t_tokens 	*token_list;
     t_tree      *ast_tree;
+    t_tree      *sub_tree;
     char		**envp_array;
     int     i;
     int stdout;
@@ -253,7 +256,7 @@ int	ft_cd(t_info *info, char **args);
 
 //-----------exit.c-----------//
 int	ft_exit(t_info *info, char **args, int i, int j);
-void	skip_and_set_sign(char **str, int *i, int *sign);
+int	skip_and_set_sign(char **str, int *i, int *sign);
 
 //-----------echo_pwd_env.c-----------//
 int	ft_echo(char **args, int i);
