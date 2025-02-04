@@ -6,13 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 19:28:04 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:55:59 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// add free for all of the errors
 
 void	add_to_the_value(char *search_for, char *value, t_env **tmp, char *tmpo)
 {
@@ -57,7 +55,8 @@ void	set_new_value(char *search_for, char *value, t_env **tmp)
 		(*tmp)->env = ft_strdup(tmpo);
 	free((*tmp)->value);
 	free(tmpo);
-	(*tmp)->value = value;
+	if (value)
+		(*tmp)->value = add_quotes(value);
 }
 
 int	check_env_there(t_info *info, char *search_for, char *value, int flag[2])
@@ -77,6 +76,8 @@ int	check_env_there(t_info *info, char *search_for, char *value, int flag[2])
 			else
 				add_to_the_value(search_for, value, &tmp, NULL);
 			free(search_for);
+			if (value)
+				free(value);
 			return (1);
 		}
 		tmp = tmp->next;
