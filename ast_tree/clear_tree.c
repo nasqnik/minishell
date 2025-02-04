@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:28:56 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 19:09:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:10:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,45 @@ void	ft_clear_tree(t_tree *node)
 		node->args = NULL;
 	}
 	ft_clear_node(node);
+}
+
+void	ft_clear_subtrees(t_subtree **subtree_list)
+{
+	t_subtree	*current;
+	t_subtree	*next;
+
+	if (!subtree_list || !*subtree_list)
+		return ;
+	current = *subtree_list;
+	while (current)
+	{
+		next = current->next;
+		ft_clear_tree(current->tree);
+		free(current);
+		current = next;
+	}
+	*subtree_list = NULL;
+}
+
+void	add_subtree(t_info *info, t_tree *subtree)
+{
+	t_subtree	*new_node;
+	t_subtree	*current;
+
+	if (!info || !subtree)
+		return ;
+	new_node = malloc(sizeof(t_subtree));
+	if (!new_node)
+		return ;
+	new_node->tree = subtree;
+	new_node->next = NULL;
+	if (!info->subtree_lest)
+	{
+		info->subtree_lest = new_node;
+		return ;
+	}
+	current = info->subtree_lest;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
 }

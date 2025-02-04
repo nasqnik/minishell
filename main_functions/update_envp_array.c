@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:49:36 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 20:03:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:27:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ char	*skip_the_quotes(t_env *env_cur, int *c_val)
 	return (temp_value);
 }
 
+void	set_some_val(int i[3], int *c_key, int *c_val, t_env *env_cur)
+{
+	i[1] = 0;
+	i[2] = 0;
+	(*c_key) = ft_strlen(env_cur->key);
+	(*c_val) = 0;
+}
+
 void	loop(int i[3], char ***new_env_array, t_env *env_cur, int counter)
 {
 	int		c_key;
@@ -45,10 +53,7 @@ void	loop(int i[3], char ***new_env_array, t_env *env_cur, int counter)
 	tmp_value = NULL;
 	while (i[0] < counter)
 	{
-		i[1] = 0;
-		i[2] = 0;
-		c_key = ft_strlen(env_cur->key);
-		c_val = 0;
+		set_some_val(i, &c_key, &c_val, env_cur);
 		if (env_cur->value)
 			tmp_value = skip_the_quotes(env_cur, &c_val);
 		(*new_env_array)[(i[0])] = malloc((c_key + c_val + 2) * sizeof(char));

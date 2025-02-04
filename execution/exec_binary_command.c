@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:11:47 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 19:54:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:22:14 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,8 @@ int	execute_binary(t_info *info, char *command, char **args)
 	return (1);
 }
 
-void	child_pro(t_info *info, t_tree *tree, t_tree **subtree)
+void	child_pro(t_info *info, t_tree *tree)
 {
-		(void)subtree;
-
 	int		exit_status;
 
 	if (info->stdout != -1)
@@ -96,16 +94,13 @@ void	child_pro(t_info *info, t_tree *tree, t_tree **subtree)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	exit_status = execute_binary(info, tree->args[0], tree->args);
-	ft_clear_tree(*subtree);
 	free_and_set_null(info, 2);
 	if (exit_status != 0)
 		exit(exit_status);
 }
 
-void	binary(t_info *info, t_tree *tree, t_tree **subtree)
+void	binary(t_info *info, t_tree *tree)
 {
-		(void)subtree;
-
 	int		status;
 	pid_t	pid;
 
@@ -114,13 +109,12 @@ void	binary(t_info *info, t_tree *tree, t_tree **subtree)
 	if (pid == -1)
 	{
 		perror("fork failed");
-		ft_clear_tree(*subtree);
 		free_and_set_null(info, 2);
 		return ;
 	}
 	else if (pid == 0)
 	{
-		child_pro(info, tree, subtree);
+		child_pro(info, tree);
 	}
 	waitpid(pid, &status, 0);
 	castom_signals();

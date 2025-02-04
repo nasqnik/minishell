@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 19:57:20 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:21:52 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,22 +187,22 @@ int subshell_rules(t_tokens *cursor, int flag);
 //--------------------------------------execution-----------------------------------------//
 
 //-----------exec_logic.c-----------//
-void  execution(t_info *info, t_tree *tree, t_tree **subtree);
+void  execution(t_info *info, t_tree *tree);
 
 //-----------exec_pipe.c-----------//
-void execution_pipe(t_info *info, t_tree *tree, t_tree **subtree);
-pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2], t_tree **subtree);
-pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2], t_tree **subtree);
+void execution_pipe(t_info *info, t_tree *tree);
+pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2]);
 
 //-----------exec_command.c-----------//
-void execute_command(t_info *info, t_tree *tree, t_tree **subtree);
+void execute_command(t_info *info, t_tree *tree);
 
 //-----------exec_binary_command.c-----------//
-void	binary(t_info *info, t_tree *tree, t_tree **subtree);
+void	binary(t_info *info, t_tree *tree);
 int	execute_binary(t_info *info, char *command, char **args);
 
 //-----------exec_redirection.c-----------//
-void execution_redirection(t_info *info, t_tree *tree, t_tree **subtree);
+void execution_redirection(t_info *info, t_tree *tree);
 int handle_redirect_in(t_info *info, t_tree *tree);
 int handle_redirect_out(t_info *info, t_tree *tree);
 int handle_redirect_append(t_info *info, t_tree *tree);
@@ -328,6 +328,9 @@ char *expand_variables(char *str, int *pos, t_info *info);
 
 //-----------clear_tree.c-----------//
 void ft_clear_tree(t_tree *node);
+void	ft_clear_subtrees(t_subtree **subtree_list);
+
+void	add_subtree(t_info *info, t_tree *subtree);
 
 //-----------create_tree.c-----------//
 t_tree *create_ast_tree(t_tokens **token);

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:48 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 19:54:34 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:22:24 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	strcmp_builtin(t_info *info, char *command, char **args)
 	return (2);
 }
 
-void	execute_command(t_info *info, t_tree *tree, t_tree **subtree)
+void	execute_command(t_info *info, t_tree *tree)
 {
-		(void)subtree;
-
 	int	return_builtin;
 
 	if (!info || !tree)
@@ -50,6 +48,6 @@ void	execute_command(t_info *info, t_tree *tree, t_tree **subtree)
 		our_static("exit status", 0);
 	if (return_builtin == 2)
 	{
-		binary(info, tree, subtree);
+		binary(info, tree);
 	}
 }

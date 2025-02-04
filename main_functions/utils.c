@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 18:09:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:08:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_and_set_null(t_info *info, int flag)
 		ft_clear_tokens(&(info->token_list));
 	if (info->ast_tree)
 		ft_clear_tree(info->ast_tree);
+	if (info->subtree_lest)
+		ft_clear_subtrees(&info->subtree_lest);
 	if (flag != 1)
 	{
 		if (info->envp_array)
