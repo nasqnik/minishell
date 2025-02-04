@@ -6,13 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:07 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:23:19 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:34:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execution_pipe(t_info *info, t_tree *tree, t_tree **subtree)
+void	execution_pipe(t_info *info, t_tree *tree)
 {
 	int		pipefd[2];
 	pid_t	pipe_left;
@@ -26,8 +26,8 @@ void	execution_pipe(t_info *info, t_tree *tree, t_tree **subtree)
 		free_and_set_null(info, 2);
 		return ;
 	}
-	pipe_left = handle_left_pipe(info, tree, pipefd, subtree);
-	pipe_right = handle_right_pipe(info, tree, pipefd, subtree);
+	pipe_left = handle_left_pipe(info, tree, pipefd);
+	pipe_right = handle_right_pipe(info, tree, pipefd);
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(pipe_left, &status_left, 0);
@@ -40,8 +40,7 @@ void	execution_pipe(t_info *info, t_tree *tree, t_tree **subtree)
 		our_static("exit status", WEXITSTATUS(status_right));
 }
 
-pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2],
-	t_tree **subtree)
+pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 {
 	pid_t	pid;
 
@@ -51,8 +50,6 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2],
 	if (pid == -1)
 	{
 		perror("fork failed");
-		if (subtree && *subtree)
-			ft_clear_tree(*subtree);
 		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}
@@ -69,8 +66,7 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2],
 	return (pid);
 }
 
-pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2],
-	t_tree **subtree)
+pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 {
 	pid_t	pid;
 
@@ -79,8 +75,6 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2],
 	if (pid == -1)
 	{
 		perror("fork failed");
-		if (subtree && *subtree)
-			ft_clear_tree(*subtree);
 		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}

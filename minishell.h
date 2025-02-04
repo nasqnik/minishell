@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:21:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:28:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,13 +214,6 @@ void	here_doc(t_info *info, t_tokens *list);
 //-----------here_doc04.c-----------//
 void	read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
 int	here_docs_ahead(t_tokens *list);
-//-----------here_doc.c-----------//
-// int	ft_hdoc(t_info *info, char *limiter, t_tree *tree);
-// int	find_docs(t_info *info, t_tree *tree);
-
-// //-----------here_doc02.c-----------//
-// void    read_and_expand(t_info *info, int read_from, int fd, t_tree *tree);
-// int	here_docs_ahead(t_tree *tree);
 
 //-----------subshell.c-----------//
 void subshell(t_info *info, t_tree *tree);
