@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 20:02:22 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 19:57:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ typedef struct s_tokens
     struct s_tokens *next;    
 }           t_tokens;
 
+typedef struct s_env
+{
+    char *env;
+    char *key;
+    char *value;
+    int     flag;
+    struct s_env *next;
+}       t_env;
 
 typedef struct s_tree
 {
@@ -79,14 +87,11 @@ typedef struct s_tree
     struct s_tree *right;
 }           t_tree;
 
-typedef struct s_env
+typedef struct s_subtree
 {
-    char *env;
-    char *key;
-    char *value;
-    int     flag;
-    struct s_env *next;
-}       t_env;
+    t_tree *tree;
+    struct s_subtree *next;    
+}           t_subtree;
 
 typedef struct s_info
 {
@@ -95,8 +100,8 @@ typedef struct s_info
     char		*buffer;
     t_tokens 	*token_list;
     t_tree      *ast_tree;
-    t_tree      *sub_tree;
     char		**envp_array;
+    t_subtree   *subtree_lest;
     int     i;
     int stdout;
     int stdin;
@@ -126,6 +131,7 @@ void	print_the_error(t_info *info ,char *args, int flag, int fd);
 const char	*token_type_to_string(t_token_type type); //----------------------- to delete
 void	print_list(t_tokens	*list); //----------------------------------------- to delete
 void print_ast(t_tree *node, int depth, char *flag); //------------------------ to delete
+void	safe_free(void **ptr);
 
 //-----------signals.c-----------//
 void	castom_signals(void);
@@ -181,22 +187,22 @@ int subshell_rules(t_tokens *cursor, int flag);
 //--------------------------------------execution-----------------------------------------//
 
 //-----------exec_logic.c-----------//
-void  execution(t_info *info, t_tree *tree);
+void  execution(t_info *info, t_tree *tree, t_tree **subtree);
 
 //-----------exec_pipe.c-----------//
-void execution_pipe(t_info *info, t_tree *tree);
-pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2]);
-pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2]);
+void execution_pipe(t_info *info, t_tree *tree, t_tree **subtree);
+pid_t   handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2], t_tree **subtree);
+pid_t   handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2], t_tree **subtree);
 
 //-----------exec_command.c-----------//
-void execute_command(t_info *info, t_tree *tree);
+void execute_command(t_info *info, t_tree *tree, t_tree **subtree);
 
 //-----------exec_binary_command.c-----------//
-void	binary(t_info *info, t_tree *tree);
+void	binary(t_info *info, t_tree *tree, t_tree **subtree);
 int	execute_binary(t_info *info, char *command, char **args);
 
 //-----------exec_redirection.c-----------//
-void execution_redirection(t_info *info, t_tree *tree);
+void execution_redirection(t_info *info, t_tree *tree, t_tree **subtree);
 int handle_redirect_in(t_info *info, t_tree *tree);
 int handle_redirect_out(t_info *info, t_tree *tree);
 int handle_redirect_append(t_info *info, t_tree *tree);

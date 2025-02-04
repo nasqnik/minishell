@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 16:10:49 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 17:05:26 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int	verify_logic(t_info *info)
 			to_return = redirection_operators(cursor);
 		if (cursor->type == BRACKET)
 			to_return = subshell_rules(cursor, 1);
-		if (cursor->next && cursor->next->type == BRACKET)
-			to_return = subshell_rules(cursor, 0);
 		if (print_error_from_return_value(info, to_return, cursor))
 			return (1);
 		cursor = cursor->next;

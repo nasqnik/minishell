@@ -6,34 +6,38 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 20:04:03 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 16:39:09 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 19:54:17 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execution(t_info *info, t_tree *tree)
+void	execution(t_info *info, t_tree *tree, t_tree **subtree)
 {
+	(void)subtree;
 	if (!info->ast_tree || !tree)
 		return ;
+	printf("<%s>\n", token_type_to_string(tree->type));
 	if (tree->type == LOGIC_AND)
 	{
-		execution(info, tree->left);
+		execution(info, tree->left, subtree);
 		if (our_static("exit status", -1) == 0)
-			execution(info, tree->right);
+			execution(info, tree->right, subtree);
 	}
 	else if (tree->type == LOGIC_OR)
 	{
-		execution(info, tree->left);
+		execution(info, tree->left, subtree);
 		if (our_static("exit status", -1) != 0)
-			execution(info, tree->right);
+			execution(info, tree->right, subtree);
 	}
 	else if (tree->type == PIPE)
-		execution_pipe(info, tree);
+		execution_pipe(info, tree, subtree);
 	else if (tree->type >= REDIRECT_IN && tree->type <= HEREDOC)
-		execution_redirection(info, tree);
+		execution_redirection(info, tree, subtree);
 	else if (tree->type == COMMAND)
-		execute_command(info, tree);
+		execute_command(info, tree, subtree);
 	else if (tree->type == BRACKET)
 		subshell(info, tree);
+	// if (*subtree)
+	// 	printf("i have the subtree\n");
 }

@@ -6,13 +6,13 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:25:25 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 19:25:49 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 19:49:44 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execution_redirection(t_info *info, t_tree *tree)
+void	execution_redirection(t_info *info, t_tree *tree, t_tree **subtree)
 {
 	int	flag;
 
@@ -34,7 +34,7 @@ void	execution_redirection(t_info *info, t_tree *tree)
 	else if (tree->type == REDIRECT_APPEND)
 		flag = handle_redirect_append(info, tree);
 	if (tree->left && flag == 0)
-		execution(info, tree->left);
+		execution(info, tree->left, subtree);
 }
 
 int	handle_redirect_in(t_info *info, t_tree *tree)

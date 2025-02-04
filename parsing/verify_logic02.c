@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:51:42 by meid              #+#    #+#             */
-/*   Updated: 2025/01/22 10:11:21 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 17:05:18 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,9 @@ int	subshell_rules(t_tokens *cursor, int flag)
 			return (0);
 		if (cursor->next->type == BRACKET)
 			return (2);
-		if (!(cursor->next->type >= REDIRECT_IN
-				&& cursor->next->type <= HEREDOC))
+		if (cursor->next->type == COMMAND
+			|| cursor->next->type == ARGUMENT)
 			return (3);
-	}
-	if (flag == 0)
-	{
-		if (cursor->type == COMMAND)
-			return (4);
 	}
 	return (0);
 }
-		// if (!(cursor->type >= REDIRECT_IN && cursor->type <= HEREDOC))
-		// 	return (2);

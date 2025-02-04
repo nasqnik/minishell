@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 09:20:32 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 19:23:58 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:06:23 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,20 @@ void	subshell(t_info *info, t_tree *tree)
 {
 	t_tree	*subtree;
 
+	subtree = NULL;
 	if (!tree || tree->type != BRACKET || !tree->file)
 		return ;
 	info->buffer = ft_strdup(tree->file);
 	parsing_subshell(info, &subtree);
 	if (!subtree)
 		return ;
-	info->sub_tree = subtree;
-	execution(info, subtree);
+	execution(info, subtree, &subtree);
+	// printf("\033[94mtree\033[00m\n");
+	// print_ast(subtree, 5, "head");
+	if (subtree)
+	{
+		printf("free in subshell\n");
+		ft_clear_tree(subtree);
+		subtree = NULL;
+	}
 }

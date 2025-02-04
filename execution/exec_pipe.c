@@ -6,14 +6,17 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:07 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 13:26:48 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/04 20:06:06 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execution_pipe(t_info *info, t_tree *tree)
+void	execution_pipe(t_info *info, t_tree *tree, t_tree **subtree)
 {
+		(void)subtree;
+
+	printf("\033[47mPIPE\033[00m\n");
 	int		pipefd[2];
 	pid_t	pipe_left;
 	pid_t	pipe_right;
@@ -26,8 +29,8 @@ void	execution_pipe(t_info *info, t_tree *tree)
 		free_and_set_null(info, 2);
 		return ;
 	}
-	pipe_left = handle_left_pipe(info, tree, pipefd);
-	pipe_right = handle_right_pipe(info, tree, pipefd);
+	pipe_left = handle_left_pipe(info, tree, pipefd, subtree);
+	pipe_right = handle_right_pipe(info, tree, pipefd, subtree);
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(pipe_left, &status_left, 0);
@@ -40,8 +43,11 @@ void	execution_pipe(t_info *info, t_tree *tree)
 		our_static("exit status", WEXITSTATUS(status_right));
 }
 
-pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
+pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2],
+	t_tree **subtree)
 {
+		(void)subtree;
+
 	pid_t	pid;
 
 	(void)info;
@@ -50,6 +56,8 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	if (pid == -1)
 	{
 		perror("fork failed");
+		if (subtree && *subtree)
+			ft_clear_tree(*subtree);
 		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}
@@ -59,15 +67,21 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		execution(info, tree->left);
+		execution(info, tree->left, subtree);
+		if (subtree && *subtree)
+			ft_clear_tree(*subtree);
+		*subtree = NULL;
+		subtree = NULL;
 		free_and_set_null(info, 2);
 		exit(EXIT_SUCCESS);
 	}
 	return (pid);
 }
 
-pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
+pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2],
+	t_tree **subtree)
 {
+	(void)subtree;
 	pid_t	pid;
 
 	castom_ing();
@@ -75,6 +89,8 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 	if (pid == -1)
 	{
 		perror("fork failed");
+		if (subtree && *subtree)
+			ft_clear_tree(*subtree);
 		free_and_set_null(info, 2);
 		exit(EXIT_FAILURE);
 	}
@@ -84,7 +100,11 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
-		execution(info, tree->right);
+		execution(info, tree->right, subtree);
+		if (subtree && *subtree)
+			ft_clear_tree(*subtree);
+		*subtree = NULL;
+		subtree = NULL;
 		free_and_set_null(info, 2);
 		exit(EXIT_SUCCESS);
 	}
