@@ -6,20 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:28:02 by meid              #+#    #+#             */
-/*   Updated: 2025/01/31 13:16:16 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 15:25:42 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void	disable_echoctl(void)
-// {
-// 	struct termios	term;
-
-// 	tcgetattr(STDIN_FILENO, &term);
-// 	term.c_lflag &= ~ECHOCTL;
-// 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-// }
 
 void	handle_sig(int sig)
 {

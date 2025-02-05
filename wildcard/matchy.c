@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:11:54 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 13:05:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 16:24:08 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,14 @@ static int	process_end(char *file, char *wildcard, int *end, int *end_f)
 	return (1);
 }
 
+void	set_zero(int *start, int *start_f, int *end, int *end_f)
+{
+	*start = 0;
+	*start_f = 0;
+	*end = 0;
+	*end_f = 0;
+}
+
 int	ft_matchy(char *file, char *wildcard, char *tmp_file, int lol)
 {
 	char	*sub_str;
@@ -85,31 +93,20 @@ int	ft_matchy(char *file, char *wildcard, char *tmp_file, int lol)
 
 	tmp_file = NULL;
 	sub_str = NULL;
-	start = 0;
-	start_f = 0;
-	end = 0;
-	end_f = 0;
-	if (!file || !wildcard || end_is_dot(wildcard))
-		return (0);
-	if (!process_start(file, wildcard, &start, &start_f))
+	set_zero(&start, &start_f, &end, &end_f);
+	if (!file || !wildcard || end_is_dot(wildcard) || start == ft_strlen(file)
+		|| !process_start(file, wildcard, &start, &start_f))
 		return (0);
 	if (wildcard[start + 1] == '\0')
 		return (1);
-	if (start == ft_strlen(file))
-		return (0);
 	lol = process_end(file, wildcard, &end, &end_f);
-	if (!lol)
-		return (0);
-	if (end == start && lol == 1)
-		return (1);
+	if (!lol || (end == start && lol == 1))
+		return (lol);
 	sub_str = ft_substr(wildcard, start, end - start + 1);
 	tmp_file = ft_substr(file, start_f, end_f - start_f + 1);
 	if (!tmp_file)
-	{
-		free(sub_str);
-		return (0);
-	}
-	if (!process_mid(&sub_str, &tmp_file))
+		return (free(sub_str), 0);
+	if (!process_mid(&sub_str, &tmp_file) || !finalcheck(file, wildcard))
 		return (0);
 	return (1);
 }

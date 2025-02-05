@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 13:22:32 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 16:26:40 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-// int						rl_replace_line(const char *text, int clear_undo);
+int						rl_replace_line(const char *text, int clear_undo);
 
 # define TRUE 1
 # define FALSE 0
@@ -249,6 +249,8 @@ int						ft_mid_with(char *file, char *wildcard, int wc);
 int						ft_mid_with(char *file, char *wildcard, int wc);
 //-----------end_part.c-----------//
 char					*end_sub(char *wildcard, int *i, int *j);
+int						special_strlen(const char *str);
+int						finalcheck(char *file, char *wildcard);
 //-----------start_part.c-----------//
 char					*start_sub(char *wildcard, int *i, int *j);
 

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:37:44 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 10:52:45 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 16:30:16 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int	end_is_dot(char *str)
 	len = ft_strlen(str) - 1;
 	while (len != 0)
 	{
+		printf("%c\n", str[len]);
 		if (str[len] == '*')
 			break ;
-		if (str[len] != '\"' || str[len] != '\'' || str[len] != '.')
+		if (str[len] != '\"' && str[len] != '\'' && str[len] != '.')
 			return (0);
 		if (str[len] == '.')
 			return (1);
@@ -36,9 +37,7 @@ int	is_matching_quote(char *wildcard, char *file, int *wc, int i)
 
 	tmp = *wc + 1;
 	if (wildcard[tmp] && wildcard[tmp] == file[i])
-	{
 		return (1);
-	}
 	return (0);
 }
 

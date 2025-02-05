@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:27:46 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 15:24:35 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 15:21:37 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_there_wildcard(char *str)
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			close = str[i];
-			i++;
+			i += (str[i] != 0);
 			while (str[i] && str[i] != close)
 				i++;
 		}
@@ -31,7 +31,7 @@ int	ft_there_wildcard(char *str)
 		{
 			return (i);
 		}
-		i++;
+		i += (str[i] != 0);
 	}
 	return (-1);
 }

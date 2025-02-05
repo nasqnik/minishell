@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:27:53 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:35:15 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 16:37:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,27 @@ void	cntrl_d(t_info *info)
 	exit(1);
 }
 
+int	buffer_is_big(char *str, t_env	*envp_list)
+{
+	t_env	*tmp;
+	int		len;
+
+	tmp = envp_list;
+	len = 0;
+	while (tmp)
+	{
+		len += ft_strlen(tmp->env) - 2;
+		tmp = tmp->next;
+	}
+	len += ft_strlen(str);
+	if (len > ARG_MAX)
+	{
+		printf("minishell: Argument list too long\n");
+		return (1);
+	}
+	return (0);
+}
+
 void	minishell(t_info *info)
 {
 	while (1)
@@ -62,7 +83,7 @@ void	minishell(t_info *info)
 			info->buffer = readline("mini_cat$ ");
 		else
 			info->buffer = readline("");
-		if (!info->buffer)
+		if (!info->buffer || buffer_is_big(info->buffer, info->envp_list))
 			cntrl_d(info);
 		if (info->buffer)
 		{
