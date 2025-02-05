@@ -40,17 +40,17 @@ t_tokens	*ft_create_token(t_info *info, int len, int type, char *str)
 	return (new);
 }
 
-void	add_back_token(t_tokens **lst, t_tokens *new)
+void	add_back_token(t_tokens **lst, t_tokens *neww)
 {
 	t_tokens	*last;
 
 	if (*lst == NULL)
 	{
-		*lst = new;
+		*lst = neww;
 		return ;
 	}
 	last = ft_lstlast_token(*lst);
-	last->next = new;
+	last->next = neww;
 }
 
 void	ft_clear_tokens(t_tokens **token_list)

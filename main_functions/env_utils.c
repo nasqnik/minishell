@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:46:02 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 10:16:12 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 13:18:57 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_env	*env_lstnew(char *env_var, int flag)
 	return (new);
 }
 
-void	env_lstadd_back(t_env **lst, t_env *new)
+void	env_lstadd_back(t_env **lst, t_env *neww)
 {
 	t_env	*last;
 
@@ -114,11 +114,11 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 		return ;
 	if (*lst == NULL)
 	{
-		*lst = new;
+		*lst = neww;
 		return ;
 	}
 	last = *lst;
 	while (last->next)
 		last = last->next;
-	last->next = new;
+	last->next = neww;
 }

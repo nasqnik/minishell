@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:11:54 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 12:04:16 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 13:05:51 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	ft_matchy(char *file, char *wildcard, char *tmp_file, int lol)
 		return (0);
 	if (wildcard[start + 1] == '\0')
 		return (1);
+	if (start == ft_strlen(file))
+		return (0);
 	lol = process_end(file, wildcard, &end, &end_f);
 	if (!lol)
 		return (0);
