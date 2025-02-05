@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 # include "assert.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
