@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 08:25:36 by meid              #+#    #+#             */
-/*   Updated: 2025/02/03 09:50:47 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:22:55 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	here_doc(t_info *info, t_tokens *list)
 			tmp->fd = handle_one_heredoc(info, tmp->next->data, tmp);
 			if (tmp->next->next && here_docs_ahead(tmp->next->next))
 			{
-				printf("close\n");
 				close(tmp->fd);
 				tmp->fd = -1;
 			}

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:21 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:55:59 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:48:54 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ void	add_to_the_value(char *search_for, char *value, t_env **tmp, char *tmpo)
 		free(value);
 	(*tmp)->value = add_quotes(tmp_joined);
 	if (!((*tmp)->value))
-		return ;
+		return (free(value));
 	free((*tmp)->env);
 	tmpo = ft_strjoin(search_for, "=");
 	(*tmp)->env = ft_strjoin(tmpo, tmp_joined);
-	free(tmp_joined);
-	free(tmpo);
+	return (free(tmp_joined), free(tmpo));
 }
 
 void	set_new_value(char *search_for, char *value, t_env **tmp)
@@ -57,6 +56,8 @@ void	set_new_value(char *search_for, char *value, t_env **tmp)
 	free(tmpo);
 	if (value)
 		(*tmp)->value = add_quotes(value);
+	if (value)
+		free(value);
 }
 
 int	check_env_there(t_info *info, char *search_for, char *value, int flag[2])
@@ -66,18 +67,18 @@ int	check_env_there(t_info *info, char *search_for, char *value, int flag[2])
 	tmp = info->envp_list;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, search_for) == 0 && (flag[1] == 0
+		if (tmp->key && search_for && ft_strcmp(tmp->key, search_for) == 0
+			&& (flag[1] == 0
 				|| (value == NULL && flag[0] == 1 && flag[1] == 1)))
-			return (1);
-		else if (ft_strcmp(tmp->key, search_for) == 0 && flag[1] != 0)
+			return (free(value), free(search_for), 1);
+		else if (tmp->key && search_for && ft_strcmp(tmp->key, search_for) == 0
+			&& flag[1] != 0)
 		{
 			if (flag[0] == 0)
 				set_new_value(search_for, value, &tmp);
 			else
 				add_to_the_value(search_for, value, &tmp, NULL);
 			free(search_for);
-			if (value)
-				free(value);
 			return (1);
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 10:07:24 by meid              #+#    #+#             */
-/*   Updated: 2025/01/19 12:00:46 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:38:38 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	invalid_identifier(char *str, int flag)
 
 	i = 0;
 	flago = 0;
-	if (str[i] >= '0' && str[i] <= '9')
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')))
 		return (1);
 	while (str[i])
 	{

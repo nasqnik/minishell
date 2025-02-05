@@ -6,11 +6,29 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:37:44 by meid              #+#    #+#             */
-/*   Updated: 2025/01/15 15:59:52 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 10:52:45 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	end_is_dot(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str) - 1;
+	while (len != 0)
+	{
+		if (str[len] == '*')
+			break ;
+		if (str[len] != '\"' || str[len] != '\'' || str[len] != '.')
+			return (0);
+		if (str[len] == '.')
+			return (1);
+		len--;
+	}
+	return (0);
+}
 
 int	is_matching_quote(char *wildcard, char *file, int *wc, int i)
 {
@@ -43,7 +61,7 @@ static void	disply_files_dir(t_info *info, int flag, char *sub_str)
 		if (entry == NULL)
 			break ;
 		if ((entry->d_name[0] != '.' && flag == 0) || (flag == 1
-				&& ft_matchy(entry->d_name, sub_str, tmp_file) == 1))
+				&& ft_matchy(entry->d_name, sub_str, tmp_file, 0) == 1))
 		{
 			prossing_files(info, entry);
 		}

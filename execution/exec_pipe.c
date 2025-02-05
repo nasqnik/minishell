@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:29:07 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:34:40 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 08:22:48 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	execution_pipe(t_info *info, t_tree *tree)
 	int		status_left;
 	int		status_right;
 
+	our_static("exit status", 0);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe failed");
@@ -31,7 +32,6 @@ void	execution_pipe(t_info *info, t_tree *tree)
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(pipe_left, &status_left, 0);
-	castom_signals();
 	waitpid(pipe_right, &status_right, 0);
 	castom_signals();
 	if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
@@ -43,8 +43,8 @@ void	execution_pipe(t_info *info, t_tree *tree)
 pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 {
 	pid_t	pid;
+	int		exit_code;
 
-	(void)info;
 	castom_ing();
 	pid = fork();
 	if (pid == -1)
@@ -60,8 +60,9 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		execution(info, tree->left);
+		exit_code = our_static("exit status", -1);
 		free_and_set_null(info, 2);
-		exit(EXIT_SUCCESS);
+		exit(exit_code);
 	}
 	return (pid);
 }
@@ -69,6 +70,7 @@ pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])
 pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 {
 	pid_t	pid;
+	int		exit_code;
 
 	castom_ing();
 	pid = fork();
@@ -85,8 +87,9 @@ pid_t	handle_right_pipe(t_info *info, t_tree *tree, int pipefd[2])
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
 		execution(info, tree->right);
+		exit_code = our_static("exit status", -1);
 		free_and_set_null(info, 2);
-		exit(EXIT_SUCCESS);
+		exit(exit_code);
 	}
 	return (pid);
 }

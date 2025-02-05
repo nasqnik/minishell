@@ -29,7 +29,11 @@
     "atomic": "c",
     "locale": "c",
     "ios": "c",
-    "readline.h": "c"
+    "readline.h": "c",
+    "__hash_table": "c",
+    "__split_buffer": "c",
+    "initializer_list": "c",
+    "unordered_map": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",

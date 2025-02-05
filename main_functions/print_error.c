@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:21:06 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:54:38 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,15 @@ void	safe_free(void **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
+}
+
+void	bye_bey(t_info *info, char flag)
+{
+	handle_error(info, NULL, 1, 0);
+	free_and_set_null(info, 2);
+	if (flag == 'm')
+		exit (12);
+	exit (1);
 }
 
 // const char	*token_type_to_string(t_token_type type)

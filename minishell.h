@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:13:28 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:28:37 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 11:54:53 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ const char	*token_type_to_string(t_token_type type); //----------------------- t
 void	print_list(t_tokens	*list); //----------------------------------------- to delete
 void print_ast(t_tree *node, int depth, char *flag); //------------------------ to delete
 void	safe_free(void **ptr);
+void	bye_bey(t_info *info, char flag);
 
 //-----------signals.c-----------//
 void	castom_signals(void);
@@ -228,9 +229,10 @@ void	signals_exit_statue(int status);
 //-----------wildcard.c-----------//
 int	is_matching_quote(char *wildcard, char *file, int *wc, int i);
 int	wildcard(t_info *info, char **exp_res);
+int	end_is_dot(char *str);
 
 //-----------matchy.c-----------//
-int	ft_matchy(char *file, char *wildcard, char *tmp_file);
+int	ft_matchy(char *file, char *wildcard, char *tmp_file, int lol);
 int	ft_end_with(char *str, char *end);
 int	ft_strat_with(char *str, char *start);
 int ft_mid_with(char *file, char *wildcard, int wc);

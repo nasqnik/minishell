@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 20:48:46 by meid              #+#    #+#             */
-/*   Updated: 2025/02/04 20:08:42 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 08:23:39 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	our_static(char *str, int set)
 	if (ft_strcmp(str, "exit status") == 0)
 	{
 		if (set != -1)
-		{
 			exit_status = set;
-		}
 		return (exit_status);
 	}
 	return (0);
