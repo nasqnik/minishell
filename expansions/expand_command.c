@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 17:09:56 by anikitin          #+#    #+#             */
-/*   Updated: 2025/02/05 09:34:51 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:25:20 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ static void	handle_wildcard(char ***args, char *result, int *i)
 	free_array(wildcard_array);
 	*i += wildcard_count;
 }
-	// if (!new_array)
-	// free_array(wildcard_array);
-	//handle_error // they was in the function up
 
 void	expand_command(t_info *info, t_tree *tree)
 {

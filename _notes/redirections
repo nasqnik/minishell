@@ -1,8 +1,0 @@
----------------------------------------------------------------------------------------------------------
-| Operator | Changes            | Affects File       | Affects Command                                  |
-|----------|--------------------|--------------------|--------------------------------------------------|
-| <        | Redirects stdin    | Reads from a file  | Command takes input from the file.               |
-| >        | Redirects stdout   | Writes to a file   | Command writes output to the file (overwrites).  |
-| >>       | Redirects stdout   | Appends to a file  | Command writes output to the file (appends).     |
-| <<       | Redirects stdin    | Inline input only  | Command takes input from inline text.            |
----------------------------------------------------------------------------------------------------------

@@ -6,14 +6,11 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:16:00 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/21 12:26:33 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:27:07 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// if (str[pov[0]] == '\'' || str[pov[0]] == '\"')
-// 		break ;
 
 static char	*process_var_char(char *str, int pov[2], char *result, t_info *info)
 {
@@ -47,8 +44,6 @@ char	*expand_variables(char *str, int *pos, t_info *info)
 	*pos = pov[0];
 	return (result);
 }
-// if (!result) // error to malloc in ft_strdup
-// 	return (NULL);
 
 static char	*expand_d_quotes(char *str, int *pos, t_info *info)
 {
@@ -113,7 +108,3 @@ char	*process_expansion(char *arg, t_info *info)
 	}
 	return (result);
 }
-// if (!result) // error to malloc in ft_strdup
-// 	return (NULL);
-// if (tmp == NULL) // what are we doing when it's NULL
-// 	tmp = ft_strdup("");

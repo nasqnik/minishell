@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:36:49 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/22 13:31:25 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:27:11 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,3 @@ char	*handle_d_variable(char *data, int pov[2], char *result, t_info *info)
 	free(var_value);
 	return (result);
 }
-// if (!tmp)
-// {
-//     free(before_var);
-//     free(var_value);
-//     return NULL; // error
-// } // they was in the function up

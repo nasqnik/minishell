@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 20:11:03 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 11:54:38 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:20:02 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,82 +98,3 @@ void	bye_bey(t_info *info, char flag)
 		exit (12);
 	exit (1);
 }
-
-// const char	*token_type_to_string(t_token_type type)
-// {
-// 	switch (type) {
-// 		case WORD: return (":WORD");
-// 		case PIPE: return (":PIPE");
-// 		case REDIRECT_IN: return (":REDIRECT_IN (<)");
-// 		case REDIRECT_OUT: return (":REDIRECT_OUT (>)");
-// 		case REDIRECT_APPEND: return (":REDIRECT_APPEND (>>)");
-// 		case HEREDOC: return (":HEREDOC (<<)");
-// 		case LOGIC_AND: return (":LOGIC_AND");
-// 		case LOGIC_OR: return (":LOGIC_OR");
-// 		case BRACKET: return (":BRACKET");
-// 		case COMMAND: return (":COMMAND");
-// 		case ARGUMENT: return (":ARGUMENT");
-// 		case FILENAME: return (":FILENAME");
-// 		case DELIMITER: return (":DELIMITER");
-// 		default: return (":UNKNOWN TOKEN");
-// 	}
-// }
-
-// void	print_list(t_tokens	*list)
-// {
-// 	t_tokens	*tmp;
-
-// 	tmp = list;
-// 	printf("the list\n");
-// 	if (list)
-// 	{
-// 		while (tmp)
-// 		{
-// 			printf("data: |%s|\ttype: %s\n", tmp->data,
-// 			token_type_to_string(tmp->type));
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// }
-
-// void	print_ast(t_tree *node, int depth, char *flag)
-// {
-// 	int i;
-// 	i = 0;
-// 	if (!node)
-// 	{
-// 		printf("there is no nodes\n");
-// 		return ;
-// 	}
-// 	printf("\n");
-// 	while (i < depth)
-// 	{
-// 		printf("  ");
-// 		i++;
-// 	}
-// 	printf("\033[95mflag :%s \033[00m\n", flag);
-// 	printf("\033[95m Node type: %s\033[00m\n",
-// 			token_type_to_string(node->type));
-// 	printf("\033[95m depth: %d\033[00m\n", depth);
-// 	if (node->type == COMMAND)
-// 	{
-// 		char **str = node->args;
-// 		int j = 0;
-// 		if (str[j])
-// 		{
-// 			printf("command: %s\n", str[j]);
-// 			j++;
-// 		}
-// 		while (str[j])
-// 		{
-// 			printf("arg: |%s|\n", str[j]);
-// 			j++;
-// 		}
-// 	}
-// 	if (node->type >= REDIRECT_IN && node->type <= HEREDOC)
-// 		printf("file %s\n", node->file);
-// 	if (node->type == BRACKET)
-// 		printf("bracket %s\n", node->file);
-// 	print_ast(node->left, depth + 1, "left");
-// 	print_ast(node->right, depth + 1, "right");
-// }

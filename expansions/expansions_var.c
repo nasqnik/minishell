@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:26:28 by anikitin          #+#    #+#             */
-/*   Updated: 2025/01/21 12:25:47 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:25:35 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*handle_exit_status(char *data, int pov[2])
 	tmp = append_remaining_data(data, pov, tmp, 0);
 	return (tmp);
 }
-// +1?
 
 char	*get_var_value(char *var_name, t_env *envp_list)
 {
@@ -115,9 +114,3 @@ char	*handle_variable(char *data, int pov[2], char *result, t_info *info)
 	free(var_value);
 	return (result);
 }
-// if (!tmp)
-// {
-//     free(before_var);
-//     free(var_value);
-//     return NULL; // error
-// } they was in the function up

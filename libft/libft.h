@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 07:57:33 by meid              #+#    #+#             */
-/*   Updated: 2025/01/21 12:27:50 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:26:02 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,6 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strcpy(char *dest, const char *src);
 int		ft_str_cmd_cmp(char *s1, const char *s2);
 void	ft_str_tolower(char **str);
-// t_list	*ft_lstnew(void *content);
-// void	ft_lstadd_front(t_list **lst, t_list *new);
-// int		ft_lstsize(t_list *lst);
-// t_list	*ft_lstlast(t_list *lst);
-// void	ft_lstadd_back(t_list **lst, t_list *new);
-// void	ft_lstdelone(t_list *lst, void (*del)(void *));
-// void	ft_lstclear(t_list **lst, void (*del)(void *));
-// void	ft_lstiter(t_list *lst, void (*f)(void *));
-// t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-// get_next_line
 size_t	gnl_ft_strlen(const char *s);
 char	*gnl_ft_strchr(const char *str, int c);
 char	*gnl_ft_strjoin(char *s1, char *s2);

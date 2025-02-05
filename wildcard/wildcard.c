@@ -6,7 +6,7 @@
 /*   By: meid <meid@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:37:44 by meid              #+#    #+#             */
-/*   Updated: 2025/02/05 16:30:16 by meid             ###   ########.fr       */
+/*   Updated: 2025/02/05 18:19:51 by meid             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	end_is_dot(char *str)
 	len = ft_strlen(str) - 1;
 	while (len != 0)
 	{
-		printf("%c\n", str[len]);
 		if (str[len] == '*')
 			break ;
 		if (str[len] != '\"' && str[len] != '\'' && str[len] != '.')
