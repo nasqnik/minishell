@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_bonus.h"
+#include "../minishell.h"
 
 int	skip_and_set_sign(char **str, int *i, int *sign)
 {
@@ -18,7 +18,7 @@ int	skip_and_set_sign(char **str, int *i, int *sign)
 		return (1);
 	while (((*str)[(*i)] && (*str)[(*i)] == 32) || ((*str)[(*i)] >= 9
 			&& (*str)[(*i)] <= 13))
-		i++;
+		(*i)++;
 	if ((*str)[(*i)] && ((*str)[(*i)] == '-' || (*str)[(*i)] == '+'))
 	{
 		if ((*str)[(*i)] == '-')
@@ -63,15 +63,29 @@ int	ft_exit(t_info *info, char **args, int i, int j)
 	ft_putstr_fd("exit\n", 2);
 	if (ft_arraylen(args) > 2)
 		return (handle_error(info, NULL, 0, 4), 1);
+	if (!(args[1]))
+	{
+		exit_code = our_static("exit status", -1);
+		free_and_set_null(info, 2);
+		exit(exit_code);
+	}
 	if (args[1] && args[1][0] == '\0')
 	{
 		handle_error(info, args[i], 0, 5);
 		free_and_set_null(info, 2);
 		exit(255);
 	}
+	if (args[1][j] == '+' || args[1][j] == '-')
+		j++;
+	if (args[1][j] == '\0')
+	{
+		handle_error(info, args[1], 0, 5);
+		free_and_set_null(info, 2);
+		exit(255);
+	}
 	while (args[1] && args[1][j])
 	{
-		if (!((args[1][j] >= '0' && args[1][j] <= '9') || (args[1][0] == '-')))
+		if (!(args[1][j] >= '0' && args[1][j] <= '9'))
 		{
 			handle_error(info, args[1], 0, 5);
 			free_and_set_null(info, 2);

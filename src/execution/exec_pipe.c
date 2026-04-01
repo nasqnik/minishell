@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_bonus.h"
+#include "../minishell.h"
 
 void	execution_pipe(t_info *info, t_tree *tree)
 {
@@ -34,10 +34,8 @@ void	execution_pipe(t_info *info, t_tree *tree)
 	waitpid(pipe_left, &status_left, 0);
 	waitpid(pipe_right, &status_right, 0);
 	castom_signals();
-	if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
-		our_static("exit status", WEXITSTATUS(status_left));
-	else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)
-		our_static("exit status", WEXITSTATUS(status_right));
+	(void)status_left;
+	signals_exit_statue(status_right);
 }
 
 pid_t	handle_left_pipe(t_info *info, t_tree *tree, int pipefd[2])

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_BONUS_H
-# define MINISHELL_BONUS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "assert.h"
 # include "../libft/libft.h"
@@ -29,7 +29,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-int						rl_replace_line(const char *text, int clear_undo);
+void					rl_replace_line(const char *text, int clear_undo);
 
 # define TRUE 1
 # define FALSE 0

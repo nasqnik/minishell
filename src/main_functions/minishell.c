@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell_bonus.h"
+#include "../minishell.h"
 
 void	dup_3(t_info *info)
 {
@@ -46,9 +46,12 @@ void	dup_and_close(t_info *info)
 
 void	cntrl_d(t_info *info)
 {
-	write(2, "exit\n", 15);
+	int	exit_code;
+
+	exit_code = our_static("exit status", -1);
+	write(2, "exit\n", 5);
 	free_and_set_null(info, 2);
-	exit(1);
+	exit(exit_code);
 }
 
 int	buffer_is_big(char *str, t_env	*envp_list)

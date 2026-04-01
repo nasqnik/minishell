@@ -1,5 +1,4 @@
 NAME = minishell
-BONUS = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -9,35 +8,69 @@ RLFLAGS		=	-lreadline -lhistory
 RLDIR		=	-L/opt/vagrant/embedded/lib
 RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+READLINE_PREFIX := $(shell brew --prefix readline 2>/dev/null)
+ifneq ($(READLINE_PREFIX),)
+RLDIR = -L$(READLINE_PREFIX)/lib
+RLINC = -I$(READLINE_PREFIX)/include
+RLFLAGS = -lreadline
+else
+RLDIR =
+RLINC =
+RLFLAGS = -lreadline
+endif
+else
+RLDIR =
+RLINC =
+RLFLAGS = -lreadline
+endif
 
-SRC = mandatory/main_functions/env_utils.c \
-	mandatory/parsing/parsing.c mandatory/parsing/token_types.c mandatory/parsing/token_list.c\
-	mandatory/parsing/rename_tokens.c mandatory/parsing/verify_logic.c mandatory/parsing/verify_logic02.c\
-	mandatory/ast_tree/clear_tree.c mandatory/ast_tree/create_tree.c mandatory/ast_tree/tree_command.c mandatory/ast_tree/tree_redirections.c\
-	mandatory/execution/exec_logic.c mandatory/execution/exec_command.c mandatory/execution/exec_pipe.c mandatory/execution/exec_binary_command.c \
-	mandatory/execution/utils.c mandatory/execution/exec_redirection.c  mandatory/execution/here_doc03.c mandatory/execution/here_doc04.c mandatory/execution/subshell.c\
-	mandatory/wildcard/wildcard.c mandatory/wildcard/utils.c mandatory/wildcard/matchy.c mandatory/wildcard/mid_part.c mandatory/wildcard/start_part.c mandatory/wildcard/end_part.c \
-	mandatory/main_functions/main.c mandatory/main_functions/initialize.c mandatory/main_functions/minishell.c mandatory/main_functions/print_error.c mandatory/main_functions/signals.c \
-	mandatory/main_functions/update_envp_array.c mandatory/main_functions/utils.c mandatory/main_functions/initialize_utils.c\
-	mandatory/builtins/cd.c mandatory/builtins/exit.c mandatory/builtins/echo_pwd_env.c mandatory/builtins/export_utils.c mandatory/builtins/unset.c mandatory/builtins/utils.c mandatory/builtins/export.c \
-	mandatory/expansions/expansions_dquotes.c mandatory/expansions/expansions.c mandatory/expansions/expansions_utils.c mandatory/expansions/expand_command.c mandatory/expansions/expand_redirection.c\
- 	mandatory/expansions/expansions_tilde.c mandatory/expansions/expand_heredoc.c mandatory/expansions/expansions_var.c mandatory/expansions/expand_var_heredoc.c 
 
-SRC_BONUS = bonus/main_functions/env_utils.c \
-	bonus/parsing/parsing.c bonus/parsing/token_types.c bonus/parsing/token_list.c\
-	bonus/parsing/rename_tokens.c bonus/parsing/verify_logic.c bonus/parsing/verify_logic02.c\
-	bonus/ast_tree/clear_tree.c bonus/ast_tree/create_tree.c bonus/ast_tree/tree_command.c bonus/ast_tree/tree_redirections.c\
-	bonus/execution/exec_logic.c bonus/execution/exec_command.c bonus/execution/exec_pipe.c bonus/execution/exec_binary_command.c \
-	bonus/execution/utils.c bonus/execution/exec_redirection.c  bonus/execution/here_doc03.c bonus/execution/here_doc04.c bonus/execution/subshell.c\
-	bonus/wildcard_bonus/wildcard_bonus.c bonus/wildcard_bonus/utils_bonus.c bonus/wildcard_bonus/matchy_bonus.c bonus/wildcard_bonus/mid_part_bonus.c bonus/wildcard_bonus/start_part_bonus.c bonus/wildcard_bonus/end_part_bonus.c \
-	bonus/main_functions/main.c bonus/main_functions/initialize.c bonus/main_functions/minishell.c bonus/main_functions/print_error.c bonus/main_functions/signals.c \
-	bonus/main_functions/update_envp_array.c bonus/main_functions/utils.c bonus/main_functions/initialize_utils.c\
-	bonus/builtins/cd.c bonus/builtins/exit.c bonus/builtins/echo_pwd_env.c bonus/builtins/export_utils.c bonus/builtins/unset.c bonus/builtins/utils.c bonus/builtins/export.c \
-	bonus/expansions/expansions_dquotes.c bonus/expansions/expansions.c bonus/expansions/expansions_utils.c bonus/expansions/expand_command.c bonus/expansions/expand_redirection.c\
- 	bonus/expansions/expansions_tilde.c bonus/expansions/expand_heredoc.c bonus/expansions/expansions_var.c bonus/expansions/expand_var_heredoc.c 
+SRC_DIR = src
+
+MAIN_FUNCTIONS = \
+	main_functions/env_utils.c main_functions/main.c \
+	main_functions/initialize.c main_functions/minishell.c \
+	main_functions/print_error.c main_functions/signals.c \
+	main_functions/update_envp_array.c main_functions/utils.c \
+	main_functions/initialize_utils.c
+
+PARSING = \
+	parsing/parsing.c parsing/token_types.c parsing/token_list.c \
+	parsing/rename_tokens.c parsing/verify_logic.c parsing/verify_logic02.c
+
+AST_TREE = \
+	ast_tree/clear_tree.c ast_tree/create_tree.c ast_tree/tree_command.c \
+	ast_tree/tree_redirections.c
+
+EXECUTION = \
+	execution/exec_logic.c execution/exec_command.c execution/exec_pipe.c \
+	execution/exec_binary_command.c execution/utils.c \
+	execution/exec_redirection.c execution/here_doc03.c \
+	execution/here_doc04.c execution/subshell.c
+
+WILDCARD = \
+	wildcard/wildcard.c wildcard/utils.c wildcard/matchy.c \
+	wildcard/mid_part.c wildcard/start_part.c wildcard/end_part.c
+
+BUILTINS = \
+	builtins/cd.c builtins/exit.c builtins/echo_pwd_env.c \
+	builtins/export_utils.c builtins/unset.c builtins/utils.c \
+	builtins/export.c
+
+EXPANSIONS = \
+	expansions/expansions_dquotes.c expansions/expansions.c \
+	expansions/expansions_utils.c expansions/expand_command.c \
+	expansions/expand_redirection.c expansions/expansions_tilde.c \
+	expansions/expand_heredoc.c expansions/expansions_var.c \
+	expansions/expand_var_heredoc.c
+
+SRC = $(addprefix $(SRC_DIR)/, \
+	$(MAIN_FUNCTIONS) $(PARSING) $(AST_TREE) $(EXECUTION) \
+	$(WILDCARD) $(BUILTINS) $(EXPANSIONS))
 
 OBJ = $(SRC:.c=.o)
-BONUS_OBJ = $(SRC_BONUS:.c=.o)
 
 
 define HEADER
@@ -81,11 +114,6 @@ all: $(NAME)
 	@echo ""
 	@echo "$$HEADER"
 
-bonus: $(BONUS_OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(BONUS_OBJ) $(LIBFT) $(RLDIR) $(RLINC) $(RLFLAGS) -o $(BONUS)
-	@echo ""
-	@echo "$$HEADER"
-
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS)  $(OBJ) $(LIBFT) $(RLDIR) $(RLINC) $(RLFLAGS) -o $(NAME)
 
@@ -96,13 +124,13 @@ $(LIBFT):
 	$(CC) $(CFLAGS) $(RLINC) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJ)
+	rm -f $(OBJ)
 	make clean -C libft
 
 fclean: clean
-	rm -f $(NAME) $(BONUS)
+	rm -f $(NAME)
 	make fclean -C libft
 
 re: fclean all 
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
