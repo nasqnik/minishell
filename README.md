@@ -128,10 +128,3 @@ The Makefile supports Homebrew `readline` on macOS:
 ```bash
 brew install readline
 ```
-
-## Portfolio Highlights
-
-- Built an AST-driven shell interpreter with operator precedence handling
-- Implemented process orchestration using `fork`, `execve`, `waitpid`, `dup2`, and pipes
-- Designed explicit FD lifecycle handling across redirections and pipelines
-- Reproduced core shell behavior for expansion, signals, and builtin state management
