@@ -39,7 +39,7 @@ The shell is organized as a staged pipeline from input to execution:
 ### Input to Execution Flow
 
 ```mermaid
-flowchart LR
+flowchart TD
     Input[User Input] --> Parsing[Parsing]
     Parsing --> AST[AST Construction]
     AST --> Expansion[Expansions]
@@ -51,20 +51,6 @@ flowchart LR
     Builtins --> State[Shell State]
     External --> OS[Kernel / Processes]
     State --> Input
-```
-
-### AST Transformation
-
-```mermaid
-flowchart LR
-    G[AST Builder]
-    G --> H[Logical AND]
-    H --> I[Logical OR]
-    I --> J[Pipe]
-    J --> K[Redirections]
-    K --> L[Command Node]
-    L --> M[AST Root]
-    M --> N[Execution Stage]
 ```
 
 ### Token to AST Example
