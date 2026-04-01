@@ -4,12 +4,6 @@ A Unix shell implementation in C that reproduces core Bash behavior: parsing, ex
 
 Built for the 42 curriculum with a strong focus on systems programming and POSIX-style behavior.
 
-## 42 Scope and Project Notes
-
-- Implemented according to the 42 Minishell requirements.
-- Bonus-level features are integrated directly in `src/` (no separate bonus target).
-- Current feature set includes logical operators and grouped/subshell execution.
-
 ## Features
 
 - **Prompt & loop**: interactive shell loop with clean exit handling
@@ -128,3 +122,9 @@ The Makefile supports Homebrew `readline` on macOS:
 ```bash
 brew install readline
 ```
+
+## 42 Scope and Project Notes
+
+- Implemented according to the 42 Minishell requirements.
+- Bonus-level features are integrated directly in `src/` (no separate bonus target).
+- Current feature set includes logical operators and grouped/subshell execution.
