@@ -36,10 +36,6 @@ The shell is organized as a staged pipeline from input to execution:
 - `wildcard/`: wildcard matching logic
 - `libft/`: shared utility functions
 
-### High-Level Architecture
-
-![Minishell Architecture](architecture.png)
-
 ### Input to Execution Flow
 
 ```mermaid
@@ -57,16 +53,11 @@ flowchart LR
     State --> Input
 ```
 
-### Token to AST Transformation
+### AST Transformation
 
 ```mermaid
 flowchart LR
-    A[Raw Input Line] --> B[Lexer / Tokenizer]
-    B --> C[Token List]
-    C --> D[Syntax Validation]
-    D --> E{Valid?}
-    E -- No --> F[Syntax Error / Exit Status 258]
-    E -- Yes --> G[AST Builder]
+    G[AST Builder]
     G --> H[Logical AND]
     H --> I[Logical OR]
     I --> J[Pipe]
